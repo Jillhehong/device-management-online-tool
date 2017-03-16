@@ -1,0 +1,9 @@
+
+<div class="container table-responsive" ng-controller="showDeviceDataController">
+    <table ng-table-dynamic="deviceList.tableParams with deviceList.cols"  class=" table  table-condensed table-hover table-striped">
+        <td><button class="btn btn-xs btn-warning">Edit</button></td>
+        <tr ng-repeat="row in $data">
+            <td ng-repeat="col in $columns" filter="">{{row[col.field]}} </td>
+        </tr>
+    </table>
+</div>

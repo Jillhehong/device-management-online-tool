@@ -1,0 +1,89 @@
+
+<div class="container" ng-controller="deviceManagementQueryController" >
+    <br>
+    <!--<div ng-if="queryCtrl.show" uib-alert dismiss-on-timeout="2000" class="alert-success" close="queryCtrl.closeAlert()">A happy alert!</div>-->
+
+    <div ng-if="queryCtrl.show" dismiss-on-timeout="5000" uib-alert class="{{queryCtrl.type}}" close="queryCtrl.closeAlert()">{{queryCtrl.msg}}</div>
+
+    <form class="container form-group">
+        <label >Search any<input class="form-control" ng-model="search.$"></label>
+        <label>device_sn  <input class="form-control" ng-model="search.device_sn"></label>
+        <label>status  <input class="form-control" ng-model="search.status"></label>
+        <label>location  <input class="form-control" ng-model="search.location"></label>
+        <label>clinic  <input class="form-control" ng-model="search.clinic"></label>
+        <!--<button type="button" class="btn btn-default" ng-click="reset()">Reset</button>-->
+    </form>
+    <div class="container table-responsive" >
+        <table  class="table table-condensed  table-hover table-striped">
+            <th>Action</th>
+            <th ng-repeat="title in queryCtrl.tableColumns">{{title}}</th>
+            <tr ng-repeat="value in queryCtrl.results | filter:search:strict ">
+                <td><button class="btn btn-warning btn-sm" ng-click="queryCtrl.showModal($index)" data-toggle="modal" data-target="#myModal">
+                    <span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-danger btn-sm" ng-click="queryCtrl.deleteModal($index)" data-toggle="modal" data-target="#myModal">
+                    <span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+                <td> {{value.col_number}}</td>
+                <td>{{value.purchase_order}}</td>
+                <td>{{value.registration_date |date: 'yyyy-MM-dd'}}</td>         <td>{{value.device_sn}} </td>
+                <td>{{value.iccid}}</td>                       <td>{{value.imei}}</td>
+                <td>{{value.model_number}}</td>               <td>{{value.model_description}}</td>
+                <td>{{value.firmware_version}}</td>           <td>{{value.manufacturer}}</td>
+                <td>{{value.points_to}}</td>                 <td>{{value.use_zywie_sim}}</td>
+                <td>{{value.sim_provider}}</td>               <td>{{value.zywie_logo}}</td>
+                <td>{{value.wyless_provision_date |date: 'yyyy-MM-dd'}}</td>      <td>{{value.device_test_date |date: 'yyyy-MM-dd'}}</td>
+                <td>{{value.device_suspension_date |date: 'yyyy-MM-dd'}}</td>     <td>{{value.status}}</td>
+                <td>{{value.location}}</td>                    <td>{{value.checked_out_by}}</td>
+                <td>{{value.checked_out_date |date: 'yyyy-MM-dd'}}</td>           <td>{{value.checked_in_by}}</td>
+                <td>{{value.checked_in_date |date: 'yyyy-MM-dd'}}</td>           <td>{{value.checked_out_date |date: 'yyyy-MM-dd'}}</td>
+                <td>{{value.salesteam }}</td>                   <td>{{value.salesperson_name}}</td>
+                <td>{{value.enterprise_id}}</td>               <td>{{value.physician}}</td>
+                <td>{{value.billable}}</td>                   <td>{{value.lease}}</td>
+                <td>{{value.lease_price_per_month}}</td>      <td>{{value.lease_start_date |date: 'yyyy-MM-dd'}}</td>
+                <td>{{value.lease_end_date |date: 'yyyy-MM-dd'}}</td>
+            </tr>
+        </table>
+    </div>
+
+<!--<div class="panel">-->
+    <!--<a ng-click="queryCtrl.click()" class="">Filter<span ng-if="!queryCtrl.show" class="glyphicon glyphicon-chevron-down"></span>-->
+    <!--</a><br>-->
+    <!--<form ng-show="queryCtrl.show" >-->
+        <!--<div class="form-group row">-->
+            <!--<div class="col-sm-2">-->
+                <!--<label for="deviceSN">Device SN</label>-->
+            <!--</div>-->
+            <!--<div class="col-sm-3">-->
+                <!--<input type="text" class="form-control" name="deviceSN" ng-model="queryCtrl.reg[0]" placeholder="Enter device SN">-->
+            <!--</div>-->
+            <!--<div class="col-sm-2 text-right">-->
+                <!--<label for="clinic">Clinic</label>-->
+            <!--</div>-->
+            <!--<div class="col-sm-3">-->
+                <!--<input type="text" class="form-control" name="clinic" ng-model="queryCtrl.reg[1]" placeholder="Enter clinic">-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+            <!--<div class="col-sm-2">-->
+                <!--<label for="status">Status</label>-->
+            <!--</div>-->
+            <!--<div class="col-sm-3">-->
+                <!--<input type="text" class="form-control" name="status" ng-model="queryCtrl.reg[2]" placeholder="Enter status">-->
+            <!--</div>-->
+            <!--<div class="col-sm-2 text-right">-->
+                <!--<label for="location">Location</label>-->
+            <!--</div>-->
+            <!--<div class="col-sm-3">-->
+                <!--<input type="text" class="form-control" name="location" ng-model="queryCtrl.reg[3]" placeholder="Enter location">-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group row">-->
+            <!--<div class="col-sm-2">-->
+                <!--<button type="submit" class="btn btn-primary" ng-click="queryCtrl.submit()">Start filter</button>-->
+            <!--</div>-->
+            <!--<div class="col-sm-3">-->
+                <!--<button type="button" class="btn btn-danger" ng-click="queryCtrl.cancel()">clear filter</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</form>-->
+<!--</div>-->

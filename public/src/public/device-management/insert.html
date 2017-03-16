@@ -1,0 +1,42 @@
+
+<div class="container" ng-controller="deviceManagementInsertController">
+    <fieldset>
+    <h3 class="text-center">Device Management ( * are required fields )</h3><br>
+    <form name='regForm' novalidate>
+        <div  class="form-group row " ng-repeat="x in deviceCtrl.deviceColumns">
+                <label for="{{x}}" class=" col-form-label col-sm-4 text-right">{{x}} {{$index}}
+                    <span ng-if="$index==3">*</span>
+                </label>
+            <div class="col-sm-6" ng-switch='$index'>
+                <div ng-switch-when="13" >
+                    <label class="btn"><input type="radio" class="form-check" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" value="Y"> Yes</label>
+                    <label class="btn"><input type="radio" class="form-check" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" value="N"> No</label>
+                </div>
+                <div ng-switch-when="28">
+                    <label class="btn"><input type="radio" class="form-check" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" value="Y"> Yes</label>
+                    <label class="btn"><input type="radio" class="form-check" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" value="N"> No</label>
+                </div>
+                <div ng-switch-when="29">
+                    <label class="btn"><input type="radio" class="form-check" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" value="Y"> Yes</label>
+                    <label class="btn"><input type="radio" class="form-check" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" value="N"> No</label>
+                </div>
+                <input ng-switch-default type="text" class="form-control" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" placeholder="{{x}}" required>
+                 <!--<span ng-if='regForm.$eval(x).$error.required && regForm.$eval(x).$touched'>-->
+                    <!--Please enter {{x}}-->
+                  <!--</span>-->
+
+            </div>
+        </div>
+    </form>
+    </fieldset>
+</div>
+<div class="container">
+    <div class="col-sm-8">
+        <button class="btn btn-danger" ng-disabled="regForm.$invalid"  ui-sref="public.home">Cancel</button>
+    </div>
+    <div class="col-sm-4">
+        <button  class="btn btn-primary" ng-disabled="regForm.$invalid" ng-click="deviceCtrl.submit()">Save</button>
+    </div>
+    <br>
+    <span ng-if="deviceCtrl.saved">Your information has been saved</span>
+</div>
