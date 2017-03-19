@@ -41,7 +41,29 @@ function routeConfig ($stateProvider) {
           templateUrl: 'src/public/device-management/query.html',
           controller: 'deviceManagementQueryController',
           controllerAs: 'queryCtrl'
-      });
+      })
+      .state('public.deviceInventory', {
+          url: '/deviceInventory',
+          templateUrl: 'src/public/device-inventory/device-inventory.html',
+          controller: 'deviceInventoryController',
+          controllerAs: 'inventoryCtrl'
+      })
+      .state('public.accessoryInventory', {
+          url: '/accessoryInventory',
+          templateUrl: 'src/public/accessory-inventory/accessory.html',
+          controller: 'accessoryController',
+          controllerAs: 'accessoryCtrl'
+      })
+        .state('public.deviceHistory', {
+        url: '/deviceHistory',
+        templateUrl: 'src/public/device-history/device-history.html', 
+        controller: 'deviceHistoryController',
+        controllerAs: 'historyCtrl'
+    });
+      
+    
+    
+    
  // .state('public.menuitems', {
  //    url: '/menu/{category}',
  //    templateUrl: 'src/public/menu-items/menu-items.html',

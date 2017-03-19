@@ -7,28 +7,25 @@
     angular.module('device')
         .controller('showDeviceDataController', showDeviceDataController);
 
-    showDeviceDataController.$inject = ['deviceService', '$filter','NgTableParams'];
-    function showDeviceDataController(deviceService, $filter, NgTableParams) {
-        var deviceList = this;
-        var values = deviceService.getDeviceManagementColumns();
-         deviceList.cols = [];
-        //populate table header names
-        for(var i=0;i<values.length; i++){
-            if(values[i]=='device_sn'){
-                deviceList.cols.push({ field: values[i], title: values[i], sortable: values[i], filter: { device_sn: "text" }, show: true });
-            }
-            else {
-                deviceList.cols.push ({ field: values[i], title: values[i], sortable: values[i], show: true });
+        showDeviceDataController.$inject = ['deviceService', '$filter', 'NgTableParams'];
+        function showDeviceDataController(deviceService, $filter, NgTableParams) {
+            var deviceList = this;
+
+            var values = deviceService.getDeviceManagementColumns();
+            deviceList.cols = [];
+            //populate table header names
+            for (var i = 0; i < values.length; i++) {
+                    deviceList.cols.push({field: values[i], title: values[i], sortable: values[i], show: true});
+
             }
 
-        }
-        // post inserted data into server
+            // post inserted data into server
             deviceService.getDeviceManagementData('todo/queryall')
                 .then(function (response) {
                     deviceList.data = response.data;
                     deviceList.tableParams = new NgTableParams({
                         page: 1,            // show first page
-                        count: 10 , // count per page
+                        count: 10, // count per page
                         sorting: {
                             col_number: 'asc'     // initial sorting
                         }
@@ -36,12 +33,11 @@
                         dataset: deviceList.data // length of data
                     });
 
-            }, function (response) {
-                alert('insert failed');
-            });
+                }, function (response) {
+                    alert('insert failed');
+                });
 
-    }
-
+        }
 
 })();
 (function() {

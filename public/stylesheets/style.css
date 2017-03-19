@@ -6,7 +6,42 @@ body {
 a {
   color: #00B7FF;
 }
+.table {
+  table-layout:fixed;
+}
 
-/*#myAlert {*/
-  /*display: none;*/
-/*}*/
+td, th {
+  width: 130px;
+  text-align: center;
+}
+th {
+  font-size: medium;
+  background: #f2f2f2;
+}
+
+label {
+  font-size: medium;
+}
+
+form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.glyphicon-book, .glyphicon-th-list, .glyphicon-certificate {
+  font-size: 25px;
+  color: #761c19;
+}
+
+
+/*ng-table format*/
+td input {
+  width: 100%;
+  padding: 10px 10px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+
+}

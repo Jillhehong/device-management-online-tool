@@ -57,12 +57,16 @@
         }, function (error) {
             console.log('query failed');
         });
+        
 ///////////////////show modal///////////////        
-        queryCtrl.showModal = function (index) {
+        queryCtrl.showModal = function (index, size) {
 
             var modalInstance = $uibModal.open({
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
+                backdrop  : 'static',
+                keyboard  : false,
+                size: size,
                 templateUrl: 'src/public/device-management/device-update-modal.html',
                 controller: 'updateModalInstanceCtrl',
                 resolve: {

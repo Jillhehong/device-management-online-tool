@@ -50,9 +50,9 @@
                   <li role="separator" class="divider"></li>
                   <li><a ui-sref="public.deviceHistory">Device History</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a href="#">Accessory Inventory</a></li>
+                  <li><a ui-sref="public.deviceInventory">Device Inventory</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a href="#">Device Inventory</a></li>
+                  <li><a ui-sref="public.accessoryInventory">Accessory Inventory</a></li>
                 </ul>
               </li>
 
@@ -118,14 +118,23 @@
     <script src="src/common/loading/loading.interceptor.js"></script>
     <script src="src/common/device.service.js"></script>
 
-    <!-- Public Module -->
+    <!-- Public device management Module -->
     <script src="src/public/public.module.js"></script>
     <script src="src/public/public.routes.js"></script>
     <script src="src/public/device-management/device-management.insert.controller.js"></script>
     <script src="src/public/device-management/device-management.query.controller.js"></script>
     <script src="src/public/device-management/device-management.deviceList.controller.js"></script>
-    <!--<script src="src/public/menu-items/menu-items.controller.js"></script>-->
-    <!--<script src="src/public/menu-item/menu-item.component.js"></script>-->
+
+    <!--public device inventory controller-->
+    <script src="src/public/device-inventory/device-inventory.controller.js"></script>
+
+    <!--public accessory controller-->
+    <script src="src/public/accessory-inventory/accessory.controller.js"></script>
+
+    <!--public device history controller-->
+    <script src="src/public/device-history/device-history.controller.js"></script>
+
+    <!--sign up controller-->
     <script src="src/public/signUp/signUp.controller.js"></script>
     <script src="src/public/signUp/registered.controller.js"></script>
 
