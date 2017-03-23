@@ -85,7 +85,6 @@
                     transformedtoArrayData.push(inputs[queryCtrl.tableColumns[i]]);
                 }
                 transformedtoArrayData.push(inputs[queryCtrl.tableColumns[3]]);
-                console.log(transformedtoArrayData);
                 //////////
                 deviceService.postDeviceManagementData('todo/update', {data:transformedtoArrayData}).
                 then(function (response) {
@@ -122,7 +121,6 @@
             modalInstance.result.then(function (input) {
                 // get device_sn value
                 var device_sn = input.device_sn;
-                console.log(input.device_sn);
                 //////////
                 deviceService.postDeviceManagementData('todo/delete/:_id', {data:[device_sn]})
                     .then(function (response) {

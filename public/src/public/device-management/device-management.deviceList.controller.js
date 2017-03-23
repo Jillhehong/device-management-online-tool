@@ -13,7 +13,7 @@
 
             var values = deviceService.getDeviceManagementColumns();
             deviceList.cols = [];
-            //populate table header names
+            //populate table data
             for (var i = 0; i < values.length; i++) {
                     deviceList.cols.push({field: values[i], title: values[i], sortable: values[i], show: true});
 
@@ -24,11 +24,11 @@
                 .then(function (response) {
                     deviceList.data = response.data;
                     deviceList.tableParams = new NgTableParams({
-                        page: 1,            // show first page
-                        count: 10, // count per page
-                        sorting: {
-                            col_number: 'asc'     // initial sorting
-                        }
+                        page: 1      // show first page
+                        // count: 10, // count per page
+                        // sorting: {
+                        //     col_number: 'asc'     // initial sorting
+                        // }
                     }, {
                         dataset: deviceList.data // length of data
                     });
@@ -47,7 +47,7 @@
     configureDefaults.$inject = ["ngTableDefaults"];
 
     function configureDefaults(ngTableDefaults) {
-        ngTableDefaults.params.count = 5;
-        ngTableDefaults.settings.counts = [];
+        // ngTableDefaults.params.count = 100;
+        // ngTableDefaults.settings.counts = [];
     }
 })();

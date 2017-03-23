@@ -1,59 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="/lib/angular-ui-router.min.js"></script>
+    <script src="src/common/common.module.js"></script>
+
+    <script src="src/public/public.module.js"></script>
+    <script src="src/common/device.service.js"></script>
+    <script src="/src/public/signup/signup.controller.js"></script>
+    <!--ngCookies-->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.js"></script>
+
+</head>
+
+<body ng-app="public">
+
 <div class="container">
-
-    <fieldset>
-        <h3>Registration</h3>
-        <form name='regForm' novalidate>
-            <div  class="form-group">
-                <label for="firstName">First Name:</label>
-                <input type="text" class="form-control" name="firstName" placeholder="Your First Name"
-                       ng-model="reg.user.firstName"
-                       required>
-                {{ reg.user.firstName }}
-                  <span ng-if="regForm.firstName.$error.required && regForm.firstName.$touched">
-                    Please enter your first name
-                  </span>
-            </div>
-            <div class="form-group">
-                <label for="lastName">Last Name:</label>
-                <input type="text" class="form-control" name="lastName" placeholder="Your Last Name"
-                       ng-model="reg.user.lastName"
-                       required>
-                {{ reg.user.lastName }}
-                  <span ng-if="regForm.lastName.$error.required && regForm.lastName.$touched">
-                    Please enter your last name
-                  </span>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" name="email" placeholder="Email"
-                       ng-model="reg.user.email"
-                       required>
-              <span ng-if="regForm.email.$invalid && regForm.email.$touched">
-                Must be a valid email address: handle@domain format
-              </span>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number:</label>
-                <input type="text" class="form-control" name="phone" placeholder="Phone ###-###-####"
-                       ng-model="reg.user.phone"
-                       pattern="(\d{3})(\d{3})(\d{4})">
-              <span ng-if="regForm.phone.$invalid && regForm.phone.$touched">
-                Phone must be in the format ##########.
-              </span>
-            </div>
-            <div class="form-group">
-                <label for="menuNumber">Favorite Menu number:</label>
-                <input type="text" class="form-control" name="menuNumber" placeholder="Your Favorite Menu Number"
-                       ng-model="reg.user.menuNumber">
-                <span ng-if="reg.completed">No such menu number exists</span>
-            </div>
-
-            <button class="btn btn-primary" ng-disabled="regForm.$invalid" ng-click="reg.submit()">Submit</button>
-            <br>
-            <span ng-if="reg.saved">Your information has been saved</span>
-
-        </form>
-    </fieldset>
-
+    <a ui-sref="register">sign up</a>
+    or
+    <a ui-sref="login">log in</a>
 </div>
+
+
+<ui-view></ui-view>
+
+
+
+
+
+</body>
+</html>
 

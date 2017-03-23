@@ -12,8 +12,6 @@
     function insertModalInstanceCtrl($scope, $uibModalInstance, items, labels) {
         $scope.items = items;
         $scope.labels = labels;
-    console.log('items ',items);
-        console.log('labels ',labels);
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.items);
@@ -67,14 +65,12 @@
 
                 deviceService.postDeviceManagementData('todo/insert', {data: inputs})
                     .then(function (response) {
-                        console.log('response ', response);
                         deviceCtrl.show = true;
                         deviceCtrl.type = 'alert-success';
                         deviceCtrl.msg = 'insert success';
                     }, function (error) {
                         console.log('error', error);
                         deviceCtrl.show = true;
-                        deviceCtrl.type = 'alert-danger';
                         deviceCtrl.msg = error;
                     });
 

@@ -55,20 +55,20 @@
 
 <!--customize input as dropdown select-->
                 <div ng-switch-when="8">
-                    <select class="form-control" name="{{x}}">
-                        <option>select</option>
-                        <option>V2.5</option>
-                        <option>V2.6</option>
-                        <option>V2.7</option>
-                        <option>V2.8</option>
+                    <select class="form-control" name="{{x}}" ng-model="deviceCtrl.reg[$index]">
+                        <!--<option>select</option>-->
+                        <option value="V2.5">V2.5</option>
+                        <option value="V2.6">V2.6</option>
+                        <option value="V2.7">V2.7</option>
+                        <option value="V2.8">V2.8</option>
                     </select>
                 </div>
                 <!--end select option-->
                 <div ng-switch-when="10">
-                    <select class="form-control" name="{{x}}">
-                        <option>select</option>
-                        <option>AWS-prod</option>
-                        <option>AWS-dev</option>
+                    <select class="form-control" name="{{x}}" ng-model="deviceCtrl.reg[$index]">
+                        <!--<option>select</option>-->
+                        <option value="AWS-prod">AWS-prod</option>
+                        <option value="AWS-dev">AWS-dev</option>
                     </select>
                 </div>
 

@@ -12,9 +12,9 @@ function routeConfig ($stateProvider) {
   // Routes
   $stateProvider
     .state('public', {
-        abstract: true,
-        templateUrl: 'src/public/public.html'
-    })
+            abstract: true,
+            templateUrl: 'src/public/public.html'
+        })
         .state('public.home', {
             url: '/',
             templateUrl: 'src/public/home/home.html'
@@ -75,15 +75,15 @@ function routeConfig ($stateProvider) {
  //      }]
  //    }
  //  })
- //  .state('public.signUp', {
- //    url: '/signUp',
- //    templateUrl: 'src/public/signUp/signUp.html',
+ //  .state('public.signup', {
+ //    url: '/signup',
+ //    templateUrl: 'src/public/signup/signup.html',
  //    controller: 'RegistrationController',
  //    controllerAs: 'reg'
  //  })
  //      .state('public.registered', {
  //        url: '/registered',
- //        templateUrl: 'src/public/signUp/registered.html',
+ //        templateUrl: 'src/public/signup/registered.html',
  //        controller: 'registeredController',
  //        controllerAs: 'info',
  //        resolve: {

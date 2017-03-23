@@ -1,5 +1,5 @@
 
-<div class="container table-responsive" ng-controller="showDeviceDataController">
+<div class="container" ng-controller="showDeviceDataController">
     <form class="container form-group">
         <label >Search any<input class="form-control" ng-model="search.$"></label>
         <label>device_sn  <input class="form-control" ng-model="search.device_sn"></label>
@@ -8,13 +8,15 @@
         <label>clinic  <input class="form-control" ng-model="search.clinic"></label>
     </form>
 
-    <table ng-table-dynamic="deviceList.tableParams with deviceList.cols"  class=" table  table-condensed table-hover table-striped" >
-        <td><button class="btn btn-xs btn-warning">Edit</button></td>
-        <tr ng-repeat="row in $data | filter:search:strict">
+    <div class="container table-responsive">
+        <table ng-table-dynamic="deviceList.tableParams with deviceList.cols"  class=" table  table-condensed table-hover table-striped" >
+            <td><button class="btn btn-xs btn-warning">Edit</button></td>
+            <tr ng-repeat="row in $data | filter:search:strict">
 
-            <td ng-repeat="col in $columns">  {{row[col.field]}}</td>
+                <td ng-repeat="col in $columns">  {{row[col.field]}}</td>
 
 
-        </tr>
-    </table>
+            </tr>
+        </table>
+    </div>
 </div>
