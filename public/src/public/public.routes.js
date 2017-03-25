@@ -59,41 +59,20 @@ function routeConfig ($stateProvider) {
         templateUrl: 'src/public/device-history/device-history.html', 
         controller: 'deviceHistoryController',
         controllerAs: 'historyCtrl'
+    })
+        .state('public.signup', {
+        url: '/signup',
+        templateUrl: '/src/public/signup/register.html',
+        controller: 'registerController',
+        controllerAs: 'registerCtrl'
+    })
+        .state('public.signin', {
+        url: '/login',
+        templateUrl: '/src/public/signup/login.html',
+        controller: 'loginController',
+        controllerAs:  'loginCtrl'
     });
       
     
-    
-    
- // .state('public.menuitems', {
- //    url: '/menu/{category}',
- //    templateUrl: 'src/public/menu-items/menu-items.html',
- //    controller: 'MenuItemsController',
- //    controllerAs: 'menuItemsCtrl',
- //    resolve: {
- //      menuItems: ['$stateParams','MenuService', function ($stateParams, MenuService) {
- //        return MenuService.getMenuItems($stateParams.category);
- //      }]
- //    }
- //  })
- //  .state('public.signup', {
- //    url: '/signup',
- //    templateUrl: 'src/public/signup/signup.html',
- //    controller: 'RegistrationController',
- //    controllerAs: 'reg'
- //  })
- //      .state('public.registered', {
- //        url: '/registered',
- //        templateUrl: 'src/public/signup/registered.html',
- //        controller: 'registeredController',
- //        controllerAs: 'info',
- //        resolve: {
- //          userInfo: ['MenuService', function (MenuService) {
- //            // console.log(MenuService.getInfo());
- //            return MenuService.getInfo();
- //          }]
- //        }
- //         
- //      });
-  
 }
 })();

@@ -6,7 +6,7 @@
 
     angular.module('public')
         .config(routeConfig)
-        .controller('RegistrationController', RegistrationController)
+        .controller('registerController', registerController)
         .controller('loginController', loginController);
 
     routeConfig.$inject = ['$stateProvider'];
@@ -25,15 +25,16 @@
             })
             // .state('home', {
             //     url: '/home',
-            //     templateUrl: '/index.html'
-            // })
+            //     templateUrl: 'index.html',
+            //     controller: 'deviceController'
+            // });
 
     }
 
     
 ///registration controller////////
-    RegistrationController.$inject = ['deviceService'];
-    function RegistrationController(deviceService) {
+    registerController.$inject = ['deviceService'];
+    function registerController(deviceService) {
         var reg = this;
         reg.saved = false;
 
@@ -67,46 +68,32 @@
     
     
     ////login controller
-    loginController.$inject = ['deviceService', '$location', '$rootScope'];
-    function loginController(deviceService,   $location, $rootScope) {
+    loginController.$inject = ['deviceService', '$location', '$rootScope', '$http', '$window'];
+    function loginController(deviceService,   $location, $rootScope, $http, $window) {
         var login = this;
 
-        login.uesr = { email: '', password : ''};
+        login.user = { username: "", password : ''};
 
-        login.submit = function (user) {
-            // AuthService.login(credentials).then(function (user) {
-            //     $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            //     $scope.setCurrentUser(user);
-            // }, function () {
-            //     $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-            // });
-
-
-            deviceService.getUsers('/todo/email')
+        login.submit = function () {
+            $http.post('/login', login.user)
                 .then(function (response) {
-                    console.log('success login');
-                    console.log('response ', response.data);
+                    // console.log('response ', response);
+                    $rootScope.currentUser = response.data.username;
+                    console.log($rootScope.currentUser);
 
-                    for(var i=0;i<response.data.length;i++){
-                        if(response.data[i].email == login.email.trim() && response.data[i].password == login.password.trim()) {
-                                console.log('true');
-                            // $location.url('/index');
-                            // $window.location.href('/index');
-                        }
-                        else {
-                            $location. url('/login');
-                        }
-                    }
+                  
+                    // $window.location.href = '/home';
 
-                    // if(response.data.email.indexOf(  login.email.trim() ) > -1 ){
-                    //     console.log('true');
-                    // }
+
+
 
                 }, function (error) {
                     console.log('failed to login');
-                }); 
-        };
-       
+
+                });
+        }
+
+        
     }
 
 })();

@@ -7,12 +7,26 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
+var pgp = require('pg-promise')({  });
+const config = {
+    user: 'postgres', //env var: PGUSER
+    database: 'todo', //env var: PGDATABASE
+    password: null, //env var: PGPASSWORD
+    host: 'localhost', // Server hosting the postgres database
+    port: 5432, //env var: PGPORT
+    max: 10, // max number of clients in the pool
+    idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
+};
+// end config
+//connect database with configuration
+var db = pgp(config);
 
 
 var index = require('./routes/index');
 // var users = require('./routes/users');
 
 var app = express();
+// var router = express.Router();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,77 +36,90 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', index);
 
 
 app.use(require('express-session')({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(flash());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+//////
+// find a user function
 
-passport.use(new LocalStrategy(
+
+/////////
+passport.use( 'local', new LocalStrategy(
     function(username, password, done) {
-      User.findOne({ username: username }, function(err, user) {
-        if (err) { return done(err); }
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-      });
+        var user = {username: username, password: password};
+        ///query database to find user
+        db.query('select email, password from public.users').then(function(data){
+            // console.log('data ', data);
+            //for loop to find user
+            for(var i=0; i<data.length;i++){
+                if(data[i].email == username && data[i].password == password) {
+                    return done(null, user);
+                }
+            }
+
+            return done(null, false, {message: 'Incorrect username or password.'});
+
+        });
+
     }
 ));
 
+// serialize and deserialize
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+    done(null, user);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(function(user, done) {
+    done(null, user);
 });
 
 
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+////authentication
+app.post('/login', passport.authenticate('local'), function(req, res){
+    // console.log('req ', req.user);
+    // console.log('is authenticated ', req.isAuthenticated());
+    // authenticate = req.isAuthenticated();
+
+    // res.redirect('/home');
+    // res.send(req.user);
+    res.json(req.user);
+
+
+
+
 });
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+
+app.get('/home',  function(req, res){
+    console.log('is authenticated ', req.isAuthenticated());
+
+    var authenticate = req.isAuthenticated();
+    // console.log('true');
+    if(authenticate){
+        console.log('user ',req.user);
+        // res.render('index', );
+        res.sendfile('views/index.html');
+
+    }
+    else {
+        res.sendfile('public/src/public/signup/signup.html');
+    }
+
 });
+
 
 
 

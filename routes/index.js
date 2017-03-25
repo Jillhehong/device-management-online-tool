@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const pg = require('pg');
+var pgp = require('pg-promise')({  });
 const path = require('path');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -18,6 +19,8 @@ const config = {
     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
 };
 // end config
+//connect database with configuration
+// var db = pgp(config);
 
 
 
@@ -70,13 +73,7 @@ var getSqlUtilityFunc = function (url, sql) {
             }
             else {
                 // SQL Query > Select Data
-                var query = client.query(sql, function (err, result) {
-                    if( err ) {
-                        console.log('query error ', err);
-                    } else {
-                        console.log('query success', result);
-                    }
-                });
+                var query = client.query(sql );
                 // Stream results back one row at a time
                 query.on('row', function(row){
                     results.push(row);
@@ -156,10 +153,15 @@ var insert_users = 'INSERT INTO public.users( first_name, last_name, username, e
 querySqlUtilityFunc( '/todo/users', insert_users);
 
 //get users
-var users = 
-    'select email, password from public.users ;';
+var users = 'select email, password from public.users ;';
 getSqlUtilityFunc('/todo/email', users);
-//////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+
+// utility func to find user
+
 
 
 ////register page
@@ -169,44 +171,13 @@ router.get('/', function (req, res) {
 });
 
 
-/// index.js page
-router.get('/index', function (req, res) {
-    res.sendFile('C:/Users/hhe/myapp/views/index.html');
-});
+// index.js page
+// router.get('/', function (req, res) {
+//
+//     res.sendFile('C:/Users/hhe/myapp/views/index.html');
+// });
 
 
-
-
-
-
-////authentication
-router.post('/login', passport.authenticate('local', { successRedirect: '/index',
-    failureRedirect: '/login' }));
-
-
-
-router.post('/login',
-    passport.authenticate('local'),
-    function(req, res) {
-        // If this function gets called, authentication was successful.
-        // `req.user` contains the authenticated user.
-        res.redirect('/users/' + req.user.username);
-    });
-
-
-router.get('/api/users/me',
-    passport.authenticate('basic', { session: false }),
-    function(req, res) {
-        res.json({ id: req.user.id, username: req.user.username });
-    });
-
-
-
-// Define a middleware function to be used for every secured routes
-var auth = function(req, res, next){
-        if (!req.isAuthenticated()) res.send(401);
-        else next();
-    };
 
 
 

@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 
   </head>
-  <body ng-app="device">
+  <div ng-app="device" ng-controller="deviceController">
+
+
 
     <!-- Fixed position loading indicator -->
     <loading class="loading-indicator"></loading>
@@ -62,7 +64,7 @@
               </li>
               <li>
                 <a ui-sref="public.signUp">
-                  <span class="glyphicon glyphicon-certificate"></span><br class="hidden-xs"> Sign Up</a>
+                  <span class="glyphicon glyphicon-certificate"></span><br class="hidden-xs">  {{currentUser}}</a>
               </li>
             </ul><!-- #nav-list -->
           </div><!-- .collapse .navbar-collapse -->
@@ -123,6 +125,8 @@
     <script src="src/public/device-management/device-management.query.controller.js"></script>
     <script src="src/public/device-management/device-management.deviceList.controller.js"></script>
 
+
+    <script src="src/public/device.controller.js"></script>
     <!--public device inventory controller-->
     <script src="src/public/device-inventory/device-inventory.controller.js"></script>
 
@@ -140,6 +144,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.js"></script>
 
 
-  </body>
+  </div>
 
 </html>
