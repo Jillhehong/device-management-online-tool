@@ -13,86 +13,6 @@
     <link rel="stylesheet" href="/stylesheets/public.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
 
-  </head>
-  <div ng-app="device" ng-controller="deviceController">
-
-
-
-    <!-- Fixed position loading indicator -->
-    <loading class="loading-indicator"></loading>
-
-    <header>
-      <nav id="header-nav" class="navbar navbar-default">
-        <div class="container">
-
-          <div class="navbar-header">
-            <div class="navbar-brand">
-              <p>
-                <a ui-sref="public.home">
-                  <img id="zywielogo" src="images/Zywie%20logo.png" alt="device management">
-                </a>
-              </p>
-            </div>
-
-            <button id="navbarToggle" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsable-nav" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-
-          <div id="collapsable-nav" class="collapse navbar-collapse">
-            <ul id="nav-list" class="nav navbar-nav navbar-right">
-              <li class="dropdown" id="navMenuButton" ui-sref-active="active">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  <span class="glyphicon glyphicon-book"></span><br class="hidden-xs"> Device Management <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a ui-sref="public.deviceManagement.device_list">Device Management</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a ui-sref="public.deviceHistory">Device History</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a ui-sref="public.deviceInventory">Device Inventory</a></li>
-                  <li role="separator" class="divider"></li>
-                  <li><a ui-sref="public.accessoryInventory">Accessory Inventory</a></li>
-                </ul>
-              </li>
-
-              <li>
-                <a ui-sref="public.registered">
-                  <span class="glyphicon glyphicon-th-list"></span><br class="hidden-xs"> Customer Management</a>
-              </li>
-              <li>
-                <a ui-sref="public.signUp">
-                  <span class="glyphicon glyphicon-certificate"></span><br class="hidden-xs">  {{currentUser}}</a>
-              </li>
-            </ul><!-- #nav-list -->
-          </div><!-- .collapse .navbar-collapse -->
-        </div><!-- .container -->
-      </nav><!-- #header-nav -->
-    </header>
-
-
-    <ui-view>
-      <div class="text-center initial-loading">
-        <h2>Loading Site...</h2>
-      </div>
-    </ui-view>
-
-    <footer class="panel-footer">
-      <div class="container">
-          <section id="address" class="col-sm-12">
-            <span>Address:</span><br>
-            12000 Findley Rd
-            Duluth, GA 30096
-            <hr class="visible-xs">
-          </section>
-        <div class="text-center">
-          &copy; Copyright Zywie 2016 |
-          <a ui-sref="admin.auth">Admin</a></div>
-      </div>
-    </footer>
-
     <!-- Libs -->
     <script src="/lib/jquery-2.1.4.min.js"></script>
     <script src="/lib/bootstrap.min.js"></script>
@@ -100,18 +20,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="/lib/angular-ui-router.min.js"></script>
     <script src="lib/ui-bootstrap-2.4.0.min.js"></script>
-
     <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
     <!-- Latest compiled and minified CSS -->
-
     <!-- Main Device Module -->
     <script src="src/device.module.js"></script>
-
     <!--javascript file-->
     <script src="javascripts/app.js"></script>
-
-
-
     <!-- Common Module -->
     <script src="src/common/common.module.js"></script>
     <script src="src/common/loading/loading.component.js"></script>
@@ -125,25 +39,74 @@
     <script src="src/public/device-management/device-management.query.controller.js"></script>
     <script src="src/public/device-management/device-management.deviceList.controller.js"></script>
 
-
     <script src="src/public/device.controller.js"></script>
     <!--public device inventory controller-->
     <script src="src/public/device-inventory/device-inventory.controller.js"></script>
-
     <!--public accessory controller-->
     <script src="src/public/accessory-inventory/accessory.controller.js"></script>
-
     <!--public device history controller-->
     <script src="src/public/device-history/device-history.controller.js"></script>
-
     <!--sign up controller-->
-    <!--<script src="src/public/signUp/signUp.controller.js"></script>-->
-    <!--<script src="src/public/signUp/registered.controller.js"></script>-->
-
- <!--ng cookies-->
+    <script src="src/public/signup/signup.controller.js"></script>
+    <!--ng cookies-->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.js"></script>
 
+  </head>
 
-  </div>
+
+  <body ng-app="device" ng-controller="deviceController">
+  <!--header -->
+
+
+
+    <ui-view>
+
+      <div class="container " ng-controller="loginController as login">
+        <h3 class="text-center">log in</h3>
+        <form name="regForm" novalidate>
+          <div class="form-group row ">
+            <div class="col-sm-3 text-right">
+              <label for="email">Email:</label>
+            </div>
+            <div class="col-sm-5">
+              <input  type="email" name='username' class="form-control" ng-model="login.user.username" placeholder="email" required>
+              <span ng-show="regForm.username.$touched && regForm.username.$error.required">email is required</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-3 text-right">
+              <label for="pwd">Password:<span class="glyphicon glyphicon-lock"></span></label>
+            </div>
+            <div class="col-sm-5">
+              <input  type="password" name="password" class="form-control" ng-model="login.user.password" placeholder="password" required>
+              <span ng-show="regForm.password.$touched && regForm.password.$error.required">password is required</span>
+            </div>
+          </div>
+
+          <div class="form-actions row">
+            <button class="btn btn-danger col-sm-offset-4"  ng-click="login.submit()">log in</button>
+          </div>
+          <div class="form-actions">
+            <br>
+            <a ui-sref="register">Already have an account, sign up here</a>
+          </div>
+
+
+        </form>
+      </div>
+
+
+
+      <!--<div class="text-center initial-loading">-->
+        <!--<h2>Loading Site...</h2>-->
+      <!--</div>-->
+    </ui-view>
+
+
+
+
+
+
+  </body>
 
 </html>

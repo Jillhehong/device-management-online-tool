@@ -34,7 +34,7 @@
                     });
 
                 }, function (response) {
-                    alert('insert failed');
+                    console.log('failed to get data');
                 });
 
         }

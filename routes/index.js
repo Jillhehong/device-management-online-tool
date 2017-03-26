@@ -1,12 +1,14 @@
 
+
+
 // config express/////
-const express = require('express');
-const router = express.Router();
-const pg = require('pg');
-var pgp = require('pg-promise')({  });
-const path = require('path');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+// const express = require('express');
+// const router = express.Router();
+// const pg = require('pg');
+// var pgp = require('pg-promise')({  });
+// const path = require('path');
+// var passport = require('passport');
+// var LocalStrategy = require('passport-local').Strategy;
 
 
 const config = {
@@ -62,6 +64,10 @@ var querySqlUtilityFunc = function (url, sql) {
 ////utility function to query tables///////
 var getSqlUtilityFunc = function (url, sql) {
     router.get(url, function(req, res, next){
+        console.log('req.isAuthenticated(),',req.isAuthenticated());
+        if( req.isAuthenticated() ) {
+            console.log('set point');
+        }
         const results = [];
         // Get a Postgres client from the connection pool
         pg.connect(config, function(err, client, done){
@@ -159,24 +165,11 @@ getSqlUtilityFunc('/todo/email', users);
 
 
 
-
-// utility func to find user
-
-
-
 ////register page
 router.get('/', function (req, res) {
-    res.sendFile('C:/Users/hhe/myapp/public/src/public/signup/signup.html');
+    res.sendfile('views/index.html');
 
 });
-
-
-// index.js page
-// router.get('/', function (req, res) {
-//
-//     res.sendFile('C:/Users/hhe/myapp/views/index.html');
-// });
-
 
 
 

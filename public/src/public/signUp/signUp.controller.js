@@ -5,32 +5,9 @@
     "use strict";
 
     angular.module('public')
-        .config(routeConfig)
         .controller('registerController', registerController)
         .controller('loginController', loginController);
-
-    routeConfig.$inject = ['$stateProvider'];
-    function routeConfig($stateProvider) {
-        $stateProvider
-            .state('register', {
-                url: '/register',
-                templateUrl: '/src/public/signup/register.html',
-                controller: 'RegistrationController'
-                
-            })
-            .state('login', {
-                url: '/login',
-                templateUrl: '/src/public/signup/login.html',
-                controller: 'loginController'
-            })
-            // .state('home', {
-            //     url: '/home',
-            //     templateUrl: 'index.html',
-            //     controller: 'deviceController'
-            // });
-
-    }
-
+    
     
 ///registration controller////////
     registerController.$inject = ['deviceService'];
@@ -68,8 +45,8 @@
     
     
     ////login controller
-    loginController.$inject = ['deviceService', '$location', '$rootScope', '$http', '$window'];
-    function loginController(deviceService,   $location, $rootScope, $http, $window) {
+    loginController.$inject = ['deviceService', '$location', '$rootScope', '$http', 'Auth'];
+    function loginController(deviceService,   $location, $rootScope, $http, Auth) {
         var login = this;
 
         login.user = { username: "", password : ''};
@@ -77,17 +54,17 @@
         login.submit = function () {
             $http.post('/login', login.user)
                 .then(function (response) {
-                    // console.log('response ', response);
-                    $rootScope.currentUser = response.data.username;
-                    console.log($rootScope.currentUser);
 
-                  
-                    // $window.location.href = '/home';
+                    $rootScope.currentUser = response.data.username;
+
+                    Auth.setUser(response.data.username);
+                    $location.url('/home');
 
 
 
 
                 }, function (error) {
+                    
                     console.log('failed to login');
 
                 });

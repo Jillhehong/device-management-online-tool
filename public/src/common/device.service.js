@@ -2,9 +2,21 @@
 "use strict";
 
 angular.module('common')
-.service('deviceService', deviceService) ; // device service
-    
+.service('deviceService', deviceService)
+    .factory('Auth', function(){
+        var user;
 
+        return{
+            setUser : function(aUser){
+                user = aUser;
+            },
+            isLoggedIn : function(){
+                return(user)? user : false;
+            }
+        }
+    });
+    
+    
 
     deviceService.$inject = ['$http', 'ApiPath'];
 function deviceService($http, ApiPath) {
