@@ -3,7 +3,6 @@
  */
 (function () {
     "use strict";
-
     angular.module('device')
         .controller('deviceManagementInsertController', deviceManagementInsertController)
         .controller('insertModalInstanceCtrl', insertModalInstanceCtrl);
@@ -11,7 +10,7 @@
     insertModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'items', 'labels'];
     function insertModalInstanceCtrl($scope, $uibModalInstance, items, labels) {
         $scope.items = items;
-        $scope.labels = labels;
+        $scope.labels =labels;
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.items);
@@ -20,33 +19,30 @@
             $uibModalInstance.dismiss('cancel');
         };
     }
-
-
-
+    
     deviceManagementInsertController.$inject = ['deviceService', '$uibModal', '$log'];
     function deviceManagementInsertController(deviceService, $uibModal, $log) {
-        var deviceCtrl = this;
-////set alert parameters//////
-        deviceCtrl.show = false;
-        deviceCtrl.type = 'test';
-        deviceCtrl.msg = 'test';
-        deviceCtrl.closeAlert = function () {
-            deviceCtrl.show = false;
+        var insertCtrl = this;
+        
+////set alert//////
+        insertCtrl.show = false;
+        insertCtrl.closeAlert = function () {
+            insertCtrl.show = false;
         };
-
-        
-        //////collapse button to upload file ///
-        deviceCtrl.isCollapsed = false;
-        
         
 ///////get table column names//////
-        deviceCtrl.tableColumns = deviceService.getDeviceManagementColumns();
+//         format tablecolumns to remove underscore
+        var strings = deviceService.getDeviceManagementColumns();
+        insertCtrl.tableColumns = [];
+        for(var i=0;i<strings.length;i++){
+            insertCtrl.tableColumns.push(strings[i].replace(/_/g, ' '));
+        }
+
 /////////define insert values for device management table/////////
-        deviceCtrl.reg = new Array(deviceCtrl.tableColumns.length);
+        insertCtrl.reg = new Array(insertCtrl.tableColumns.length);
         
         // post inserted data into server
-        deviceCtrl.submit = function () {
-
+        insertCtrl.submit = function () {
             var modalInstance = $uibModal.open({
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
@@ -54,26 +50,24 @@
                 controller: 'insertModalInstanceCtrl',
                 resolve: {
                     labels: function () {
-                        return deviceCtrl.tableColumns;
+                        return insertCtrl.tableColumns;
                     },
                     items: function () {
-                        return deviceCtrl.reg;
+                        return insertCtrl.reg;
                     }
                 }
             });
             modalInstance.result.then(function (inputs) {
-
                 deviceService.postDeviceManagementData('todo/insert', {data: inputs})
                     .then(function (response) {
-                        deviceCtrl.show = true;
-                        deviceCtrl.type = 'alert-success';
-                        deviceCtrl.msg = 'insert success';
+                        insertCtrl.show = true;
+                        insertCtrl.type = 'alert-success';
+                        insertCtrl.msg = 'insert success';
                     }, function (error) {
                         console.log('error', error);
-                        deviceCtrl.show = true;
-                        deviceCtrl.msg = error;
+                        insertCtrl.show = true;
+                        insertCtrl.msg = error;
                     });
-
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });

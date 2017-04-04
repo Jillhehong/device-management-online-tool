@@ -1,36 +1,316 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">Update device management data</h3>
+    <h3 class="modal-title" id="modal-title">Update Device Management Data</h3>
 </div>
 <div class="modal-body" id="modal-body">
-
-    <!--<form class="form-inline" >-->
-        <!--<div ng-repeat="x in labels">-->
-            <!--<label for="{{x}}" for="inlineFormInput">{{x}} {{$index+1}}</label>-->
-            <!--<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"  type="text" name="{{x}}"  ng-model="ngModelinputs[labels[$index]]" required>-->
-        <!--</div>-->
-    <!--</form>-->
-
-    <form name='modelForm' novalidate>
+    <form name='modalForm' class="modal_form" novalidate >
         <!--show data-->
-        <div  class="form-group row"  ng-repeat="x in labels">
-                <label for="{{x}}" class=" col-form-label col-sm-4 text-right">{{$index+1}} {{x}}</label>
-            <div class="col-sm-5">
-                <input  type="text" name="{{x}}" class="form-control"   ng-model="ngModelinputs[labels[$index]]" required>
+        <div class="form-group row">
+            <label for=" purchase_order" class="col-sm-3 col-form-label text-right">Purchase Order</label>
+            <div class="col-sm-6">
+                <input  class="form-control" type="text" name="purchase_order" ng-model="ngModalInputs.purchase_order">
             </div>
         </div>
-        <!--end data-->
-
-
-        <!--buttons-->
         <div class="form-group row">
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-            <button class="btn btn-success pull-right" type="button" ng-click="ok()">Update</button>
-
-
+            <label for=" registration_date" class="col-sm-3 col-form-label text-right">Registration Date</label>
+            <div class="col-sm-6">
+                <input type="text" placeholder="yyyy-MM-dd" ng-pattern="/^\d{4}-\d{1,2}-\d{1,2}$/" ng-class="{highlight: modalForm.registration_date.$invalid}" class="form-control" name="registration_date" ng-model="ngModalInputs.registration_date">
+                <span class='form_msg' ng-if="modalForm.registration_date.$invalid && modalForm.registration_date.$touched">please input date in format yyyy-MM-dd as 2017-04-01</span>
+            </div>
         </div>
-        <!--end buttons-->
-    </form>
-</div>
-<div class="modal-footer">
+        <div class="form-group row">
+            <label for=" device_sn" class="col-sm-3 col-form-label text-right">Device SN *</label>
+            <div class="col-sm-6">
+                <input ng-class="{highlight: modalForm.device_sn.$error.required || modalForm.device_sn.$invalid}" class="form-control"
+                       type="text" name="device_sn" ng-model="ngModalInputs.device_sn" ng-pattern="/^[0-9]{7}$/" required>
+                <span ng-if="modalForm.device_sn.$error.required && modalForm.device_sn.$invalid" class="form_msg">Required device SN, it must contain 7 digits</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" iccid" class="col-sm-3 col-form-label text-right">ICCID</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="iccid" ng-model="ngModalInputs.iccid">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" imei" class="col-sm-3 col-form-label text-right">IMEI</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="imei" ng-model="ngModalInputs.imei">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" model_number" class="col-sm-3 col-form-label text-right">Model Number</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="model_number" ng-model="ngModalInputs.model_number">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" model_description" class="col-sm-3 col-form-label text-right">Model Description</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="model_description" ng-model="ngModalInputs.model_description">
+                    <option value="{{ngModalInputs.model_description}}" disabled>{{ngModalInputs.model_description}}</option>
+                    <option disabled>----------</option>
+                    <option value="Aera CT 3G">Aera CT 3G</option>
+                    <option value="Aera CT 2G">Aera CT 2G</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" firmware_version" class="col-sm-3 col-form-label text-right">Firmware Version</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="firmware_version" ng-model="ngModalInputs.firmware_version">
+                    <option value="{{ngModalInputs.firmware_version}}" disabled>{{ngModalInputs.firmware_version}}</option>
+                    <option disabled>----------</option>
+                    <option value="V2.8">V2.8</option>
+                    <option value="V2.7">V2.7</option>
+                    <option value="V2.6">V2.6</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" manufacturer" class="col-sm-3 col-form-label text-right">Manufacturer</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="manufacturer" ng-model="ngModalInputs.manufacturer">
+                    <option value="{{ngModalInputs.manufacturer}}" disabled>{{ngModalInputs.manufacturer}}</option>
+                    <option disabled>----------</option>
+                    <option value="TZ Medical">TZ Medical</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" points_to" class="col-sm-3 col-form-label text-right">Points to</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="points_to" ng-model="ngModalInputs.points_to">
+                    <option value="{{ngModalInputs.points_to}}" disabled>{{ngModalInputs.points_to}}</option>
+                    <option disabled>----------</option>
+                    <option value="AWS-Prod">AWS-Prod</option>
+                    <option value="AWS-Dev">AWS-Dev</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" use_zywie_sim" class="col-sm-3 col-form-label text-right">Use Zywie SIM</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="use_zywie_sim" ng-model="ngModalInputs.use_zywie_sim">
+                    <option value="{{ngModalInputs.use_zywie_sim}}" disabled>{{ngModalInputs.use_zywie_sim}}</option>
+                    <option disabled>----------</option>
+                    <option value="Y">Y</option>
+                    <option value="N">N</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" sim_provider" class="col-sm-3 col-form-label text-right">SIM Provider</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="sim_provider" ng-model="ngModalInputs.sim_provider">
+                    <option value="{{ngModalInputs.sim_provider}}" disabled>{{ngModalInputs.sim_provider}}</option>
+                    <option disabled>----------</option>
+                    <option value="Zywie">Zywie</option>
+                    <option value="TZ Medical">TZ Medical</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" zywie_logo" class="col-sm-3 col-form-label text-right">Zywie Logo</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="zywie_logo" ng-model="ngModalInputs.zywie_logo">
+                    <option value="{{ngModalInputs.zywie_logo}}" disabled>{{ngModalInputs.zywie_logo}}</option>
+                    <option disabled>----------</option>
+                    <option value="Y">Y</option>
+                    <option value="N">N</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" wyless_provision_date" class="col-sm-3 col-form-label text-right">Wyless Provision Date</label>
+            <div class="col-sm-6">
+                <input type="text" placeholder="yyyy-MM-dd"  ng-pattern="/^\d{4}-\d{1,2}-\d{1,2}$/" ng-class="{highlight: modalForm.wyless_provision_date.$invalid}" class="form-control" name="wyless_provision_date" ng-model="ngModalInputs.wyless_provision_date">
+                <span class='form_msg' ng-if="modalForm.wyless_provision_date.$invalid && modalForm.wyless_provision_date.$touched">please input date in format yyyy-MM-dd as 2017-04-01</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" device_test_date" class="col-sm-3 col-form-label text-right">Device Test Date</label>
+            <div class="col-sm-6">
+                <input type="text" placeholder="yyyy-MM-dd" ng-pattern="/^\d{4}-\d{1,2}-\d{1,2}$/" ng-class="{highlight: modalForm.device_test_date.$invalid}" class="form-control" name="device_test_date" ng-model="ngModalInputs.device_test_date">
+                <span class='form_msg' ng-if="modalForm.device_test_date.$invalid && modalForm.device_test_date.$touched">please input date in format yyyy-MM-dd as 2017-04-01</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" device_suspension_date" class="col-sm-3 col-form-label text-right">Device Suspension Date</label>
+            <div class="col-sm-6">
+                <input type="text" placeholder="yyyy-MM-dd"  ng-pattern="/^\d{4}-\d{1,2}-\d{1,2}$/" ng-class="{highlight: modalForm.device_suspension_date.$invalid}" class="form-control" name="device_suspension_date" ng-model="ngModalInputs.device_suspension_date">
+                <span class='form_msg' ng-if="modalForm.device_suspension_date.$invalid && modalForm.device_suspension_date.$touched">please input date in format yyyy-MM-dd as 2017-04-01</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" status" class="col-sm-3 col-form-label text-right">Device Status</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="status" ng-model="ngModalInputs.status">
+                    <option value="{{ngModalInputs.status}}" disabled>{{ngModalInputs.status}}</option>
+                    <option disabled>----------</option>
+                    <option value="beta site">beta site</option>
+                    <option value="clinical trials">clinical trials</option>
+                    <option value="customer">customer</option>
+                    <option value="decommissioned">decommissioned</option>
+                    <option value="defective">defective</option>
+                    <option value="inventory active">inventory active</option>
+                    <option value="inventory inactive">inventory inactive</option>
+                    <option value="inventory suspended">inventory suspended</option>
+                    <option value="refurbished">refurbished</option>
+                    <option value="RMA">RMA</option>
+                    <option value="sales_out">sales_out</option>
+                    <option value="development">development</option>
+                    <option value="sales demo">sales demo</option>
+                    <option value="troubleshooting">troubleshooting</option>
+                    <option value="sim switch">sim switch</option>
+                    <option value="lost">lost</option>
+                </select>
+                <span class='form_msg' ng-if="modalForm.status.$invalid"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" location" class="col-sm-3 col-form-label text-right">Device Location</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="location" ng-model="ngModalInputs.location">
+                    <option value="{{ngModalInputs.location}}" disabled>{{ngModalInputs.location}}</option>
+                    <option disabled>----------</option>
+                    <option value="drawer1-active">drawer1-active</option>
+                    <option value="drawer2-accessory">drawer2-accessory</option>
+                    <option value="drawer3-suspended">drawer3-suspended</option>
+                    <option value="drawer4-inactive(misc)">drawer4-inactive(misc)</option>
+                    <option value="device-out-RMA">device-out-RMA</option>
+                    <option value="device-out-others">device-out-others</option>
+                    <option value="development">development</option>
+                    <option value="shelf-a-pre-order">shelf-a-pre-order</option>
+                    <option value="shelf-b-pre-order">shelf-b-pre-order</option>
+                    <option value="shelf-c-pre-order">shelf-c-pre-order</option>
+                    <option value="shelf-d-pre-orde">shelf-d-pre-orde</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" checked_out_by" class="col-sm-3 col-form-label text-right">Checked Out By</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="checked_out_by" ng-model="ngModalInputs.checked_out_by">
+                    <option value="{{ngModalInputs.checked_out_by}}" disabled>{{ngModalInputs.checked_out_by}}</option>
+                    <option disabled>----------</option>
+                    <option value="Alex Armstrong">Alex Armstrong</option>
+                    <option value="Emir Muhovic">Emir Muhovic</option>
+                    <option value="Latha Ganeshan">Latha Ganeshan</option>
+                    <option value="Sameer Adumala">Sameer Adumala</option>
+                    <option value="Steve Rode">Steve Rode</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" checked_out_date" class="col-sm-3 col-form-label text-right">Checked Out Date</label>
+            <div class="col-sm-6">
+                <input type="text" placeholder="yyyy-MM-dd"  ng-pattern="/^\d{4}-\d{1,2}-\d{1,2}$/" ng-class="{highlight: modalForm.checked_out_date.$invalid}" class="form-control" name="checked_out_date" ng-model="ngModalInputs.checked_out_date">
+                <span class='form_msg' ng-if="modalForm.checked_out_date.$invalid && modalForm.checked_out_date.$touched">please input date in format yyyy-MM-dd as 2017-04-01</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" checked_in_by" class="col-sm-3 col-form-label text-right">Checked In By</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="checked_in_by" ng-model="ngModalInputs.checked_in_by">
+                    <option value="{{ngModalInputs.checked_in_by}}" disabled>{{ngModalInputs.checked_in_by}}</option>
+                    <option disabled>----------</option>
+                    <option value="Alex Armstrong">Alex Armstrong</option>
+                    <option value="Emir Muhovic">Emir Muhovic</option>
+                    <option value="Latha Ganeshan">Latha Ganeshan</option>
+                    <option value="Sameer Adumala">Sameer Adumala</option>
+                    <option value="Steve Rode">Steve Rode</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" checked_in_date" class="col-sm-3 col-form-label text-right">Checked In Date</label>
+            <div class="col-sm-6">
+                <input type="text" placeholder="yyyy-MM-dd" ng-pattern="/^\d{4}-\d{1,2}-\d{1,2}$/" ng-class="{highlight: modalForm.checked_in_date.$invalid}" class="form-control" name="checked_in_date" ng-model="ngModalInputs.checked_in_date">
+                <span class='form_msg' ng-if="modalForm.checked_in_date.$invalid && modalForm.checked_in_date.$touched">please input date in format yyyy-MM-dd as 2017-04-01</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" salesteam" class="col-sm-3 col-form-label text-right">Salesteam</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="salesteam" ng-model="ngModalInputs.salesteam">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" salesperson_name" class="col-sm-3 col-form-label text-right">Salesperson Name</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="salesperson_name" ng-model="ngModalInputs.salesperson_name">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" enterprise_id" class="col-sm-3 col-form-label text-right">Enterprise ID</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="enterprise_id" ng-model="ngModalInputs.enterprise_id">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" parent_clinic" class="col-sm-3 col-form-label text-right">Parent Clinic</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="parent_clinic" ng-model="ngModalInputs.parent_clinic">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" sub_clinic" class="col-sm-3 col-form-label text-right">Sub Clinic</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="sub_clinic" ng-model="ngModalInputs.sub_clinic">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" physician" class="col-sm-3 col-form-label text-right">Physician</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="physician" ng-model="ngModalInputs.physician">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" billable" class="col-sm-3 col-form-label text-right">Billable</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="billable" ng-model="ngModalInputs.billable">
+                    <option value="{{ngModalInputs.billable}}" disabled>{{ngModalInputs.billable}}</option>
+                    <option disabled>----------</option>
+                    <option value="Y">Y</option>
+                    <option value="N">N</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" lease" class="col-sm-3 col-form-label text-right">Lease</label>
+            <div class="col-sm-6">
+                <select class="form-control" name="lease" ng-model="ngModalInputs.lease">
+                    <option value="{{ngModalInputs.lease}}" disabled>{{ngModalInputs.lease}}</option>
+                    <option disabled>----------</option>
+                    <option value="Y">Y</option>
+                    <option value="N">N</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" lease_price_per_month" class="col-sm-3 col-form-label text-right">Lease Price(month)</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="lease_price_per_month" ng-model="ngModalInputs.lease_price_per_month">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" lease_start_date" class="col-sm-3 col-form-label text-right">Lease Start Date</label>
+            <div class="col-sm-6">
+                <input type="text" placeholder="yyyy-MM-dd"  ng-pattern="/^\d{4}-\d{1,2}-\d{1,2}$/" ng-class="{highlight: modalForm.lease_start_date.$invalid}"
+                       class="form-control" name="lease_start_date" ng-model="ngModalInputs.lease_start_date">
+                <span class='form_msg' ng-if="modalForm.lease_start_date.$invalid && modalForm.lease_start_date.$touched">please input date in format yyyy-MM-dd as 2017-04-01</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for=" lease_end_date" class="col-sm-3 col-form-label text-right">Lease End Date</label>
+            <div class="col-sm-6">
+                <input type="text" ng-class="{highlight: modalForm.lease_end_date.$invalid}" class="form-control" name="lease_end_date"
+                       placeholder="yyyy-MM-dd" ng-pattern="/^\d{4}-\d{1,2}-\d{1,2}$/" ng-model="ngModalInputs.lease_end_date">
+                <span class='form_msg' ng-if="modalForm.lease_end_date.$invalid && modalForm.lease_end_date.$touched">date format yyyy-MM-dd as 2017-04-01</span>
+            </div>
+        </div> <!--end data-->
 
+         <button class="btn btn-default col-sm-3" type="button" ng-click="cancel()">Cancel</button>
+         <button class="btn btn-danger col-sm-3 pull-right" type="button" ng-click="ok()" ng-disabled="modalForm.$invalid" >Update</button>
+    </form>
 </div>

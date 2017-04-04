@@ -1,0 +1,47 @@
+<div class="container" ng-controller="dashboardController">
+    <br>
+    <div class="col-sm-2">
+        <table class="table table-condensed table-bordered">
+            <tr>
+                <th>Total Available Device</th>
+            </tr>
+            <tr>
+                <td>{{dashboardCtrl.counts}}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-offset-1 col-sm-6" >
+        <table class="table table-condensed table-bordered">
+            <tr>
+                <th>Total Ordered Device</th>
+                <th>Total Received Device</th>
+                <th>Total Deficiency Device</th>
+            </tr>
+            <tr ng-repeat="row in dashboardCtrl.results ">
+                <td>{{row.total_ordered_device}}</td>
+                <td>{{row.total_received_device}}</td>
+                <td>{{row.total_deficiency_qty}}</td>
+            </tr>
+        </table>
+    </div>
+    <table class="table table-condensed table-bordered">
+        <tr>
+            <th>3M 2560 red dot electrodes(50/packet)</th>
+            <th>3M 2570-5 red dot electrodes</th>
+            <th>Sensitive Electrodes(60/packet)</th>
+            <th>Dual-Electrodes(300/packet)</th>
+            <th>Device User Manuals</th>
+            <th>Cel-Fi Smart Signal Booster</th>
+
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>1000</td>
+            <td>9</td>
+            <td>6</td>
+            <td>61</td>
+            <td>2</td>
+        </tr>
+    </table>
+
+</div>

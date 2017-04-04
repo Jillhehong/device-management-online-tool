@@ -1,67 +1,22 @@
 
-test
-
 <div class="container table-responsive" ng-controller="accessoryController" >
-    <br>
-    <form class="container form-group">
-        <label >Search any<input class="form-control" ng-model="search.$"></label>
-        <label>purchase order only <input class="form-control" ng-model="search.purchase_order"></label>
-        <!--<button type="button" class="btn btn-default" ng-click="reset()">Reset</button>-->
-    </form>
-
-    <table ng-table-dynamic="accessoryCtrl.tableParams with accessoryCtrl.cols"  class=" table  table-condensed table-hover table-striped" >
-        <td><button class="btn btn-xs btn-warning">Edit</button></td>
-        <tr ng-repeat="row in $data | filter:search:strict">
-
-            <td ng-repeat="col in $columns">  {{row[col.field]}}</td>
-
-
+    <h3 class="text-center">Accessory Inventory Table</h3><br>
+    <table ng-table="accessoryCtrl.tableParams"  class=" table table-condensed" >
+        <tr ng-repeat="row in $data">
+            <td title="'Row'" sortable="'row'">{{row.row}}</td>
+            <td title="'Received Date'" sortable="'received_date'">{{row.received_date | date: 'yyyy-MM-dd'}}</td>
+            <td title="'Manufacturer Order ID'" sortable="'manufacturer_order_ID'">{{row.manufacturer_order_ID}}</td>
+            <td title="'Order ID'" sortable="'order_id'">{{row.order_id}}</td>
+            <td title="'Purchase Order'" sortable="'purchase_order'">{{row.purchase_order}}</td>
+            <td title="'Manufacturer'" sortable="'manufacturer'">{{row.manufacturer}}</td>
+            <td title="'Accessory'" sortable="'accessory'">{{row.accessory}}</td>
+            <td title="'Lot NO'" sortable="'lot_no'">{{row.lot_no}}</td>
+            <td title="'Order Quantity'" sortable="'order_quantity'">{{row.order_quantity}}</td>
+            <td title="'Received Quantity'" sortable="'received_quantity'">{{row.received_quantity}}</td>
+            <td title="'Deficiency'" sortable="'deficiency'">{{row.deficiency}}</td>
+            <td title="'Deficient Received Date'" sortable="'deficient_received_date'">{{row.deficient_received_date | date: 'yyyy-MM-dd'}}</td>
+            <td title="'Shipping Status'" sortable="'shipping_status'">{{row.shipping_status}}</td>
+            <td title="'Total Price'" sortable="'total_price'">{{row.total_price}}</td>
         </tr>
     </table>
-
-
-
-    <!--<div class="container table-responsive" >-->
-        <!--<table  class="table table-condensed  table-hover table-striped"  >-->
-            <!--&lt;!&ndash;table column names&ndash;&gt;-->
-            <!--<th>Actions</th>-->
-            <!--<th ng-repeat="title in accessoryCtrl.tableColumns">{{title}}</th>-->
-            <!--<th>save</th>-->
-
-            <!--&lt;!&ndash;table data&ndash;&gt;-->
-            <!--<tr ng-repeat="value in inventoryCtrl.results | filter:search:strict   track by $index ">-->
-                <!--&lt;!&ndash;set edit and delete buttons&ndash;&gt;-->
-                <!--<td><button  class=" btn btn-default" ng-click="accessoryCtrl.edit($index)"  >-->
-                    <!--<span class="glyphicon glyphicon-pencil"></span></button>-->
-                    <!--<button class="btn btn-danger" ng-click="accessoryCtrl.delete($index)"  >-->
-                        <!--<span class="glyphicon glyphicon-trash"></span></button>-->
-                <!--</td>-->
-
-                <!--&lt;!&ndash;set data rows&ndash;&gt;-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].row" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].received_date" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].manufacturer_order_ID" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].order_id" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].purchase_order" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].manufacturer" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].accessory" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].lot_no" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].order_quantity" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].received_quantity" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].deficiency" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].deficient_received_date" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].shipping_status" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-                <!--<td><input type="text" ng-model="accessoryCtrl.inputs[$index].total_price" ng-disabled="accessoryCtrl.cutoff[$index]"></td>-->
-
-
-                <!--<td><button  class=" btn btn-primary btn-sm" ng-click="accessoryCtrl.save($index)">Save</button></td>-->
-
-            <!--<tr>-->
-
-        <!--</table>-->
-
-    <!--</div>-->
-
 </div>

@@ -10,28 +10,33 @@
         .controller('updateModalInstanceCtrl', updateModalInstanceCtrl)
         .controller('deleteModalInstanceCtrl', deleteModalInstanceCtrl);
 
-    updateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'items', 'labels'];
+    updateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'items'];
     deleteModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'items', 'labels'];
 
-    function updateModalInstanceCtrl($scope, $uibModalInstance, items, labels) {
+    function updateModalInstanceCtrl($scope, $uibModalInstance, items) {
+        $scope.ngModalInputs = angular.copy(items);
 
-        $scope.items = items;
-        $scope.labels = labels;
-        $scope.ngModelinputs = angular.copy($scope.items);
+        //convert object into array
+        // $scope.ngModelinputs = Object.keys(items).map(function (key) { return items[key]; });
+        // console.log($scope.ngModelinputs);
 
         $scope.ok = function () {
-            $uibModalInstance.close($scope.ngModelinputs);
+            $uibModalInstance.close($scope.ngModalInputs);
         };
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
     }
     function deleteModalInstanceCtrl($scope, $uibModalInstance, items, labels) {
-        $scope.items = items;
         $scope.labels = labels;
-        
+
+        //convert object to array
+        $scope.items = Object.keys(items).map(function (key) {
+            return items[key];
+        });
+
         $scope.ok = function () {
-            $uibModalInstance.close($scope.items);
+            $uibModalInstance.close(items);
         };
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
@@ -41,22 +46,36 @@
     deviceManagementQueryController.$inject = ['deviceService', '$timeout','$uibModal', '$log'];
     function deviceManagementQueryController(deviceService, $timeout, $uibModal, $log) {
         var queryCtrl = this;
-        queryCtrl.tableColumns = deviceService.getDeviceManagementColumns();
 
+        ///remove underscore from table column names
+        var strings = deviceService.getDeviceManagementColumns();
+        queryCtrl.tableColumns = [];
+        for(var i=0;i<strings.length;i++){
+            queryCtrl.tableColumns.push(strings[i].replace(/_/g, ' '));
+        }
 ////////////////////////set alerts////////////////
         queryCtrl.show = false;
         queryCtrl.closeAlert = function () {
             queryCtrl.show = false;
         };
-      
-///////////////get data from http request from device_management table///////////
-        deviceService.getDeviceManagementData('todo/queryall').then(function (response) {
-            console.log('query success');
-            queryCtrl.results = response.data;
+        ////set query result on/off
+        queryCtrl.queryResult = false;
 
-        }, function (error) {
-            console.log('query failed');
-        });
+        //query
+        queryCtrl.query = {};
+        queryCtrl.search = function () {
+          deviceService.postDeviceManagementData('deviceManagement/query', queryCtrl.query)
+              .then(function (response) {
+                  if(response.data.length){
+                      queryCtrl.results = response.data;
+                  }
+                  else {
+                      queryCtrl.queryResult = true;
+                  }
+              }, function (error) {
+                  console.log('failed to query');
+              });
+        };
         
 ///////////////////show modal///////////////        
         queryCtrl.showModal = function (index, size) {
@@ -70,23 +89,13 @@
                 templateUrl: 'src/public/device-management/device-update-modal.html',
                 controller: 'updateModalInstanceCtrl',
                 resolve: {
-                    labels: function () {
-                        return queryCtrl.tableColumns;
-                    },
                     items: function () {
                         return queryCtrl.results[index];
                     }
                 }
             });
             modalInstance.result.then(function (inputs) {
-                //////transform to an array of data to feed post format data
-                var transformedtoArrayData = [];
-                for(var i=0;i<queryCtrl.tableColumns.length;i++){
-                    transformedtoArrayData.push(inputs[queryCtrl.tableColumns[i]]);
-                }
-                transformedtoArrayData.push(inputs[queryCtrl.tableColumns[3]]);
-                //////////
-                deviceService.postDeviceManagementData('todo/update', {data:transformedtoArrayData}).
+                deviceService.postDeviceManagementData('todo/update', inputs).
                 then(function (response) {
                     queryCtrl.show = true;
                     queryCtrl.type = 'alert-success';
@@ -119,10 +128,7 @@
                 }
             });
             modalInstance.result.then(function (input) {
-                // get device_sn value
-                var device_sn = input.device_sn;
-                //////////
-                deviceService.postDeviceManagementData('todo/delete/:_id', {data:[device_sn]})
+                deviceService.postDeviceManagementData('todo/delete/:_id', input)
                     .then(function (response) {
                     queryCtrl.show = true;
                     queryCtrl.type = 'alert-success';

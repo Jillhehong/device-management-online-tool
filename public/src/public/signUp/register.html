@@ -10,8 +10,7 @@
                 <input type="text" class="form-control" name="firstName" placeholder="Your First Name"
                        ng-model="reg.user.firstName"
                        required>
-                {{ reg.user.firstName }}
-                      <span ng-if="regForm.firstName.$error.required && regForm.firstName.$touched">
+                      <span class="form_msg" ng-if="regForm.firstName.$error.required && regForm.firstName.$touched">
                         Please enter your first name
                       </span>
             </div>
@@ -20,53 +19,45 @@
                 <input type="text" class="form-control" name="lastName" placeholder="Your Last Name"
                        ng-model="reg.user.lastName"
                        required>
-                {{ reg.user.lastName }}
-                      <span ng-if="regForm.lastName.$error.required && regForm.lastName.$touched">
+                      <span class="form_msg" ng-if="regForm.lastName.$error.required && regForm.lastName.$touched">
                         Please enter your last name
                       </span>
-            </div>
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" class="form-control" name="username" placeholder="username"
-                       ng-model="reg.user.username"
-                       required>
-                  <span ng-if="regForm.username.$error.required && regForm.username.$touched">
-                      Please enter your usename
-                  </span>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" class="form-control" name="email" placeholder="Email"
                        ng-model="reg.user.email"
                        required>
-                  <span ng-if="regForm.email.$invalid && regForm.email.$touched">
+                  <span class="form_msg" ng-if="regForm.email.$invalid && regForm.email.$touched">
                     Must be a valid email address: handle@domain format
                   </span>
             </div>
             <div class="form-group">
-                <label for="passport1">New password:</label>
+                <label for="passport1">Password:</label>
                 <input type="password" class="form-control" name="password1" placeholder="password"
-                       ng-model="reg.user.password1" required>
-                  <span ng-if="regForm.password1.$invalid && regForm.password1.$touched">
+                       ng-model="reg.user.password1"  required>
+                  <span class="form_msg" ng-if="regForm.password1.$invalid && regForm.password1.$touched">
                     Please enter password
                   </span>
             </div>
-            <!--<div class="form-group">-->
-                <!--<label for="passport2">Enter new password again:</label>-->
-                <!--<input type="password" class="form-control" name="password2" placeholder="password"-->
-                       <!--ng-model="reg.user.password2" required>-->
-                <!--<span ng-if="regForm.password2.$invalid && regForm.password2.$touched">Please enter password</span>-->
-                <!--<span ng-if="reg.user.password2 != reg.user.password1 && reg.user.password2.$">-->
-                <!--password is not the same-->
-                <!--</span>-->
-            <!--</div>-->
+            <!--enter password again-->
+            <div class="form-group">
+                <label for="passport2">Confirm Password:</label>
+                <input type="password" class="form-control" name="password2" placeholder=" password"
+                       ng-model="reg.user.password2" ng-keyup="reg.keyup()" required>
+                  <!--<span ng-if=" regForm.passport2.$touched">-->
+                    <!--Please enter password-->
+                  <!--</span>-->
+                    <span class="form_msg" ng-if="reg.showMsg">
+                        passwords are not the same
+                  </span>
+            </div>
 
-
-            <button class="btn btn-primary" ng-disabled="regForm.$invalid" ng-click="reg.submit()">sign up</button>
+            <button class="btn btn-primary" ng-disabled="regForm.$invalid || reg.showMsg" ng-click="reg.submit()">sign up</button>
 
         </form>
     </fieldset>
-    <span ng-if="reg.saved" >Thank you, your information has been saved!</span>
+    <span ng-if="reg.saved" class="form_msg">Thank you, your information has been saved!</span>
 
 </div>
 

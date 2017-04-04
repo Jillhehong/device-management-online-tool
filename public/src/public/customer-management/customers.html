@@ -1,0 +1,36 @@
+<div class="container" ng-controller="customersController" >
+    <div class="col-sm-6 table-responsive" >
+        <h4 class="text-center">clinics</h4>
+        <table  class="table table-condensed table-bordered"   ng-table="customerCtrl.tableParams" >
+            <tr class="ng-table-group" ng-repeat-start="group in $groups">
+                <td class="text-left">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>{{ group.value }}</strong>
+                    </a>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows"  ng-repeat="row in group.data" >
+                <td sortable="'parent_clinic'" data-title="'Parent Clinic'" groupable="'parent_clinic'">
+                    {{row.parent_clinic}}
+                </td>
+                <td sortable="'sub_clinic'" data-title="'Child Clinic'" groupable="'sub_clinic'">
+                    {{row.sub_clinic}}
+                </td>
+                <td sortable="'device_sn'" data-title="'Device SN'">
+                    {{row.device_sn}}
+                </td>
+            </tr>
+            <tr ng-repeat-end>
+                <td class="text-right"><strong><i>{{group.value}} Total</i></strong></td>
+                <td><strong>{{group.data.length}}</strong></td>
+            </tr>
+            <tfoot ng-if="customerCtrl.isLastPage()">
+            <tr>
+                <td class="text-right"><strong>Grant Total</strong></td>
+                <td><strong>{{customerCtrl.totalDevices}}</strong></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

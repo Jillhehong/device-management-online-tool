@@ -14,26 +14,31 @@ function routeConfig ($stateProvider) {
       .state('register', {
           url: '/register',
           templateUrl: '/src/public/signup/register.html',
-          controller: 'registerController',
-          authenticate: false
+          controller: 'registerController'
 
       })
-    .state('public', {
+      .state('login', {
+          url: '/login',
+          templateUrl: '/src/public/signup/login.html',
+          controller: 'loginController'
+      })
+      .state('public', {
             abstract: true,
             templateUrl: 'src/public/public.html',
-            authenticate: false
+            controller: 'publicController',
+          controllerAs: 'publicCtrl'
         })
         .state('public.home', {
             url: '/home',
             templateUrl: 'src/public/home/home.html',
-            authenticate: true
+            controller: 'homeController',
+            controllerAs: 'homeCtrl'
             
         })
       
         .state('public.deviceManagement', {
             url: '/deviceManagement',
-            templateUrl: 'src/public/device-management/device management.html',
-            authenticate: true
+            templateUrl: 'src/public/device-management/device management.html'
 
 
     })
@@ -41,8 +46,7 @@ function routeConfig ($stateProvider) {
           url: '/queryall',
           templateUrl: 'src/public/device-management/device-list.html',
           controller: 'showDeviceDataController',
-          controllerAs: 'deviceList',
-          authenticate: true
+          controllerAs: 'deviceList'
 
 
       })
@@ -50,8 +54,7 @@ function routeConfig ($stateProvider) {
           url: '/insert',
           templateUrl: 'src/public/device-management/insert.html',
           controller: 'deviceManagementInsertController',
-          controllerAs: 'deviceCtrl',
-          authenticate: true
+          controllerAs: 'insertCtrl'
 
 
       })
@@ -59,8 +62,7 @@ function routeConfig ($stateProvider) {
           url: '/query',
           templateUrl: 'src/public/device-management/query.html',
           controller: 'deviceManagementQueryController',
-          controllerAs: 'queryCtrl',
-          authenticate: true
+          controllerAs: 'queryCtrl'
 
 
       })
@@ -68,8 +70,7 @@ function routeConfig ($stateProvider) {
           url: '/deviceInventory',
           templateUrl: 'src/public/device-inventory/device-inventory.html',
           controller: 'deviceInventoryController',
-          controllerAs: 'inventoryCtrl',
-          authenticate: true
+          controllerAs: 'inventoryCtrl'
 
 
       })
@@ -77,8 +78,7 @@ function routeConfig ($stateProvider) {
           url: '/accessoryInventory',
           templateUrl: 'src/public/accessory-inventory/accessory.html',
           controller: 'accessoryController',
-          controllerAs: 'accessoryCtrl',
-          authenticate: true
+          controllerAs: 'accessoryCtrl'
 
 
       })
@@ -86,35 +86,20 @@ function routeConfig ($stateProvider) {
         url: '/deviceHistory',
         templateUrl: 'src/public/device-history/device-history.html', 
         controller: 'deviceHistoryController',
-        controllerAs: 'historyCtrl',
-        authenticate: true
-
-
+        controllerAs: 'historyCtrl'
         })
-    //     .state('public.signup', {
-    //     url: '/signup',
-    //     templateUrl: '/src/public/signup/register.html',
-    //     controller: 'registerController',
-    //     controllerAs: 'registerCtrl'
-    // })
-    //     .state('public.signin', {
-    //     url: '/login',
-    //     templateUrl: '/src/public/signup/login.html',
-    //     controller: 'loginController',
-    //     controllerAs:  'loginCtrl'
-    // });
-
-        .state('login', {
-            url: '/login',
-            templateUrl: '/src/public/signup/login.html',
-            controller: 'loginController',
-            authenticate: false
-        });
+      .state('public.customers', {
+          url: '/customers',
+          templateUrl: 'src/public/customer-management/customers.html',
+          controller: 'customersController',
+          controllerAs: 'customerCtrl'
+      })
+      .state('public.dashboard', {
+          url: '/dashboard',
+          templateUrl: 'src/public/dashboard/dashboard.html',
+          controller: 'dashboardController',
+          controllerAs: 'dashboardCtrl'
+      });
     
-    
-
-
-
-
 }
 })();

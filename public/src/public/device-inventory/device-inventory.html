@@ -1,50 +1,20 @@
-
 <div class="container" ng-controller="deviceInventoryController" >
-    <br>
-    <!--////////alert-->
-    <div ng-if="inventoryCtrl.show" dismiss-on-timeout="10000" uib-alert class=" alert {{inventoryCtrl.type}}" close="queryCtrl.closeAlert()">{{inventoryCtrl.msg}}</div>
-
-
-    <form class="container form-group">
-        <label >Search any<input class="form-control" ng-model="search.$"></label>
-        <label>purchase order only  <input class="form-control" ng-model="search.purchase_order"></label>
-    </form>
-
-
     <div class="container table-responsive" >
-        <table  class="table table-condensed  table-hover table-striped"  >
-            <!--table column names-->
-            <th>Actions</th>
-            <th ng-repeat="title in inventoryCtrl.tableColumns">{{title}}</th>
-            <th>save</th>
-
-            <!--table data-->
-            <tr ng-repeat="value in inventoryCtrl.results | filter:search:strict   track by $index ">
-                <!--set edit and delete buttons-->
-                <td><button  class=" btn btn-default" ng-click="inventoryCtrl.edit($index)"  >
-                    <span class="glyphicon glyphicon-pencil"></span></button>
-                    <button class="btn btn-danger" ng-click="inventoryCtrl.delete($index)"  >
-                        <span class="glyphicon glyphicon-trash"></span></button>
-                </td>
-
-
-                <!--set data rows-->
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].received_date" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].order_id" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].purchase_order" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].manufactuer" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].item" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].order_quantity" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].received_quantity" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].deficiency_quantity" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].deficiency_received_date" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].shipping_status" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].device_sn" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><input type="text" ng-model="inventoryCtrl.inputs[$index].package_content" ng-disabled="inventoryCtrl.cutoff[$index]"></td>
-                <td><button  class=" btn btn-primary btn-sm" ng-click="inventoryCtrl.save($index)">Save</button></td>
-            <tr>
-
+        <h3 class="text-center">Device Inventory Table</h3><br>
+        <table  class="table table-condensed"   ng-table="inventoryCtrl.tableParams" >
+            <tr ng-repeat="row in $data">
+                <td title="'Received Date'" sortable="'received_date'">{{row.received_date | date: 'yyyy-MM-dd'}}</td>
+                <td title="'Order ID'" sortable="'order_id'">{{row.order_id}}</td>
+                <td title="'Purchase Order'" sortable="'purchase_order'" filter="{purchase_order: 'text'}">{{row.purchase_order}}</td>
+                <td title="'Manufacturer'" sortable="'manufacturer'">{{row.manufacturer}}</td>
+                <td title="'Item'" sortable="'item'">{{row.item}}</td>
+                <td title="'Order Quantity'" sortable="'order_quantity'">{{row.order_quantity}}</td>
+                <td title="'Received Quantity'" sortable="'received_quantity'">{{row.received_quantity}}</td>
+                <td title="'Deficiency Quantity'" sortable="'deficiency_quantity'">{{row.deficiency_quantity}}</td>
+                <td title="'Deficiency Received Date'" sortable="'deficiency_received_date'">{{row.deficiency_received_date | date: 'yyyy-MM-dd'}}</td>
+                <td title="'Shipping Status'" sortable="'shipping_status'">{{row.shipping_status}}</td>
+                <td title="'Device SN'" sortable="'device_sn'">{{row.device_sn}}</td>
+                <td title="'Package Content'" sortable="'package_content'">{{row.package_content}}</td>
         </table>
-
     </div>
 </div>

@@ -1,0 +1,51 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Confirm your deletion</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <ul class="list-group">
+        <li class="list-group-item row">
+            <label class="col-sm-3 text-right">row:</label>
+            <strong class="col-sm-6">{{items.row}}</strong>
+        </li>
+        <li class="list-group-item row">
+            <label class="col-sm-3 text-right">history date:</label>
+            <strong class="col-sm-6">{{items.history_date |date: 'yyyy-MM-dd'}}</strong>
+        </li>
+        <li class="list-group-item row">
+            <label class="col-sm-3 text-right">device sn:</label>
+            <strong class="col-sm-6">{{items.device_sn}}</strong>
+        </li>
+        <li class="list-group-item row">
+            <label class="col-sm-3 text-right">device action:</label>
+            <strong class="col-sm-6">{{items.device_action}}</strong>
+        </li>
+        <li class="list-group-item row">
+            <label class="col-sm-3 text-right">by whom:</label>
+            <strong class="col-sm-6">{{items.by_whom}}</strong>
+        </li>
+        <li class="list-group-item row" >
+            <label class="col-sm-3 text-right">status:</label>
+            <strong class="col-sm-6">{{items.status}}</strong>
+        </li>
+        <li class="list-group-item row" >
+            <label class="col-sm-3 text-right">device owner:</label>
+            <strong class="col-sm-6">{{items.device_owner}}</strong>
+        </li>
+        <li class="list-group-item row" >
+            <label class="col-sm-3 text-right">replace device:</label>
+            <strong class="col-sm-6">{{items.replace_device}}</strong>
+        </li>
+        <li class="list-group-item row" >
+            <label class="col-sm-3 text-right">replaced device SN:</label>
+            <strong class="col-sm-6">{{items.replaced_device_sn}}</strong>
+        </li>
+        <li class="list-group-item row" >
+            <label class="col-sm-3 text-right">note:</label>
+            <strong class="col-sm-6">{{items.note}}</strong>
+        </li>
+    </ul>
+</div>
+<div class="modal-footer">
+     <button class="btn btn-default col-sm-3" type="button" ng-click="cancel()">Cancel</button>
+     <button class="btn btn-danger col-sm-3 pull-right" type="button" ng-click="ok()">Delete</button>
+</div>

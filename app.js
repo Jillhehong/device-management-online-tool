@@ -19,13 +19,13 @@ var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var pg = require('pg');
 var pgp = require('pg-promise')({  });
+var bcrypt = require('bcrypt');
 
 //connect database with configuration
 var db = pgp(config);
 
 
 // var index = require('./routes/index');
-// var users = require('./routes/users');
 
 var app = express();
 // var router = express.Router();
@@ -45,27 +45,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use(require('express-session')({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false
+    secret: 'd3kfd20g83jlvn27c04cke037gfjp',
+    resave: true,
+    saveUninitialized: true
+    // cookie:{maxAge:  3000,
+    // expires: new Date(Date.now()+ 3000)}
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 //////
-// find a user function
-
-
 /////////
 passport.use( 'local', new LocalStrategy(
     function(username, password, done) {
-        var user = {username: username, password: password};
-        ///query database to find user
+
+        /// query username and password from database
         db.query('select email, password from public.users').then(function(data){
-            // console.log('data ', data);
             //for loop to find user
             for(var i=0; i<data.length;i++){
-                if(data[i].email == username && data[i].password == password) {
+                if(data[i].email == username && bcrypt.compareSync(password, data[i].password) ) {
+
+                    var user = {
+                        username: username,
+                        password: data[i].password
+                    };
                     return done(null, user);
                 }
             }
@@ -89,29 +92,121 @@ passport.deserializeUser(function(user, done) {
 
 ////authentication
 app.post('/login', passport.authenticate('local'), function(req, res){
-    // console.log('req ', req.user);
     console.log('is authenticated ', req.isAuthenticated());
-    // authenticate = req.isAuthenticated();
-
-    // res.redirect('/home');
-    // res.send(req.user);
     res.json(req.user);
+    
+});
 
-
-
+//log out
+app.get("/logout", function(req, res) {
+     req.session.destroy( function (err) {
+        res.end();
+    });
+    console.log('authenticate ', req.isAuthenticated());
+    // req.logout();
 
 });
 
-
 ///////////////////////////////////////////////////////////////////////////////////////
-//// utility function for updating tables////////
+//// dynamically query utility func ~~~~~use pg-promise to query from database
+var dynamicquerySqlUtilityFunc = function (url, sql) {
+    app.post(url, function(req, res, next){
+        // if(req.isAuthenticated()){
+        if(true){
+            var string = '';
+
+            ///dynamically change where clause
+            var addon = [];
+            if(req.body.device_sn) {
+                addon.push('device_sn=${device_sn}');
+            }
+            if(req.body.status) {
+                addon.push('status=${status}');
+            }
+            if(req.body.clinic) {
+                addon.push('clinic=${clinic}');
+            }
+            if(req.body.location) {
+                addon.push('location=${location}');
+            }
+            var joined_data = addon.join(' and ');
+
+            string  = sql + " "+ joined_data;
+           db.query(string, req.body)
+                .then(function(response ){
+                    return res.json(response);
+                }, function(err){
+                    return res.status(500).json({success: false, data: err});
+                });
+            pgp.end();
+        }
+        else {
+            return  {error:'please log in'};
+        }
+
+    });
+};
+var filter =
+    'select * from device_management_test where ';
+dynamicquerySqlUtilityFunc('/deviceManagement/query', filter);
+
+
+//get query
+var pgGetSqlUtilityFunc = function (url, sql) {
+    app.get(url, function(req, res, next){
+        // if(req.isAuthenticated()){
+        if(true){
+            console.log('sql ', sql);
+            db.query(sql)
+                .then(function (response) {
+                    console.log('response ', response);
+                    return res.json(response);
+                }, function (err) {
+                    return res.status(500).json({success: false, data: err});
+                });
+            pgp.end();
+        }
+        else {
+            return  {error:'please log in'};
+        }
+
+    });
+};
+///new query using pg-promise module
+var pgPostSqlUtilityFunc = function (url, sql) {
+    app.post(url, function(req, res, next){
+        // if(req.isAuthenticated()){
+        if(true){
+            var value = req.body;
+            console.log('value ',value);
+            console.log('sql ', sql);
+            db.query(sql, req.body)
+                .then(function (response) {
+                    console.log('response ', response);
+                    return res.json(response);
+                }, function (err) {
+                    return res.status(500).json({success: false, data: err});
+                });
+            pgp.end();
+        }
+        else {
+            return  {error:'please log in'};
+        }
+
+    });
+};
+
+
+////////use pg module to query from database
 var querySqlUtilityFunc = function (url, sql) {
     app.post(url, function(req, res, next){
-        console.log('is authenticated ', req.isAuthenticated());
-        if(req.isAuthenticated()){
+        // if(req.isAuthenticated()){
+        if(true){
+            console.log('sql ', sql);
             var results = [];
             var value = req.body.data;
-            console.log('value ', value);
+            console.log('data ', value);
+
             // Get a Postgres client from the connection pool
             pg.connect(config, function(err, client, done){
                 // Handle connection errors
@@ -146,7 +241,8 @@ var querySqlUtilityFunc = function (url, sql) {
 ////utility function to query tables///////
 var getSqlUtilityFunc = function (url, sql) {
     app.get(url, function(req, res, next){
-        if( req.isAuthenticated() ) {
+        console.log('authentciate ', req.isAuthenticated());
+        if( true ) {
             const results = [];
             // Get a Postgres client from the connection pool
             pg.connect(config, function(err, client, done){
@@ -177,48 +273,97 @@ var getSqlUtilityFunc = function (url, sql) {
 
     });
 };
+////////encrypt password
+var hashSqlUtilityFunc = function (url, sql) {
+    app.post(url, function(req, res, next){
+            var results = [];
+
+        //password stored in array[3]
+        var hash = bcrypt.hashSync(req.body.data[3], 9);
+        req.body.data[3] = hash;
+
+        // Get a Postgres client from the connection pool
+        pg.connect(config, function(err, client, done){
+            // Handle connection errors
+            if(err) {
+                done();
+                console.log(err);
+                return res.status(500).json({success: false, data: err});
+            }
+
+            // SQL Query > Select Data
+            var query = client.query(sql, req.body.data);
+
+            // Stream results back one row at a time
+            query.on('row', function(row){
+                results.push(row);
+            });
+            query.on('end', function(){
+                done();
+                return res.json(results);
+            });
+
+        });
+        pg.end();
+
+    });
+};
+
+
+
 
 ///////////////start working on device management table////////////
-///insert into device management table////
+// device management table///////////////////
+//insert
 var insert_device_management =
-    "INSERT INTO public.device_management_test( col_number, purchase_order, registration_date, device_sn, iccid,"+
-    "imei, model_number, model_description, firmware_version, manufacturer, points_to, use_zywie_sim, sim_provider, zywie_logo, wyless_provision_date,"+
-    "device_test_date, device_suspension_date, status, location, checked_out_by, checked_out_date, checked_in_by, checked_in_date, salesteam,"+
-    "salesperson_name, enterprise_id, clinic, physician, billable, lease, lease_price_per_month, lease_start_date, lease_end_date)" +
-    "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26," +
-    " $27,$28, $29, $30, $31, $32, $33)";
-//// manually insert data
-querySqlUtilityFunc('/todo/insert',insert_device_management );
+    'INSERT INTO public.device_management_test(purchase_order, registration_date, device_sn, iccid, imei, model_number,' +
+    'model_description, firmware_version, manufacturer, points_to,use_zywie_sim, sim_provider, zywie_logo, wyless_provision_date,' +
+    'device_test_date, device_suspension_date, status, location, checked_out_by,checked_out_date, checked_in_by, checked_in_date, '+
+    'salesteam, salesperson_name, enterprise_id, parent_clinic, sub_clinic, physician, billable, lease, lease_price_per_month,' +
+    ' lease_start_date, lease_end_date) VALUES ( ${purchase_order}, ${registration_date}, ${device_sn}, ${iccid}, ${imei}, ' +
+    '${model_number}, ${model_description}, ${firmware_version}, ${manufacturer}, ${points_to}, ${use_zywie_sim}, ${sim_provider}, ' +
+    '${zywie_logo}, ${wyless_provision_date}, ${device_test_date}, ${device_suspension_date}, ${status}, ${location}, ${checked_out_by}, '+
+    '${checked_out_date}, ${checked_in_by}, ${checked_in_date}, ${salesteam}, ${salesperson_name}, ${enterprise_id}, ' +
+    '${parent_clinic}, ${sub_clinic}, ${physician}, ${billable}, ${lease}, ${lease_price_per_month}, ${lease_start_date},' +
+    '${lease_end_date});';
+pgPostSqlUtilityFunc('/todo/device_management/insert',insert_device_management );
 
-
-//query device management table by where clause/////
+//query
 var query_device_management =
     'select * from public.device_management_test where device_sn = $1 or clinic = $2 or status=$3 or location=$4';
 querySqlUtilityFunc('/todo/query',query_device_management );
 
-
-//guery all device management table
+//query all
 var queryall_device_management =
     'select * from public.device_management_test';
 getSqlUtilityFunc('/todo/queryall', queryall_device_management);
+//filter customers
+var customers = 'select device_sn, parent_clinic, sub_clinic from device_management_test order by parent_clinic ASC';
+getSqlUtilityFunc('/todo/customer', customers);
 
-/////update device management table ////
-var update_device_management =
-    'UPDATE public.device_management_test SET col_number = ($1), purchase_order = ($2), registration_date = ($3), device_sn = ($4), iccid = ($5), imei = ($6), model_number = ($7), model_description = ($8), firmware_version = ($9), manufacturer = ($10), points_to = ($11), use_zywie_sim = $12,' +
-    ' sim_provider = ($13), zywie_logo = ($14), wyless_provision_date = ($15), device_test_date = ($16), device_suspension_date = ($17), status = ($18), location = ($19), checked_out_by = ($20), checked_out_date = ($21), checked_in_by = ($22),'+
-    'checked_in_date = ($23), salesteam = ($24), salesperson_name = ($25), enterprise_id = ($26), clinic = ($27), physician = ($28), billable = ($29), lease = ($30), lease_price_per_month = ($31), lease_start_date = ($32), lease_end_date = ($33)  WHERE device_sn = ($34);';
-querySqlUtilityFunc('/todo/update', update_device_management);
+///update
+var update_device_management ='update device_management_test set purchase_order=${purchase_order}, registration_date=${registration_date}, device_sn=${device_sn}, ' +
+    'iccid=${iccid}, imei=${imei}, model_number=${model_number}, model_description=${model_description}, ' +
+    'firmware_version=${firmware_version},manufacturer=${manufacturer}, points_to=${points_to}, ' +
+    'use_zywie_sim=${use_zywie_sim}, sim_provider=${sim_provider}, zywie_logo=${zywie_logo}, ' +
+    'wyless_provision_date=${wyless_provision_date}, device_test_date=${device_test_date}, ' +
+    'device_suspension_date=${device_suspension_date}, ' +
+    'status=${status}, location=${location}, checked_out_by=${checked_out_by}, checked_out_date=${checked_out_date},'+
+    'checked_in_by=${checked_in_by}, checked_in_date=${checked_in_date}, ' +
+    'salesteam=${salesteam}, salesperson_name=${salesperson_name}, enterprise_id=${enterprise_id}, parent_clinic=${parent_clinic}, ' +
+    'sub_clinic=${sub_clinic}, physician=${physician}, billable=${billable},' +
+    'lease=${lease}, lease_price_per_month=${lease_price_per_month}, lease_start_date=${lease_start_date}, ' +
+    'lease_end_date=${lease_end_date} where device_sn=${device_sn};';
+pgPostSqlUtilityFunc('/todo/device_management/update', update_device_management);
+
+//delete  ////
+var delete_device_management = 'delete from public.device_management_test where device_sn = ${device_sn}';
+pgPostSqlUtilityFunc('/todo/device_management/delete', delete_device_management);
+////////////////////////////////////////////////////////////////////////////////////
 
 
 
-//delete device_management table by device_sn ////
-var delete_device_management = 'delete from public.device_management_test where device_sn = ($1)';
-querySqlUtilityFunc('/todo/delete/:_id', delete_device_management);
-/////////////////////////////////////////////////////////////////////////////////
-
-
-
-////starting working on device inventory table ////////
+////device inventory table /////////////////////////
 var get_inventory_sql = 'select * from public.device_inventory_test';
 getSqlUtilityFunc('/todo/device_inventory/queryall', get_inventory_sql);
 /////update data////
@@ -227,19 +372,52 @@ var update_history_Sql = 'UPDATE public.device_inventory_test SET received_date=
     'package_content=$12 WHERE purchase_order=$13;';
 querySqlUtilityFunc('/todo/device-inventory/update', update_history_Sql);
 
+/////////////////////////////////////////////////////////
 
-///device accessory/////
+///device accessory//////////////////////////////
 var get_accessory_sql = 'select * from public.device_accessory_test';
 getSqlUtilityFunc('/todo/accessory/queryall', get_accessory_sql);
+//////////////////////////////////////
 
-
-///device history////
+///device history///////////////////////////////////////
 var get_history_sql = 'select * from public.device_history_test';
 getSqlUtilityFunc('/todo/device_history/queryall', get_history_sql);
 
-////insert users into user table
-var insert_users = 'INSERT INTO public.users( first_name, last_name, username, email, password) VALUES ($1, $2, $3, $4, $5);';
-querySqlUtilityFunc( '/todo/users', insert_users);
+///update
+var update_device_history_data =
+    'UPDATE public.device_history_test SET row= ${row}, history_date= ${history_date}, device_sn= ${device_sn}, device_action= ${device_action}, by_whom= ${by_whom}, status= ${status}, ' +
+    'device_owner= ${device_owner}, replace_device= ${replace_device}, replaced_device_sn= ${replaced_device_sn}, note=${note} where row=${row};';
+pgPostSqlUtilityFunc('/todo/device_history/update', update_device_history_data);
+
+
+///delete
+var delete_device_history_data =
+    'DELETE FROM public.device_history_test WHERE row=${row};';
+pgPostSqlUtilityFunc('/todo/device_history/delete/:_id', delete_device_history_data);
+
+//insert
+var insert_device_history_data=
+    'insert into device_history_test (history_date, device_sn ,  device_action ,  by_whom, status ,  device_owner , replace_device ,' +
+    '  replaced_device_sn , note) values ( ${history_date}, ${device_sn} ,  ${device_action} ,  ${by_whom}, ${status} ,  ${device_owner}, ' +
+    ' ${replace_device}, ${replaced_device_sn }, ${note});';
+pgPostSqlUtilityFunc('/todo/device_history/insert', insert_device_history_data);
+//////////////////////////////////////////////////
+
+
+
+////////////dashboard///////
+//device analysis
+var analysis = 'select sum(order_quantity) as total_ordered_device, sum(received_quantity) as total_received_device,' +
+    ' sum(deficiency_quantity) as total_deficiency_qty from device_inventory_test';
+pgGetSqlUtilityFunc('/todo/dashboard/totalDevices', analysis);
+var availableDevices = 'select device_sn, status, location from device_management_test';
+pgGetSqlUtilityFunc('/todo/dashboard/availableDevices', availableDevices);
+////////////////////////////////////////////////////////////////////////////////
+
+
+////user table///////////////////////////////////////////////////////////
+var insert_users = 'INSERT INTO public.users( first_name, last_name, email, password) VALUES ($1, $2, $3, $4);';
+hashSqlUtilityFunc( '/todo/users', insert_users);
 
 //get users
 var users = 'select email, password from public.users ;';
@@ -253,12 +431,6 @@ app.get('/', function (req, res) {
     res.sendfile('views/index.html');
 
 });
-
-app.post("/logout", function(req, res) {
-    req.logOut();
-});
-
-
 
 
 module.exports = app;

@@ -1,61 +1,59 @@
 
 <div class="container" ng-controller="deviceManagementInsertController">
-
-    <div ng-if="deviceCtrl.show" dismiss-on-timeout="5000" uib-alert class=" alert {{deviceCtrl.type}}" close="deviceCtrl.closeAlert()">{{deviceCtrl.msg}}</div>
+    <div ng-if="insertCtrl.show" dismiss-on-timeout="10000" uib-alert class=" alert {{insertCtrl.type}}" close="insertCtrl.closeAlert()">{{insertCtrl.msg}}</div>
 
     <fieldset>
         <div class="text-center">
-            <h3>Device Management</h3>
+            <h3>Device Management Insert Form</h3>
             <h5>Date in format in 'yyyy-mm-dd'.  eg: '2017-3-02', * required fields</h5>
         </div>
-        <!--<buton class=" btn btn-default text-right" ng-click="DeviceCtrl.uploadFile()">Batch upload</buton>-->
 
         <!--bath upload file by toggle collapse-->
-        <button type="button" class="btn btn-default" ng-click="isCollapsed = !isCollapsed">Batch Upload</button>
-        <hr>
-        <div uib-collapse="isCollapsed">
-            <div class="well well-lg">
-                <label class="custom-file">
-                    <input type="file" id="file" class="custom-file-input">
-                    <span class="custom-file-control"></span>
-                </label>
-                <button class="btn btn-primary">submit</button>
+        <uib-accordion>
+            <div uib-accordion-group class="panel-default" is-open="status.open">
+                <uib-accordion-heading>
+                    <strong>Batch Upload <i class="pull-right glyphicon" ng-class="{'fa fa-angle-double-up fa-lg': status.open, 'fa fa-angle-double-down fa-lg': !status.open}"></i></strong>
+                </uib-accordion-heading>
+                <div class="well well-lg">
+                    <label class="custom-file">
+                        <input type="file" id="file" class="custom-file-input">
+                        <span class="custom-file-control"></span>
+                    </label>
+                    <button class="btn btn-default btn-sm">browser</button>
+                </div>
             </div>
-
-        </div>
+        </uib-accordion>
         <!--end-->
 
-
-
+        <!--start inputs-->
     <form name='regForm' novalidate>
-        <div  class="form-group row " ng-repeat="x in deviceCtrl.tableColumns ">
+        <div  class="form-group row " ng-repeat="x in insertCtrl.tableColumns ">
             <!--add label-->
-            <label for="{{x}}" class=" col-form-label col-sm-4 text-right">{{$index+1}} {{x}} <span ng-if="$index==3">*</span></label>
-
+            <label for="{{x}}" class="col-form-label  col-sm-3 text-right">{{$index+1}} {{x}} <span ng-if="$index==2">*</span></label>
             <!--add input-->
             <div class="col-sm-6" ng-switch="$index" >
-<!--customize input as radio selection-->
-                <div ng-switch-when="13">
-                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="deviceCtrl.reg[$index]" value="Y"> Yes</label>
-                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="deviceCtrl.reg[$index]" value="N"> No</label>
+                <!--when columns are "use_zywie_sim, zywie_logo, billable and lease"-->
+                <div ng-switch-when="10">
+                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="insertCtrl.reg[$index]" value="Y"> Yes</label>
+                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="insertCtrl.reg[$index]" value="N"> No</label>
+                </div>
+                <div ng-switch-when="12">
+                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="insertCtrl.reg[$index]" value="Y"> Yes</label>
+                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="insertCtrl.reg[$index]" value="N"> No</label>
                 </div>
                 <div ng-switch-when="28">
-                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="deviceCtrl.reg[$index]" value="Y"> Yes</label>
-                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="deviceCtrl.reg[$index]" value="N"> No</label>
+                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="insertCtrl.reg[$index]" value="Y"> Yes</label>
+                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="insertCtrl.reg[$index]" value="N"> No</label>
                 </div>
                 <div ng-switch-when="29">
-                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="deviceCtrl.reg[$index]" value="Y"> Yes</label>
-                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="deviceCtrl.reg[$index]" value="N"> No</label>
+                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="insertCtrl.reg[$index]" value="Y"> Yes</label>
+                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="insertCtrl.reg[$index]" value="N"> No</label>
                 </div>
-                <div ng-switch-when="11">
-                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="deviceCtrl.reg[$index]" value="Y"> Yes</label>
-                    <label class="btn"><input  type="radio" class="form-check" name="{{x}}" ng-model="deviceCtrl.reg[$index]" value="N"> No</label>
-                </div>
-<!--end radio -->
+            <!--end radio -->
 
-<!--customize input as dropdown select-->
-                <div ng-switch-when="8">
-                    <select class="form-control" name="{{x}}" ng-model="deviceCtrl.reg[$index]">
+                <!--when columns are in "firmware version, points_to"-->
+                <div ng-switch-when="7">
+                    <select class="form-control" name="{{x}}" ng-model="insertCtrl.reg[$index]">
                         <!--<option>select</option>-->
                         <option value="V2.5">V2.5</option>
                         <option value="V2.6">V2.6</option>
@@ -64,36 +62,28 @@
                     </select>
                 </div>
                 <!--end select option-->
-                <div ng-switch-when="10">
-                    <select class="form-control" name="{{x}}" ng-model="deviceCtrl.reg[$index]">
+                <div ng-switch-when="9">
+                    <select class="form-control" name="{{x}}" ng-model="insertCtrl.reg[$index]">
                         <!--<option>select</option>-->
                         <option value="AWS-prod">AWS-prod</option>
                         <option value="AWS-dev">AWS-dev</option>
                     </select>
                 </div>
 
-
-                <div ng-switch-when="3">
-                    <input  type="text" class="form-control" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" placeholder="{{x}}" required>
+                <div ng-switch-when="2">
+                    <input  type="text" class="form-control" name="{{x}}"  ng-model="insertCtrl.reg[$index]" placeholder="{{x}}" required>
+                    <span class="form_msg" ng-if="regForm.device_sn.$error.required && regForm.device_sn.$touched">
+                        device SN required
+                    </span>
                 </div>
-
-                <input ng-switch-default type="text" class="form-control" name="{{x}}"  ng-model="deviceCtrl.reg[$index]" placeholder="{{x}}">
-
-
+                <input ng-switch-default type="text" class="form-control" name="{{x}}"  ng-model="insertCtrl.reg[$index]" placeholder="{{x}}">
             </div>
+        </div>
+        <div class="form-group row">
+            <button class="btn btn-default col-sm-2"  ui-sref="public.home">Cancel</button>
+            <button  class="btn btn-danger col-sm-2 pull-right" ng-disabled="regForm.$invalid" ng-click="insertCtrl.submit()">Save</button>
         </div>
     </form>
-
-        <!--start and end buttons-->
-        <div>
-            <div class="col-sm-8">
-                <button class="btn btn-danger"  ui-sref="public.home">Cancel</button>
-            </div>
-            <div class="col-sm-4">
-                <button  class="btn btn-primary" ng-disabled="regForm.$invalid" ng-click="deviceCtrl.submit()">Save</button>
-            </div>
-        </div>
-        <!--nend-->
     </fieldset>
 </div>
 

@@ -16,6 +16,7 @@
     <!-- Libs -->
     <script src="/lib/jquery-2.1.4.min.js"></script>
     <script src="/lib/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/87263e1389.js"></script>
     <!--<script src="/lib/angular.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="/lib/angular-ui-router.min.js"></script>
@@ -31,70 +32,34 @@
     <script src="src/common/loading/loading.component.js"></script>
     <script src="src/common/loading/loading.interceptor.js"></script>
     <script src="src/common/device.service.js"></script>
-
     <!-- Public device management Module -->
     <script src="src/public/public.module.js"></script>
     <script src="src/public/public.routes.js"></script>
+    <script src="src/public/home/home.controller.js"></script>
+    <script src="src/public/public.controller.js"></script>
     <script src="src/public/device-management/device-management.insert.controller.js"></script>
     <script src="src/public/device-management/device-management.query.controller.js"></script>
     <script src="src/public/device-management/device-management.deviceList.controller.js"></script>
-
     <script src="src/public/device.controller.js"></script>
-    <!--public device inventory controller-->
     <script src="src/public/device-inventory/device-inventory.controller.js"></script>
-    <!--public accessory controller-->
     <script src="src/public/accessory-inventory/accessory.controller.js"></script>
-    <!--public device history controller-->
     <script src="src/public/device-history/device-history.controller.js"></script>
-    <!--sign up controller-->
     <script src="src/public/signup/signup.controller.js"></script>
+    <!--customers-->
+    <script src="src/public/customer-management/customers.controller.js"></script>
+    <script src="src/public/dashboard/dashboard.controller.js"></script>
     <!--ng cookies-->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.js"></script>
-
   </head>
 
-
-  <body ng-app="device" ng-controller="deviceController">
+  <body ng-app="device">
   <!--header -->
 
-
-
     <ui-view>
-
-      <div class="container " ng-controller="loginController as login">
-        <h3 class="text-center">log in</h3>
-        <form name="regForm" novalidate>
-          <div class="form-group row ">
-            <div class="col-sm-3 text-right">
-              <label for="email">Email:</label>
-            </div>
-            <div class="col-sm-5">
-              <input  type="email" name='username' class="form-control" ng-model="login.user.username" placeholder="email" required>
-              <span ng-show="regForm.username.$touched && regForm.username.$error.required">email is required</span>
-            </div>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-3 text-right">
-              <label for="pwd">Password:<span class="glyphicon glyphicon-lock"></span></label>
-            </div>
-            <div class="col-sm-5">
-              <input  type="password" name="password" class="form-control" ng-model="login.user.password" placeholder="password" required>
-              <span ng-show="regForm.password.$touched && regForm.password.$error.required">password is required</span>
-            </div>
-          </div>
-
-          <div class="form-actions row">
-            <button class="btn btn-danger col-sm-offset-4"  ng-click="login.submit()">log in</button>
-          </div>
-          <div class="form-actions">
-            <br>
-            <a ui-sref="register">Already have an account, sign up here</a>
-          </div>
-
-
-        </form>
+      <div class="container" id="login_div">
+        <!--<button class="btn btn-default" ui-sref="register">sign up</button>-->
+        <button class="btn btn-default" ui-sref="login">log in</button>
       </div>
-
 
 
       <!--<div class="text-center initial-loading">-->
@@ -102,11 +67,5 @@
       <!--</div>-->
     </ui-view>
 
-
-
-
-
-
   </body>
-
 </html>

@@ -5,39 +5,177 @@
     "use strict";
 
     angular.module('device')
-        .controller('showDeviceDataController', showDeviceDataController);
+        .controller('showDeviceDataController', showDeviceDataController)
+        .controller('deviceUpdateModalInstanceCtrl', deviceUpdateModalInstanceCtrl)
+        .controller('deviceDeleteModalInstanceCtrl', deviceDeleteModalInstanceCtrl)
+        .controller('deviceAddModalInstanceCtrl', deviceAddModalInstanceCtrl);
 
-        showDeviceDataController.$inject = ['deviceService', '$filter', 'NgTableParams'];
-        function showDeviceDataController(deviceService, $filter, NgTableParams) {
-            var deviceList = this;
+    deviceUpdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data', '$filter'];
+    function deviceUpdateModalInstanceCtrl($scope, $uibModalInstance, device_data, $filter) {
+        $scope.ngModalInputs = angular.copy(device_data);
 
-            var values = deviceService.getDeviceManagementColumns();
-            deviceList.cols = [];
-            //populate table data
-            for (var i = 0; i < values.length; i++) {
-                    deviceList.cols.push({field: values[i], title: values[i], sortable: values[i], show: true});
+        //format date
+        $scope.ngModalInputs.registration_date = $filter('date')($scope.ngModalInputs.registration_date, 'yyyy-MM-dd');
+        $scope.ngModalInputs.wyless_provision_date = $filter('date')($scope.ngModalInputs.wyless_provision_date, 'yyyy-MM-dd');
+        $scope.ngModalInputs.device_test_date = $filter('date')($scope.ngModalInputs.device_test_date, 'yyyy-MM-dd');
+        $scope.ngModalInputs.device_suspension_date = $filter('date')($scope.ngModalInputs.device_suspension_date, 'yyyy-MM-dd');
+        $scope.ngModalInputs.checked_out_date = $filter('date')($scope.ngModalInputs.checked_out_date, 'yyyy-MM-dd');
+        $scope.ngModalInputs.checked_in_date = $filter('date')($scope.ngModalInputs.checked_in_date, 'yyyy-MM-dd');
+        $scope.ngModalInputs.lease_start_date = $filter('date')($scope.ngModalInputs.lease_start_date, 'yyyy-MM-dd');
+        $scope.ngModalInputs.lease_end_date = $filter('date')($scope.ngModalInputs.lease_end_date, 'yyyy-MM-dd');
+        
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.ngModalInputs);
+        };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }
+    deviceDeleteModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'items'];
+    function deviceDeleteModalInstanceCtrl($scope, $uibModalInstance, items) {
+        $scope.items = items;
+        $scope.ok = function () {
+            $uibModalInstance.close($scope.items);
+        };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }
 
-            }
+    deviceAddModalInstanceCtrl.$inject = ['$scope','$uibModalInstance','deviceService'];
+    function deviceAddModalInstanceCtrl($scope, $uibModalInstance, deviceService) {
+        //initialize ngMOdalInputs with empty values
+        $scope.ngModalInputs = {};
+        var names = deviceService.getDeviceManagementColumns();
+        for(var i=0; i<names.length; i++){
+            $scope.ngModalInputs[names[i]] = null;
+        }
 
-            // post inserted data into server
-            deviceService.getDeviceManagementData('todo/queryall')
-                .then(function (response) {
-                    deviceList.data = response.data;
-                    deviceList.tableParams = new NgTableParams({
-                        page: 1      // show first page
-                        // count: 10, // count per page
-                        // sorting: {
-                        //     col_number: 'asc'     // initial sorting
-                        // }
-                    }, {
-                        dataset: deviceList.data // length of data
+        $scope.ok = function () {
+                $uibModalInstance.close($scope.ngModalInputs);
+            };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }
+
+
+
+    showDeviceDataController.$inject = ['deviceService', 'NgTableParams', '$uibModal', '$log'];
+    function showDeviceDataController(deviceService, NgTableParams, $uibModal, $log) {
+        var deviceList = this;
+        //show modal
+        deviceList.showModal = function (row, size) {
+            var modalInstance = $uibModal.open({
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                backdrop: 'static',
+                keyboard: false,
+                size: size,
+                templateUrl: 'src/public/device-management/device-update-modal.html',
+                controller: 'deviceUpdateModalInstanceCtrl',
+                resolve: {
+                    device_data: function () {
+                        return row;
+                    }
+                }
+            });
+            modalInstance.result.then(function (inputs) {
+                deviceService.postDeviceManagementData('todo/device_management/update', inputs)
+                    .then(function (response) {
+                        console.log('test success');
+                        deviceList.show = true;
+                        deviceList.type = 'alert-success';
+                        deviceList.msg = 'update success';
+                    }, function (error) {
+                        console.log('failed to update');
+                        deviceList.show = true;
+                        deviceList.type = 'alert-danger';
+                        deviceList.msg = 'update failed!!!';
+                    });
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
+        ///delete data
+        deviceList.deleteModal = function (row) {
+            var modalInstance = $uibModal.open({
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                templateUrl: 'src/public/device-management/device-delete-modal.html',
+                controller: 'deviceDeleteModalInstanceCtrl',
+                resolve: {
+                    items: function () {
+                        return row;
+                    }
+                }
+            });
+            modalInstance.result.then(function (input) {
+                deviceService.postDeviceManagementData('todo/device_management/delete', input)
+                    .then(function (response) {
+                        deviceList.show = true;
+                        deviceList.type = 'alert-success';
+                        deviceList.msg = 'delete success';
+                    }, function (error) {
+                        deviceList.show = true;
+                        deviceList.type = 'alert-danger';
+                        deviceList.msg = 'delete failed!!!';
                     });
 
-                }, function (response) {
-                    console.log('failed to get data');
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+
+        };
+        // post inserted data into server
+        deviceService.getDeviceManagementData('todo/queryall')
+            .then(function (response) {
+                deviceList.tableParams = new NgTableParams({
+                    page: 1      // show first page
+                    // count: 10, // count per page
+                    // sorting: {
+                    //     device_sn: 'asc'     // initial sorting
+                    // }
+                }, {
+                    dataset: response.data // length of data
                 });
+            }, function (response) {
+                console.log('failed to get device management data');
+            });
+
+        ///add new data
+        deviceList.createNew = function () {
+            var modalInstance = $uibModal.open({
+                ariaLabelledBy: 'modal-title',
+                ariaDescribedBy: 'modal-body',
+                size: 'lg',
+                backdrop: 'static',
+                templateUrl: 'src/public/device-management/device-insert-modal.html',
+                controller: 'deviceAddModalInstanceCtrl'
+            });
+            modalInstance.result.then(function (input) {
+                console.log('input ', input);
+                deviceService.postDeviceManagementData('todo/device_management/insert', input)
+                    .then(function (response) {
+                        deviceList.show = true;
+                        deviceList.type = 'alert-success';
+                        deviceList.msg = 'add success';
+                        console.log('response',response);
+                    }, function (error) {
+                        deviceList.error = error.data.message;
+                        deviceList.show = true;
+                        deviceList.type = 'alert-danger';
+                        deviceList.msg = 'add failed!!!';
+                        console.log('error',error);
+                    });
+
+            }, function () {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
 
         }
+    }
 
 })();
 (function() {
@@ -47,7 +185,7 @@
     configureDefaults.$inject = ["ngTableDefaults"];
 
     function configureDefaults(ngTableDefaults) {
-        // ngTableDefaults.params.count = 100;
+        // ngTableDefaults.params.count = 50;
         // ngTableDefaults.settings.counts = [];
     }
 })();

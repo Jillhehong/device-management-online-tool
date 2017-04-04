@@ -1,38 +1,24 @@
 (function() {
-"use strict";
+  "use strict";
 
-/**
- * Restaurant module that includes the public module as a dependency
- */
-angular.module('device', ['public','ngTable', 'ui.bootstrap'])
-    // .run(['$rootScope', 'Auth', '$state','$location',  function ($rootScope, Auth, $state, $location) {
-    //
-    //
-    //   $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-    //
-    //     // console.log('state ', toState.authenticate);
-    //     console.log('autheticate ', Auth.isLoggedIn());
-    //     // User isn’t authenticated
-    //     if (!Auth.isLoggedIn() ) {
-    //
-    //       // console.log('true again', toState.authenticate);
-    //       // $state.transitionTo("login");
-    //       event.preventDefault();
-    //
-    //       // $location.url('/login');
-    //     }
-    //   });
-    //
-    // }
-    // ])
-  .config(config);
+  angular.module('device', ['public', 'ngTable', 'ui.bootstrap'])
+  ///angular.run() runs first, then angular.config runs, then angular.controller runs last.
+      .run(appRun);
+
+    appRun.$inject = ['$rootScope', '$location', 'cookiesFactory'];
+    function appRun($rootScope,  $location, cookiesFactory){
 
 
-config.$inject = ['$urlRouterProvider'];
-function config($urlRouterProvider) {
+        ////// $rootScope.$on() monitoring  $stateChangeStart (it fires every time when route changes)
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 
-  // If user goes to a path that doesn't exist, redirect to public root
-  $urlRouterProvider.otherwise('/');
-}
+            // get username from cookiesFactory service, username is stored in cookies session
+             var user = cookiesFactory.getUsernameCookie();
+            if (  !user ) {
+                $location.url('/login');
+            }
+
+        });
+        }
 
 })();

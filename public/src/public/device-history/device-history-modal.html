@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Update device history data</h3>
+    <p>date in format 'yyyy-mm-dd' or 'mm/dd/yyyy'</p>
+</div>
+<div class="modal-body" id="modal-body">
+    <form name='modalForm' novalidate>
+        <!--show data-->
+        <div class="form-group row">
+            <label for="row" class="col-sm-3 col-form-label text-right">Row</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="row" ng-model="ngModalInputs.row" ng-disabled="true">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="history_date" class="col-sm-3 col-form-label text-right">History Date</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="history_date" ng-model="ngModalInputs.history_date">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="device_sn" class="col-sm-3 col-form-label text-right">Device SN *</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="device_sn" ng-model="ngModalInputs.device_sn" required>
+                <span class='form_msg' ng-if="modalForm.device_sn.$error.required && modalForm.device_sn.$touched"> Device SN required</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="device_action" class="col-sm-3 col-form-label text-right">Device Action</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="device_action" ng-model="ngModalInputs.device_action">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="by_whom" class="col-sm-3 col-form-label text-right">By Whom</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="by_whom" ng-model="ngModalInputs.by_whom">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="status" class="col-sm-3 col-form-label text-right">Device Status</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="status" ng-model="ngModalInputs.status">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="device_owner" class="col-sm-3 col-form-label text-right">Device Owner</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="device_owner" ng-model="ngModalInputs.device_owner">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="replace_device" class="col-sm-3 col-form-label text-right">Replace Device</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="replace_device" ng-model="ngModalInputs.replace_device">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="replaced_device_sn" class="col-sm-3 col-form-label text-right">Replaced Device SN</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="replaced_device_sn" ng-model="ngModalInputs.replaced_device_sn">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="note" class="col-sm-3 col-form-label text-right">Note</label>
+            <div class="col-sm-6">
+                <input class="form-control" type="text" name="note" ng-model="ngModalInputs.note">
+            </div>
+        </div>
+        <button class="btn btn-default col-sm-3" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-danger col-sm-3 pull-right" type="button" ng-click="ok()">Update</button>
+    </form>
+</div>
+<div class="modal-footer">
+</div>
