@@ -1,8 +1,8 @@
 <div class="container" ng-controller="deviceInventoryController" >
-    <div class="container table-responsive" >
         <h3 class="text-center">Device Inventory Table</h3><br>
-        <table  class="table table-condensed"   ng-table="inventoryCtrl.tableParams" >
+        <table  class="table table-condensed table-responsive"   ng-table="inventoryCtrl.tableParams" >
             <tr ng-repeat="row in $data">
+                <td title="'Row'" sortable="'row'">{{row.row }}</td>
                 <td title="'Received Date'" sortable="'received_date'">{{row.received_date | date: 'yyyy-MM-dd'}}</td>
                 <td title="'Order ID'" sortable="'order_id'">{{row.order_id}}</td>
                 <td title="'Purchase Order'" sortable="'purchase_order'" filter="{purchase_order: 'text'}">{{row.purchase_order}}</td>
@@ -14,7 +14,6 @@
                 <td title="'Deficiency Received Date'" sortable="'deficiency_received_date'">{{row.deficiency_received_date | date: 'yyyy-MM-dd'}}</td>
                 <td title="'Shipping Status'" sortable="'shipping_status'">{{row.shipping_status}}</td>
                 <td title="'Device SN'" sortable="'device_sn'">{{row.device_sn}}</td>
-                <td title="'Package Content'" sortable="'package_content'">{{row.package_content}}</td>
+                <td class="text-left" title="'Package Content'" sortable="'package_content'">{{row.package_content}}</td>
         </table>
-    </div>
 </div>

@@ -8,9 +8,34 @@
         .controller('historyAddModalInstanceCtrl', historyAddModalInstanceCtrl);
 
 
-    historyupdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data'];
-    function historyupdateModalInstanceCtrl($scope, $uibModalInstance, device_data) {
+    historyupdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data', 'deviceService'];
+    function historyupdateModalInstanceCtrl($scope, $uibModalInstance, device_data, deviceService) {
         $scope.ngModalInputs = angular.copy(device_data);
+
+        //angular typeahead
+        deviceService.getDeviceManagementData('todo/deviceHistory/query/deviceowner')
+            .then(function (response) {
+                $scope.device_owner = [];
+
+                response.data.map(function (item) {
+                    $scope.device_owner.push(item.device_owner);
+                });
+
+            }, function (err) {
+                console.log('error ',err);
+            });
+        deviceService.getDeviceManagementData('todo/deviceHistory/query/bywhom')
+            .then(function (response) {
+                $scope.by_whom = [];
+
+                response.data.map(function (item) {
+                    $scope.by_whom.push(item.by_whom);
+                });
+
+            }, function (err) {
+                console.log('error ',err);
+            });
+        
 
         $scope.ok = function () {
             $uibModalInstance.close($scope.ngModalInputs);

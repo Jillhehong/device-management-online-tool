@@ -11,6 +11,7 @@ angular.module('common')
             var username = '';
 
             return {
+                //username
                 setUsernameCookie: function(data) {
                     username = data;
                     $cookies.put("username", username);
@@ -96,7 +97,6 @@ angular.module('common')
             'row',
             'received_date' ,
             'manufacturer_order_ID',
-            'order_id' ,
             'purchase_order' ,
             'manufacturer' ,
             'accessory' ,

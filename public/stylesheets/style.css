@@ -3,11 +3,15 @@ body {
   font: 14px  Helvetica, Arial, sans-serif;
 }
 .navbar {
-  background-color: seashell;
+  background-color: #adadad;;
 }
+.navbar-default .navbar-nav>li>a {
+  color:white;
+}
+
 #footer {
-  background-color: seashell;
-  color: gray;
+  background-color: #dedede;;
+  color: white;
   font-size: small;
 }
 #filter label {
@@ -31,13 +35,13 @@ body {
 .add_new_row {
   border: 1px solid black;
 }
-a {
-  color: #00B7FF;
-}
+
 .table {
   border: 1px  solid  #ccc;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+
 
 th {
   font-size: small;
@@ -66,11 +70,6 @@ th {
   color: gray;
 }
 
-.fa-book, .fa-address-card, .fa-dashboard, .fa-user-o {
-  color: skyblue;
-}
-
-
 /*ng-table format*/
 td input {
   background-color: white;
@@ -86,4 +85,43 @@ td input {
 
 textarea.form-control {
   height: 100px;
+}
+
+/*charts css*/
+#pieChart {
+  width:230px;
+  height:230px;
+}
+
+#purchase_order_chart {
+  width: 1000px;
+  height: 300px;
+}
+.dashboardTables th {
+  background-color: green;
+  color: white;
+}
+/*.fa-spin {*/
+  /*position: fixed;*/
+  /*top:45%;*/
+  /*left:45%;*/
+/*}*/
+#login {
+  position: fixed;
+  width:300px;
+  height:300px;
+  top:25%;
+  left:30%;
+  border: 1px solid lightgray;
+  border-radius: 2px;
+}
+#login input, #login button {
+  width:270px;
+}
+#register {
+  width:600px;
+  left:15%;
+}
+#register button {
+  width:100px;
 }

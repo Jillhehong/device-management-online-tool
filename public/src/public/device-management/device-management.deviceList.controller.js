@@ -10,8 +10,8 @@
         .controller('deviceDeleteModalInstanceCtrl', deviceDeleteModalInstanceCtrl)
         .controller('deviceAddModalInstanceCtrl', deviceAddModalInstanceCtrl);
 
-    deviceUpdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data', '$filter'];
-    function deviceUpdateModalInstanceCtrl($scope, $uibModalInstance, device_data, $filter) {
+    deviceUpdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data', '$filter', 'deviceService'];
+    function deviceUpdateModalInstanceCtrl($scope, $uibModalInstance, device_data, $filter, deviceService) {
         $scope.ngModalInputs = angular.copy(device_data);
 
         //format date
@@ -23,7 +23,24 @@
         $scope.ngModalInputs.checked_in_date = $filter('date')($scope.ngModalInputs.checked_in_date, 'yyyy-MM-dd');
         $scope.ngModalInputs.lease_start_date = $filter('date')($scope.ngModalInputs.lease_start_date, 'yyyy-MM-dd');
         $scope.ngModalInputs.lease_end_date = $filter('date')($scope.ngModalInputs.lease_end_date, 'yyyy-MM-dd');
-        
+
+       deviceService.getDeviceManagementData('todo/deviceList/query/clinics')
+           .then(function (response) {
+               $scope.parent_clinics = [];
+               $scope.sub_clinics = [];
+               $scope.physicians = [];
+
+               response.data.map(function (item) {
+                   $scope.parent_clinics.push(item.parent_clinic);
+                   $scope.sub_clinics.push(item.parent_clinic);
+                   $scope.physicians.push(item.parent_clinic);
+               });
+
+
+           }, function (err) {
+               console.log('error ',err);
+           });
+
         $scope.ok = function () {
             $uibModalInstance.close($scope.ngModalInputs);
         };
@@ -50,6 +67,23 @@
         for(var i=0; i<names.length; i++){
             $scope.ngModalInputs[names[i]] = null;
         }
+
+        //angular typeahead
+        deviceService.getDeviceManagementData('todo/deviceList/query/clinics')
+            .then(function (response) {
+                $scope.parent_clinics = [];
+                $scope.sub_clinics = [];
+                $scope.physicians = [];
+
+                response.data.map(function (item) {
+                    $scope.parent_clinics.push(item.parent_clinic);
+                    $scope.sub_clinics.push(item.sub_clinic);
+                    $scope.physicians.push(item.physician);
+                });
+
+            }, function (err) {
+                console.log('error ',err);
+            });
 
         $scope.ok = function () {
                 $uibModalInstance.close($scope.ngModalInputs);
@@ -132,11 +166,7 @@
         deviceService.getDeviceManagementData('todo/queryall')
             .then(function (response) {
                 deviceList.tableParams = new NgTableParams({
-                    page: 1      // show first page
-                    // count: 10, // count per page
-                    // sorting: {
-                    //     device_sn: 'asc'     // initial sorting
-                    // }
+                    page: 1
                 }, {
                     dataset: response.data // length of data
                 });
@@ -174,7 +204,7 @@
                 $log.info('Modal dismissed at: ' + new Date());
             });
 
-        }
+        };
     }
 
 })();

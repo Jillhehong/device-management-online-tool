@@ -1,36 +1,27 @@
 
-<div class="container " ng-controller="loginController as login">
+<div class="container " ng-controller="loginController as login" id="login">
     <div uib-alert  ng-if="login.showAlert" class="alert alert-danger" close="login.close()">{{login.error}}</div>
     <h3 class="text-center">log in</h3>
     <form name="regForm" novalidate>
-        <div class="form-group row ">
-            <div class="col-sm-3 text-right">
+        <div class="form-group">
                 <label for="email">Email:</label>
-            </div>
-            <div class="col-sm-5">
                 <input  type="email" name='username' class="form-control" ng-model="login.user.username" placeholder="email" required>
                 <span class="form_msg" ng-show="regForm.username.$touched && regForm.username.$error.required">email is required</span>
-            </div>
         </div>
-        <div class="form-group row">
-            <div class="col-sm-3 text-right">
+        <div class="form-group">
                 <label for="pwd">Password: <span class="fa fa-key"></span></label>
-            </div>
-            <div class="col-sm-5">
                 <input  type="password" name="password" class="form-control" ng-model="login.user.password" placeholder="password" required>
                 <span class="form_msg" ng-show="regForm.password.$touched && regForm.password.$error.required">password is required</span>
-            </div>
         </div>
 
-        <div class="form-actions row">
-            <button class="btn btn-danger col-sm-offset-4"  ng-click="login.submit()">log in</button>
+        <div class="form-group">
+            <button  class="btn btn-danger"  ng-click="login.submit()">log in</button>
         </div>
+
         <div class="form-actions">
             <br>
             <a ui-sref="register">Already have an account, sign up here</a>
         </div>
-
-
     </form>
 </div>
 

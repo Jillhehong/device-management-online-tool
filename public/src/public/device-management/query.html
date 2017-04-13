@@ -1,5 +1,5 @@
 
-<div class="container" ng-controller="deviceManagementQueryController" >
+<div class="container-fluid" ng-controller="deviceManagementQueryController" >
     <br>
     <div ng-if="queryCtrl.show" dismiss-on-timeout="5000" uib-alert class=" alert {{queryCtrl.type}}" close="queryCtrl.closeAlert()">{{queryCtrl.msg}}</div>
   <!--filters-->
@@ -34,13 +34,13 @@
             </form>
         </div>
     </uib-accordion>
-    <button class="col-sm-2 btn btn-default add_new_row" ng-click="deviceList.createNew()">Create New</button>
+
     <!--//if not found, show alert message-->
     <div id="query_result" ng-show="queryCtrl.queryResult">no result found!</div>
     <br>
     <!--start table-->
-    <div class="container table-responsive">
-        <table  class="table table-condensed  table-hover table-striped"  >
+    <div class="container-fluid">
+        <table  class="table table-condensed  table-hover table-striped table-responsive">
             <!--table columns-->
             <th width="200%">Actions</th>
             <th ng-repeat="title in queryCtrl.tableColumns">{{title}}</th>

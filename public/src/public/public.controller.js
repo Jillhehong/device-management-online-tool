@@ -7,8 +7,9 @@
     publicController.$inject = [ '$http', 'cookiesFactory', '$location'];
     function publicController( $http, cookiesFactory, $location) {
         var publicCtrl = this;
-
+        
         publicCtrl.username = cookiesFactory.getUsernameCookie();
+        
         
         publicCtrl.logout = function(){
 
@@ -21,7 +22,7 @@
                 }, function (err) {
                     console.log(err);
                 });
-        }
+        };
     }
 })();
 

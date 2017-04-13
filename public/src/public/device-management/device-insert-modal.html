@@ -61,6 +61,7 @@
                     <option value="V2.8">V2.8</option>
                     <option value="V2.7">V2.7</option>
                     <option value="V2.6">V2.6</option>
+                    <option value="V2.5">V2.5</option>
                 </select>
             </div>
         </div>
@@ -98,8 +99,9 @@
             <div class="col-sm-6">
                 <select class="form-control" name="sim_provider" ng-model="ngModalInputs.sim_provider">
                     <option value="">Select SIM Provider</option>
-                    <option value="Zywie">Zywie</option>
-                    <option value="TZ Medical">TZ Medical</option>
+                    <option value="AT&T">AT&T</option>
+                    <option value="Wyless AT&T">Wyless AT&T</option>
+                    <option value="Wyless T-Mobile">Wyless T-Mobile</option>
                 </select>
             </div>
         </div>
@@ -139,22 +141,22 @@
             <div class="col-sm-6">
                 <select class="form-control" name="status" ng-model="ngModalInputs.status">
                     <option value="">Select status</option>
-                    <option value="beta site">beta site</option>
-                    <option value="clinical trials">clinical trials</option>
-                    <option value="customer">customer</option>
-                    <option value="decommissioned">decommissioned</option>
-                    <option value="defective">defective</option>
-                    <option value="inventory active">inventory active</option>
-                    <option value="inventory inactive">inventory inactive</option>
-                    <option value="inventory suspended">inventory suspended</option>
-                    <option value="refurbished">refurbished</option>
+                    <option value="Beta Site">Beta Site</option>
+                    <option value="Clinical Trials ">Clinical Trials</option>
+                    <option value="Customer">Customer</option>
+                    <option value="Decommissioned">Decommissioned</option>
+                    <option value="Defective">Defective</option>
+                    <option value="Inventory-Active">Inventory-Active</option>
+                    <option value="Inventory-Inactive">Inventory-Inactive</option>
+                    <option value="Inventory-Suspended">Inventory-Suspended</option>
+                    <option value="Refurbished">Refurbished</option>
                     <option value="RMA">RMA</option>
-                    <option value="sales_out">sales_out</option>
-                    <option value="development">development</option>
-                    <option value="sales demo">sales demo</option>
-                    <option value="troubleshooting">troubleshooting</option>
-                    <option value="sim switch">sim switch</option>
-                    <option value="lost">lost</option>
+                    <option value="Sales - Out">Sales - Out</option>
+                    <option value="Development">Development</option>
+                    <option value="Sales Demo">Sales Demo</option>
+                    <option value="Troubleshooting">Troubleshooting</option>
+                    <option value="SIM Switch">SIM Switch</option>
+                    <option value="Lost">Lost</option>
                 </select>
                 <span class='form_msg' ng-if="modalForm.status.$invalid"></span>
             </div>
@@ -164,17 +166,17 @@
             <div class="col-sm-6">
                 <select class="form-control" name="location" ng-model="ngModalInputs.location">
                     <option value="">Select location</option>
-                    <option value="drawer1-active">drawer1-active</option>
-                    <option value="drawer2-accessory">drawer2-accessory</option>
-                    <option value="drawer3-suspended">drawer3-suspended</option>
-                    <option value="drawer4-inactive(misc)">drawer4-inactive(misc)</option>
-                    <option value="device-out-RMA">device-out-RMA</option>
-                    <option value="device-out-others">device-out-others</option>
-                    <option value="development">development</option>
-                    <option value="shelf-a-pre-order">shelf-a-pre-order</option>
-                    <option value="shelf-b-pre-order">shelf-b-pre-order</option>
-                    <option value="shelf-c-pre-order">shelf-c-pre-order</option>
-                    <option value="shelf-d-pre-orde">shelf-d-pre-orde</option>
+                    <option value="Drawer1-Active">Drawer1-Active</option>
+                    <option value="Drawer2-Accessory">Drawer2-Accessory</option>
+                    <option value="Drawer3-Suspended">Drawer3-Suspended</option>
+                    <option value="Drawer4-Inactive(Misc)">Drawer4-Inactive(Misc)</option>
+                    <option value="Device-Out-RMA">Device-Out-RMA</option>
+                    <option value="Device-Out-Others">Device-Out-Others</option>
+                    <option value="Development">Development</option>
+                    <option value="Shelf-A-pre-order">Shelf-A-pre-order</option>
+                    <option value="Shelf-B-pre-order">Shelf-B-pre-order</option>
+                    <option value="Shelf-C-pre-order">Shelf-C-pre-order</option>
+                    <option value="Shelf-D-pre-order">Shelf-D-pre-order</option>
                 </select>
             </div>
         </div>
@@ -239,19 +241,22 @@
         <div class="form-group row">
             <label for=" parent_clinic" class="col-sm-3 col-form-label text-right">Parent Clinic</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="parent_clinic" ng-model="ngModalInputs.parent_clinic" placeholder="Parent Clinic">
+                <input type="text" ng-model="ngModalInputs.parent_clinic"  placeholder="Parent Clinic"
+                       uib-typeahead="parent_clinic for parent_clinic in parent_clinics | filter:$viewValue | limitTo:8" class="form-control">
             </div>
         </div>
         <div class="form-group row">
             <label for=" sub_clinic" class="col-sm-3 col-form-label text-right">Sub Clinic</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="sub_clinic" ng-model="ngModalInputs.sub_clinic" placeholder="Sub Clinic">
+                <input type="text" ng-model="ngModalInputs.sub_clinic" placeholder="Sub Clinic"
+                       uib-typeahead="sub_clinic for sub_clinic in sub_clinics | filter:$viewValue | limitTo:8" class="form-control">
             </div>
         </div>
         <div class="form-group row">
             <label for=" physician" class="col-sm-3 col-form-label text-right">Physician</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="physician" ng-model="ngModalInputs.physician" placeholder="Physician">
+                <input type="text" ng-model="ngModalInputs.physician"  placeholder="Physician"
+                       uib-typeahead="physician for physician in physicians | filter:$viewValue | limitTo:8" class="form-control">
             </div>
         </div>
         <div class="form-group row">
@@ -259,7 +264,6 @@
             <div class="col-sm-6">
                 <select class="form-control" name="billable" ng-model="ngModalInputs.billable">
                     <option value="">Select billable</option>
-
                     <option value="Y">Y</option>
                     <option value="N">N</option>
                 </select>

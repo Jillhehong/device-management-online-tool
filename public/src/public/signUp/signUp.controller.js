@@ -85,7 +85,6 @@
                 .then(function (response) {
                     ///store username in cookies which defined in 'cookiesFactory'
                     cookiesFactory.setUsernameCookie(response.data.username);
-                    console.log(cookiesFactory.getUsernameCookie());
                     ///direct url to home page if successfully log in
                     $location.url('/home');
                     

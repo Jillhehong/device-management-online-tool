@@ -9,7 +9,6 @@
 
         deviceService.getDeviceManagementData('todo/customer')
             .then(function(response){
-                console.log('response ', response);
                 customerCtrl.tableParams = new NgTableParams({
                     page:1,
                     // initial grouping

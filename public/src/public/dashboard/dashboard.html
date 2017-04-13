@@ -1,47 +1,135 @@
 <div class="container" ng-controller="dashboardController">
     <br>
-    <div class="col-sm-2">
-        <table class="table table-condensed table-bordered">
-            <tr>
-                <th>Total Available Device</th>
-            </tr>
-            <tr>
-                <td>{{dashboardCtrl.counts}}</td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-sm-offset-1 col-sm-6" >
-        <table class="table table-condensed table-bordered">
-            <tr>
-                <th>Total Ordered Device</th>
-                <th>Total Received Device</th>
-                <th>Total Deficiency Device</th>
-            </tr>
-            <tr ng-repeat="row in dashboardCtrl.results ">
-                <td>{{row.total_ordered_device}}</td>
-                <td>{{row.total_received_device}}</td>
-                <td>{{row.total_deficiency_qty}}</td>
-            </tr>
-        </table>
-    </div>
-    <table class="table table-condensed table-bordered">
-        <tr>
-            <th>3M 2560 red dot electrodes(50/packet)</th>
-            <th>3M 2570-5 red dot electrodes</th>
-            <th>Sensitive Electrodes(60/packet)</th>
-            <th>Dual-Electrodes(300/packet)</th>
-            <th>Device User Manuals</th>
-            <th>Cel-Fi Smart Signal Booster</th>
+    <!--summary device tables-->
+    <div class="row">
+        <div class="col-sm-4">
+            <table class="table  table-bordered table-hover table-striped dashboardTables">
+                <tr>
+                    <th>Available Inventory List (Ttls)</th>
+                    <th>Qty</th>
+                </tr>
+                <tr class="danger">
+                    <td>Total Available Devices</td>
+                    <td><strong>{{dashboardCtrl.deviceCounts}}</strong></td>
+                </tr>
+                <tr>
+                    <td>3M 2560 red dot electrodes(50/packet)</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>3M 2570-5 red dot electrodes</td>
+                    <td>1000</td>
+                </tr>
+                <tr>
+                    <td>Sensitive Electrodes(60/packet)</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>Dual-Electrodes(300/packet)</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>Device User Manuals</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>Cel-Fi Smart Signal Booster</td>
+                    <td>2</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-offset-1 col-sm-4">
+            <table class="table table-bordered table-hover table-striped dashboardTables">
+                <tr>
+                    <th>Devices Ordered from TZ Medical</th>
+                    <th>Qty</th>
+                </tr>
+                <tr>
+                    <td>Total Ordered Device</td>
+                    <td>{{dashboardCtrl.results.total_ordered_device}}</td>
+                </tr>
+                <tr>
+                    <td>Total Received Device</td>
+                    <td>{{dashboardCtrl.results.total_received_device}}</td>
+                </tr>
+                <tr>
+                    <td>Total Deficiency Device</td>
+                    <td>{{dashboardCtrl.results.total_deficiency_qty}}</td>
+                </tr>
+            </table>
+        </div>
+    </div> <!-- end summarytable -->
 
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>1000</td>
-            <td>9</td>
-            <td>6</td>
-            <td>61</td>
-            <td>2</td>
-        </tr>
-    </table>
+    <!--pie chart for billable vs non-billable devices-->
+    <div class="row">
+        <div class="col-sm-offset-4" id="pieChart">
+            <canvas class="chart chart-pie"
+                    chart-data="dashboardCtrl.pie.data" chart-labels="dashboardCtrl.pie.labels"
+                    chart-colors="dashboardCtrl.pie.colors" chart-options="dashboardCtrl.pie.options">
+            </canvas>
+        </div>
+    </div>
+    <br><br><br><br>
 
+    <!--bar chart for device status and location-->
+    <div class="row">
+        <div class="col-sm-6">
+            <canvas  class="chart-horizontal-bar" chart-data="dashboardCtrl.bar_status.data"
+                     chart-labels="dashboardCtrl.bar_status.labels" chart-colors="dashboardCtrl.bar_status.colors"
+                    chart-options="dashboardCtrl.bar_status.options">
+            </canvas>
+        </div>
+        <div class="col-sm-6" >
+            <canvas  class="chart-horizontal-bar" chart-colors="dashboardCtrl.bar_location.colors"
+                     chart-data="dashboardCtrl.bar_location.data" chart-labels="dashboardCtrl.bar_location.labels"
+                     chart-options="dashboardCtrl.bar_location.options">
+            </canvas>
+        </div>
+    </div>
+    <br><br><br><br>
+    <!--bar chart for purchase order-->
+    <div class="container text-center" id="purchase_order_chart">
+        <canvas  class="chart chart-bar"
+                 chart-data="dashboardCtrl.bar.data" chart-labels="dashboardCtrl.bar.labels" chart-series="dashboardCtrl.bar.series"
+                 chart-colors="dashboardCtrl.bar.colors" chart-options="dashboardCtrl.bar.options">
+        </canvas>
+    </div>
+    <br><br><br><br>
+    <!--customers and Heart Smart tables-->
+    <div class="row">
+        <div class="col-sm-5">
+            <h4 class="text-center">A list of clinics</h4>
+            <table class="table table-condensed table-bordered table-hover table-striped dashboardTables">
+                <tr>
+                    <th>Clinic Name</th>
+                    <th>Count of devices</th>
+                </tr>
+                <tr ng-repeat="row in dashboardCtrl.customersData">
+                    <td>{{row.parent_clinic}}</td>
+                    <td>{{row.count}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Grand Total</strong></td>
+                    <td><strong>{{dashboardCtrl.totalCustomers}}</strong></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-offset-1 col-sm-5">
+            <h4 class="text-center">Clinics under Heart Smart, Inc</h4>
+            <table class="table table-condensed  table-bordered table-hover table-striped dashboardTables">
+                <tr>
+                    <th>Clinic Name</th>
+                    <th>Count of devices</th>
+                </tr>
+                <tr ng-repeat="row in dashboardCtrl.heartSmartData">
+                    <td>{{row.sub_clinic}}</td>
+                    <td>{{row.count}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Grand Total</strong></td>
+                    <td><strong>{{dashboardCtrl.totalUnderHIS}}</strong></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>

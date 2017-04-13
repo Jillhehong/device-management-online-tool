@@ -1,7 +1,7 @@
 (function() {
   "use strict";
 
-  angular.module('device', ['public', 'ngTable', 'ui.bootstrap'])
+  angular.module('device', ['public', 'ngTable', 'ui.bootstrap', "chart.js"])
   ///angular.run() runs first, then angular.config runs, then angular.controller runs last.
       .run(appRun);
 

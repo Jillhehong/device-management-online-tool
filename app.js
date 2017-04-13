@@ -102,8 +102,6 @@ app.get("/logout", function(req, res) {
      req.session.destroy( function (err) {
         res.end();
     });
-    console.log('authenticate ', req.isAuthenticated());
-    // req.logout();
 
 });
 
@@ -156,10 +154,8 @@ var pgGetSqlUtilityFunc = function (url, sql) {
     app.get(url, function(req, res, next){
         // if(req.isAuthenticated()){
         if(true){
-            console.log('sql ', sql);
             db.query(sql)
                 .then(function (response) {
-                    console.log('response ', response);
                     return res.json(response);
                 }, function (err) {
                     return res.status(500).json({success: false, data: err});
@@ -178,11 +174,8 @@ var pgPostSqlUtilityFunc = function (url, sql) {
         // if(req.isAuthenticated()){
         if(true){
             var value = req.body;
-            console.log('value ',value);
-            console.log('sql ', sql);
             db.query(sql, req.body)
                 .then(function (response) {
-                    console.log('response ', response);
                     return res.json(response);
                 }, function (err) {
                     return res.status(500).json({success: false, data: err});
@@ -202,10 +195,8 @@ var querySqlUtilityFunc = function (url, sql) {
     app.post(url, function(req, res, next){
         // if(req.isAuthenticated()){
         if(true){
-            console.log('sql ', sql);
             var results = [];
             var value = req.body.data;
-            console.log('data ', value);
 
             // Get a Postgres client from the connection pool
             pg.connect(config, function(err, client, done){
@@ -313,6 +304,18 @@ var hashSqlUtilityFunc = function (url, sql) {
 
 
 ///////////////start working on device management table////////////
+
+//device list page
+var clinics = 'select parent_clinic, sub_clinic, physician from device_management_test group by parent_clinic, sub_clinic, physician';
+getSqlUtilityFunc('/todo/deviceList/query/clinics', clinics);
+
+//device history page
+var deviceowner = 'select device_owner from device_history_test group by device_owner';
+getSqlUtilityFunc('/todo/deviceHistory/query/deviceowner', deviceowner);
+
+var by_whom = 'select by_whom from device_history_test group by by_whom';
+getSqlUtilityFunc('/todo/deviceHistory/query/bywhom', by_whom);
+
 // device management table///////////////////
 //insert
 var insert_device_management =
@@ -338,7 +341,7 @@ var queryall_device_management =
     'select * from public.device_management_test';
 getSqlUtilityFunc('/todo/queryall', queryall_device_management);
 //filter customers
-var customers = 'select device_sn, parent_clinic, sub_clinic from device_management_test order by parent_clinic ASC';
+var customers = "select device_sn, parent_clinic, sub_clinic from device_management_test where parent_clinic is not null and billable='Y' order by parent_clinic ASC";
 getSqlUtilityFunc('/todo/customer', customers);
 
 ///update
@@ -375,7 +378,7 @@ querySqlUtilityFunc('/todo/device-inventory/update', update_history_Sql);
 /////////////////////////////////////////////////////////
 
 ///device accessory//////////////////////////////
-var get_accessory_sql = 'select * from public.device_accessory_test';
+var get_accessory_sql = 'select * from public.accessory_inventory_test';
 getSqlUtilityFunc('/todo/accessory/queryall', get_accessory_sql);
 //////////////////////////////////////
 
@@ -410,8 +413,29 @@ pgPostSqlUtilityFunc('/todo/device_history/insert', insert_device_history_data);
 var analysis = 'select sum(order_quantity) as total_ordered_device, sum(received_quantity) as total_received_device,' +
     ' sum(deficiency_quantity) as total_deficiency_qty from device_inventory_test';
 pgGetSqlUtilityFunc('/todo/dashboard/totalDevices', analysis);
-var availableDevices = 'select device_sn, status, location from device_management_test';
+var availableDevices = 'select device_sn, status, location, billable from device_management_test';
 pgGetSqlUtilityFunc('/todo/dashboard/availableDevices', availableDevices);
+//device status
+var status = 
+    'select status, count(status) from device_management_test group by status';
+pgGetSqlUtilityFunc('/todo/dashboard/device_status', status);
+//device location
+var location =
+    'select location, count(location) from device_management_test group by location';
+pgGetSqlUtilityFunc('/todo/dashboard/device_location', location);
+//device purchase order
+var purchaseOrder =
+    'select purchase_order, sum(order_quantity) as order_quantity, sum(received_quantity) as received_quantity,' +
+    ' sum(deficiency_quantity) as deficiency_quantity from device_inventory_test group by purchase_order';
+pgGetSqlUtilityFunc('/todo/dashboard/device_purchase_order', purchaseOrder);
+//customers
+var customerCounts="select parent_clinic, count(device_sn) from device_management_test where parent_clinic is not null" +
+    " and billable='Y'  group by parent_clinic order by parent_clinic";
+getSqlUtilityFunc('/todo/dashboard/customers', customerCounts);
+//Clinics under HeartSmart
+var HISCounts="select sub_clinic, count(device_sn) from device_management_test where " +
+    " parent_clinic ='Heart Smart, Inc' and billable='Y'  group by sub_clinic order by sub_clinic";
+getSqlUtilityFunc('/todo/dashboard/customers/HIS', HISCounts);
 ////////////////////////////////////////////////////////////////////////////////
 
 

@@ -8,10 +8,10 @@
         .controller('insertModalInstanceCtrl', insertModalInstanceCtrl);
 
     insertModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'items', 'labels'];
-    function insertModalInstanceCtrl($scope, $uibModalInstance, items, labels) {
+    function insertModalInstanceCtrl($scope, $uibModalInstance, items, labels ) {
         $scope.items = items;
         $scope.labels =labels;
-
+        
         $scope.ok = function () {
             $uibModalInstance.close($scope.items);
         };

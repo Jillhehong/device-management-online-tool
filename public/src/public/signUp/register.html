@@ -1,8 +1,5 @@
 
-<div class="container"  ng-controller="registerController as reg">
-
-    <fieldset>
-
+<div class="container"  ng-controller="registerController as reg" id="register">
         <h3 class="text-center">Registration</h3>
         <form name='regForm' novalidate>
             <div  class="form-group">
@@ -45,25 +42,18 @@
                 <label for="passport2">Confirm Password:</label>
                 <input type="password" class="form-control" name="password2" placeholder=" password"
                        ng-model="reg.user.password2" ng-keyup="reg.keyup()" required>
-                  <!--<span ng-if=" regForm.passport2.$touched">-->
-                    <!--Please enter password-->
-                  <!--</span>-->
                     <span class="form_msg" ng-if="reg.showMsg">
                         passwords are not the same
                   </span>
             </div>
-
-            <button class="btn btn-primary" ng-disabled="regForm.$invalid || reg.showMsg" ng-click="reg.submit()">sign up</button>
-
+            <div class="form-group">
+                <button class="btn btn-primary" ng-disabled="regForm.$invalid || reg.showMsg" ng-click="reg.submit()">sign up</button>
+            </div>
         </form>
-    </fieldset>
     <span ng-if="reg.saved" class="form_msg">Thank you, your information has been saved!</span>
-
-</div>
-
-<br>
-<div class="container">
+    <br><br>
     <a ui-sref="login">Already have an account, sign in here!</a>
+    <br><br><br>
 </div>
 
 

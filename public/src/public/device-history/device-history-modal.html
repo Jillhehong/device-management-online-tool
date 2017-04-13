@@ -27,31 +27,62 @@
         <div class="form-group row">
             <label for="device_action" class="col-sm-3 col-form-label text-right">Device Action</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="device_action" ng-model="ngModalInputs.device_action">
+                <select class="form-control" name="device_action" ng-model="ngModalInputs.device_action">
+                    <option value="" disabled>{{ngModalInputs.device_action}}</option>
+                    <option value="Inventory-Inactive">Inventory-Inactive</option>
+                    <option value="Checked In">Checked In</option>
+                    <option value="Checked Out">Checked Out</option>
+                    <option value="Decommissioned">Decommissioned</option>
+                    <option value="Defective">Defective</option>
+                    <option value="Return-RMA">Return-RMA</option>
+                    <option value="Sales Demo">Sales Demo</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
             <label for="by_whom" class="col-sm-3 col-form-label text-right">By Whom</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="by_whom" ng-model="ngModalInputs.by_whom">
+                <input uib-typeahead="bywhom for bywhom in by_whom | filter:$viewValue | limitTo:8" type="text" class="form-control" ng-model="ngModalInputs.by_whom">
             </div>
         </div>
         <div class="form-group row">
             <label for="status" class="col-sm-3 col-form-label text-right">Device Status</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="status" ng-model="ngModalInputs.status">
+                <select class="form-control" name="status" ng-model="ngModalInputs.status">
+                    <option value="" disabled>{{ngModalInputs.status}}</option>
+                    <option value="beta site">beta site</option>
+                    <option value="clinical trials">clinical trials</option>
+                    <option value="customer">customer</option>
+                    <option value="decommissioned">decommissioned</option>
+                    <option value="defective">defective</option>
+                    <option value="inventory active">inventory active</option>
+                    <option value="inventory inactive">inventory inactive</option>
+                    <option value="inventory suspended">inventory suspended</option>
+                    <option value="refurbished">refurbished</option>
+                    <option value="RMA">RMA</option>
+                    <option value="sales_out">sales_out</option>
+                    <option value="development">development</option>
+                    <option value="sales demo">sales demo</option>
+                    <option value="troubleshooting">troubleshooting</option>
+                    <option value="sim switch">sim switch</option>
+                    <option value="lost">lost</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
             <label for="device_owner" class="col-sm-3 col-form-label text-right">Device Owner</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="device_owner" ng-model="ngModalInputs.device_owner">
+                <input uib-typeahead="owner for owner in device_owner | filter:$viewValue | limitTo:8" type="text" class="form-control" ng-model="ngModalInputs.device_owner">
             </div>
         </div>
         <div class="form-group row">
             <label for="replace_device" class="col-sm-3 col-form-label text-right">Replace Device</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="replace_device" ng-model="ngModalInputs.replace_device">
+                <select ng-model="ngModalInputs.replace_device" name="replace_device" class="form-control">
+                    <option value="" disabled>{{ngModalInputs.replace_device}}</option>
+                    <option value="Y">Y</option>
+                    <option value="N">N</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
@@ -63,7 +94,7 @@
         <div class="form-group row">
             <label for="note" class="col-sm-3 col-form-label text-right">Note</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="note" ng-model="ngModalInputs.note">
+                <textarea class="form-control" type="text" name="note" ng-model="ngModalInputs.note"></textarea>
             </div>
         </div>
         <button class="btn btn-default col-sm-3" type="button" ng-click="cancel()">Cancel</button>
