@@ -64,7 +64,7 @@
         //query
         queryCtrl.query = {};
         queryCtrl.search = function () {
-          deviceService.postDeviceManagementData('deviceManagement/query', queryCtrl.query)
+          deviceService.postDeviceManagementData('/todo/deviceList/query', queryCtrl.query)
               .then(function (response) {
                   if(response.data.length){
                       queryCtrl.results = response.data;
@@ -95,7 +95,7 @@
                 }
             });
             modalInstance.result.then(function (inputs) {
-                deviceService.postDeviceManagementData('todo/update', inputs).
+                deviceService.postDeviceManagementData('/todo/update', inputs).
                 then(function (response) {
                     queryCtrl.show = true;
                     queryCtrl.type = 'alert-success';
@@ -128,7 +128,7 @@
                 }
             });
             modalInstance.result.then(function (input) {
-                deviceService.postDeviceManagementData('todo/delete/:_id', input)
+                deviceService.postDeviceManagementData('/todo/delete/:_id', input)
                     .then(function (response) {
                     queryCtrl.show = true;
                     queryCtrl.type = 'alert-success';

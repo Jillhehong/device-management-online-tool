@@ -2,41 +2,45 @@
 <div class="container-fluid" ng-controller="deviceManagementQueryController" >
     <br>
     <div ng-if="queryCtrl.show" dismiss-on-timeout="5000" uib-alert class=" alert {{queryCtrl.type}}" close="queryCtrl.closeAlert()">{{queryCtrl.msg}}</div>
-  <!--filters-->
-    <uib-accordion class="col-sm-10">
-        <div uib-accordion-group class="panel-default" is-open="status.open">
-            <uib-accordion-heading>
-                <div>
-                    <strong>query <i class="pull-right glyphicon" ng-class="{'fa fa-angle-double-up fa-lg': status.open, 'fa fa-angle-double-down fa-lg': !status.open}"></i></strong>
-                </div>
-            </uib-accordion-heading>
-            <form class="form-inline" id="filter">
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <label for="device_sn">Device SN:</label>
-                    <input type="text" ng-model="queryCtrl.query.device_sn" class="form-control mb-2 mr-sm-2 mb-sm-0" name="device_sn" placeholder="Device SN">
-                </div>
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <label  for="clinic">Clinic:</label>
-                    <input type="text" ng-model="queryCtrl.query.clinic"  class="form-control form-control mb-2 mr-sm-2 mb-sm-0" name="clinic" placeholder="Clinic">
-                </div>
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <label  for="status">Device status:</label>
-                    <input type="text" ng-model="queryCtrl.query.status" class="form-control form-control mb-2 mr-sm-2 mb-sm-0" name="status" placeholder="status">
-                </div>
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <label  for="location">Device location:</label>
-                    <input type="text" ng-model="queryCtrl.query.location" class="form-control form-control mb-2 mr-sm-2 mb-sm-0" name="location" placeholder="location">
-                </div>
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <br>
-                    <button class="btn btn-default" ng-click="queryCtrl.search()"><span class="fa fa-search"></span>search</button>
-                </div>
-            </form>
-        </div>
-    </uib-accordion>
+  <!--search-->
+    <div class="row">
+        <uib-accordion class="col-sm-10">
+            <div uib-accordion-group class="panel-default" is-open="status.open">
+                <uib-accordion-heading>
+                    <div>
+                        <strong>query <i class="pull-right glyphicon" ng-class="{'fa fa-angle-double-up fa-lg': status.open, 'fa fa-angle-double-down fa-lg': !status.open}"></i></strong>
+                    </div>
+                </uib-accordion-heading>
+                <form class="form-inline" id="filter">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <label for="device_sn">Device SN:</label>
+                        <input type="text" ng-model="queryCtrl.query.device_sn" class="form-control mb-2 mr-sm-2 mb-sm-0" name="device_sn" placeholder="Device SN">
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <label  for="clinic">Clinic:</label>
+                        <input type="text" ng-model="queryCtrl.query.clinic"  class="form-control form-control mb-2 mr-sm-2 mb-sm-0" name="clinic" placeholder="Clinic">
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <label  for="status">Device status:</label>
+                        <input type="text" ng-model="queryCtrl.query.status" class="form-control form-control mb-2 mr-sm-2 mb-sm-0" name="status" placeholder="status">
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <label  for="location">Device location:</label>
+                        <input type="text" ng-model="queryCtrl.query.location" class="form-control form-control mb-2 mr-sm-2 mb-sm-0" name="location" placeholder="location">
+                    </div>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <br>
+                        <button class="btn btn-default" ng-click="queryCtrl.search()"><span class="fa fa-search"></span>search</button>
+                    </div>
+                </form>
+            </div>
+        </uib-accordion>
+    </div>
 
-    <!--//if not found, show alert message-->
-    <div id="query_result" ng-show="queryCtrl.queryResult">no result found!</div>
+    <!--not found, show message-->
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-3 text-center" id="query_result" ng-show="queryCtrl.queryResult">no result found!</div>
+    </div>
     <br>
     <!--start table-->
     <div class="container-fluid">

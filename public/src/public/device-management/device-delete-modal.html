@@ -1,108 +1,14 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">Are you sure to delete the selected data?</h3>
+    <h3 class="modal-title" id="modal-title">Confirm to delete it</h3>
 </div>
     <div class="modal-body" id="modal-body">
-        <ol class="list-group">
-            <li class="list-group-item row">
-                <label class="col-sm-3 text-center">Purchase Order</label>
-            <strong class="col-sm-6">{{items.purchase_order}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Registration Date</label>
-            <strong class="col-sm-6">{{items.registration_date | date: 'yyyy-MM-dd'}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Device SN</label>
-            <strong class="col-sm-6">{{items.device_sn}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">ICCID</label>
-            <strong class="col-sm-6">{{items.iccid}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">IMEI</label>
-            <strong class="col-sm-6">{{items.imei}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Model Number</label>
-            <strong class="col-sm-6">{{items.model_number}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Model Description</label>
-            <strong class="col-sm-6">{{items.model_description}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Firmware Version</label>
-            <strong class="col-sm-6">{{items.firmware_version}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Manufacturer</label>
-            <strong class="col-sm-6">{{items.manufacturer}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Points To</label>
-            <strong class="col-sm-6">{{items.points_to}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Use Zywie SIM</label>
-            <strong class="col-sm-6">{{items.use_zywie_sim}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">SIM Provider</label>
-            <strong class="col-sm-6">{{items.sim_provider}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Zywie Logo</label>
-            <strong class="col-sm-6">{{items.zywie_logo}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Wyless Provision Date</label>
-            <strong class="col-sm-6">{{items.wyless_provision_date | date: 'yyyy-MM-dd'}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Device Test Date</label>
-            <strong class="col-sm-6">{{items.device_test_date | date: 'yyyy-MM-dd'}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Device Suspension Date</label>
-            <strong class="col-sm-6">{{items.device_suspension_date | date: 'yyyy-MM-dd'}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Status</label>
-            <strong class="col-sm-6">{{items.status}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Location</label>
-            <strong class="col-sm-6">{{items.location}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Checked Out By</label>
-            <strong class="col-sm-6">{{items.checked_out_by}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Checked Out Date</label>
-            <strong class="col-sm-6">{{items.checked_out_date | date: 'yyyy-MM-dd'}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Checked In By</label>
-            <strong class="col-sm-6">{{items.checked_in_by}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Checked In Date</label>
-            <strong class="col-sm-6">{{items.checked_in_date | date: 'yyyy-MM-dd'}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Salesteam</label>
-            <strong class="col-sm-6">{{items.salesteam}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Salesperson Name</label>
-            <strong class="col-sm-6">{{items.salesperson_name}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Enterprise ID</label>
-            <strong class="col-sm-6">{{items.enterprise_id}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Parent Clinic</label>
-            <strong class="col-sm-6">{{items.parent_clinic}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Sub Clinic</label>
-            <strong class="col-sm-6">{{items.sub_clinic}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Physician</label>
-            <strong class="col-sm-6">{{items.physician}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Billable</label>
-            <strong class="col-sm-6">{{items.billable}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Lease</label>
-            <strong class="col-sm-6">{{items.lease}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Lease Price Per Month</label>
-            <strong class="col-sm-6">{{items.lease_price_per_month}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Lease Start Date</label>
-            <strong class="col-sm-6">{{items.lease_start_date | date: 'yyyy-MM-dd'}}</strong>
-            <li class="list-group-item row">
-            <label class="col-sm-3 text-center">Lease End Date</label>
-            <strong class="col-sm-6">{{items.lease_end_date | date: 'yyyy-MM-dd'}}</strong>
-        </ol>
+        <table class="table">
+            <tr ng-repeat="(key,value) in items ">
+                <td class="text-capitalize text-right">{{key}}</td>
+                <td class="text-left"><strong>{{value}}</strong></td>
+            </tr>
+        </table>
+
         <div class="modal-footer">
             <button class="btn btn-default col-sm-3" type="button" ng-click="cancel()">Cancel</button>
             <button class="btn btn-danger col-sm-3 pull-right" type="button" ng-click="ok()">Delete</button>

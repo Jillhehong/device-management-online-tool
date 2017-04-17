@@ -8,24 +8,19 @@ var config = {
     idleTimeoutMillis: 30000 // how long a client is allowed to remain idle before being closed
 };
 
-var express = require('express');
+var express = require('express'); //express.js in node.js
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var logger = require('morgan'); //create morgan logger middleware function?
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var session = require('express-session');
-var pg = require('pg');
-var pgp = require('pg-promise')({  });
-var bcrypt = require('bcrypt');
-
-//connect database with configuration
-var db = pgp(config);
-
-
-// var index = require('./routes/index');
+var passport = require('passport'); //passport.js
+var LocalStrategy = require('passport-local').Strategy;   // passport.js
+var session = require('express-session'); //manage user session property
+var bcrypt = require('bcrypt'); //bcrypt module is used to encrypt password stored in databse
+var pg = require('pg'); // pg is also a module used to connect express with postgresql, but it is older module. I PREFER pg-promise in the example
+var pgp = require('pg-promise')({  }); // pg-promise module is to connect express to postgresql database
+var db = pgp(config); //connect database with configuration
 
 var app = express();
 // var router = express.Router();
@@ -41,7 +36,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/', index);
 
 
 app.use(require('express-session')({
@@ -54,47 +48,50 @@ app.use(require('express-session')({
 app.use(passport.initialize());
 app.use(passport.session());
 
-//////
-/////////
 passport.use( 'local', new LocalStrategy(
     function(username, password, done) {
-
-        /// query username and password from database
+        /// query username and password from the users table
         db.query('select email, password from public.users').then(function(data){
-            //for loop to find user
-            for(var i=0; i<data.length;i++){
-                if(data[i].email == username && bcrypt.compareSync(password, data[i].password) ) {
-
+            data.map(function (item) {
+                //correct user and password
+                if(item.email == username && bcrypt.compareSync(password, item.password) ) {
                     var user = {
                         username: username,
-                        password: data[i].password
+                        password: item.password
                     };
                     return done(null, user);
                 }
-            }
+                //user exists, but wrong password
+                else if(item.email == username && !bcrypt.compareSync(password, item.password)){
+                    /*If the credentials are not valid (for example, if the password is incorrect),
+                     done should be invoked with false instead of a user to indicate an authentication failure.
+                     */
+                    return done(null, false, { message: 'Incorrect password.'});
+                }
+            });
 
-            return done(null, false, {message: 'Incorrect username or password.'});
+            //user does not exist
+            return done(null, false, {message: "User doesn't exist"});
 
+        }, function (err) {
+            if (err) { return done(err); }
         });
 
     }
 ));
 
-// serialize and deserialize
+// serialize
 passport.serializeUser(function(user, done) {
     done(null, user);
 });
-
+//deserialize
 passport.deserializeUser(function(user, done) {
     done(null, user);
 });
 
-
-////authentication
-app.post('/login', passport.authenticate('local'), function(req, res){
-    console.log('is authenticated ', req.isAuthenticated());
-    res.json(req.user);
-    
+//authenticate log in
+app.post('/login', passport.authenticate('local'), function (req, res) {
+    if(req.user){return res.json(req.user)}
 });
 
 //log out
@@ -106,7 +103,7 @@ app.get("/logout", function(req, res) {
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////
-//// dynamically query utility func ~~~~~use pg-promise to query from database
+/*dynamically query utility function ~pg-promise*/
 var dynamicquerySqlUtilityFunc = function (url, sql) {
     app.post(url, function(req, res, next){
         // if(req.isAuthenticated()){
@@ -139,17 +136,17 @@ var dynamicquerySqlUtilityFunc = function (url, sql) {
             pgp.end();
         }
         else {
-            return  {error:'please log in'};
+            return  {error:'failed authenticate user'};
         }
 
     });
 };
-var filter =
-    'select * from device_management_test where ';
-dynamicquerySqlUtilityFunc('/deviceManagement/query', filter);
+//deviceList batch query
+var filter = 'select * from device_management_test where ';
+dynamicquerySqlUtilityFunc('/todo/deviceList/query', filter);
 
 
-//get query
+//get data using pg-promise module
 var pgGetSqlUtilityFunc = function (url, sql) {
     app.get(url, function(req, res, next){
         // if(req.isAuthenticated()){
@@ -168,7 +165,7 @@ var pgGetSqlUtilityFunc = function (url, sql) {
 
     });
 };
-///new query using pg-promise module
+///post data using pg-promise module
 var pgPostSqlUtilityFunc = function (url, sql) {
     app.post(url, function(req, res, next){
         // if(req.isAuthenticated()){
@@ -232,8 +229,9 @@ var querySqlUtilityFunc = function (url, sql) {
 ////utility function to query tables///////
 var getSqlUtilityFunc = function (url, sql) {
     app.get(url, function(req, res, next){
-        console.log('authentciate ', req.isAuthenticated());
-        if( true ) {
+        // console.log('authentciate ', req.isAuthenticated());
+        // if( req.isAuthenticated() ) {
+        if(true){
             const results = [];
             // Get a Postgres client from the connection pool
             pg.connect(config, function(err, client, done){
@@ -301,22 +299,21 @@ var hashSqlUtilityFunc = function (url, sql) {
 };
 
 
-
-
 ///////////////start working on device management table////////////
 
 //device list page
 var clinics = 'select parent_clinic, sub_clinic, physician from device_management_test group by parent_clinic, sub_clinic, physician';
-getSqlUtilityFunc('/todo/deviceList/query/clinics', clinics);
+getSqlUtilityFunc('/todo/device_management/query/clinics', clinics);
 
-//device history page
-var deviceowner = 'select device_owner from device_history_test group by device_owner';
-getSqlUtilityFunc('/todo/deviceHistory/query/deviceowner', deviceowner);
+// var query_device_management =
+//     'select * from public.device_management_test where device_sn = $1 or clinic = $2 or status=$3 or location=$4';
+// querySqlUtilityFunc('/todo/query',query_device_management );
 
-var by_whom = 'select by_whom from device_history_test group by by_whom';
-getSqlUtilityFunc('/todo/deviceHistory/query/bywhom', by_whom);
+//query from device_management_test table
+var queryall_device_management =
+    'select * from public.device_management_test';
+getSqlUtilityFunc('/todo/device_management/queryall', queryall_device_management);
 
-// device management table///////////////////
 //insert
 var insert_device_management =
     'INSERT INTO public.device_management_test(purchase_order, registration_date, device_sn, iccid, imei, model_number,' +
@@ -330,19 +327,6 @@ var insert_device_management =
     '${parent_clinic}, ${sub_clinic}, ${physician}, ${billable}, ${lease}, ${lease_price_per_month}, ${lease_start_date},' +
     '${lease_end_date});';
 pgPostSqlUtilityFunc('/todo/device_management/insert',insert_device_management );
-
-//query
-var query_device_management =
-    'select * from public.device_management_test where device_sn = $1 or clinic = $2 or status=$3 or location=$4';
-querySqlUtilityFunc('/todo/query',query_device_management );
-
-//query all
-var queryall_device_management =
-    'select * from public.device_management_test';
-getSqlUtilityFunc('/todo/queryall', queryall_device_management);
-//filter customers
-var customers = "select device_sn, parent_clinic, sub_clinic from device_management_test where parent_clinic is not null and billable='Y' order by parent_clinic ASC";
-getSqlUtilityFunc('/todo/customer', customers);
 
 ///update
 var update_device_management ='update device_management_test set purchase_order=${purchase_order}, registration_date=${registration_date}, device_sn=${device_sn}, ' +
@@ -359,14 +343,28 @@ var update_device_management ='update device_management_test set purchase_order=
     'lease_end_date=${lease_end_date} where device_sn=${device_sn};';
 pgPostSqlUtilityFunc('/todo/device_management/update', update_device_management);
 
-//delete  ////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//device history page
+var deviceOwner = 'select device_owner from device_history_test group by device_owner';
+getSqlUtilityFunc('/todo/deviceHistory/query/deviceowner', deviceOwner);
+
+var by_whom = 'select by_whom from device_history_test group by by_whom';
+getSqlUtilityFunc('/todo/deviceHistory/query/bywhom', by_whom);
+
 var delete_device_management = 'delete from public.device_management_test where device_sn = ${device_sn}';
 pgPostSqlUtilityFunc('/todo/device_management/delete', delete_device_management);
-////////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-////device inventory table /////////////////////////
+
+
+
+
+////device inventory table ///////////////////////////////////////////////////////////////////////
 var get_inventory_sql = 'select * from public.device_inventory_test';
 getSqlUtilityFunc('/todo/device_inventory/queryall', get_inventory_sql);
 /////update data////
@@ -374,15 +372,22 @@ var update_history_Sql = 'UPDATE public.device_inventory_test SET received_date=
     'item=$5, order_quantity=$6, received_quantity=$7, deficiency_quantity=$8,deficiency_received_date=$9, shipping_status=$10, device_sn=$11,'+
     'package_content=$12 WHERE purchase_order=$13;';
 querySqlUtilityFunc('/todo/device-inventory/update', update_history_Sql);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////
 
-///device accessory//////////////////////////////
+
+/////////////customer mgt///////////////////////////////////////////////////////////////////////////////////////////////////
+//query customers
+var customers = "select device_sn, parent_clinic, sub_clinic from device_management_test where parent_clinic is not null and billable='Y' order by parent_clinic ASC";
+getSqlUtilityFunc('/todo/customer', customers);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///device accessory///////////////////////////////////////////////////////////////////////////////////////////////////
 var get_accessory_sql = 'select * from public.accessory_inventory_test';
 getSqlUtilityFunc('/todo/accessory/queryall', get_accessory_sql);
-//////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-///device history///////////////////////////////////////
+///device history//////////////////////////////////////////////////////////////////////////////
 var get_history_sql = 'select * from public.device_history_test';
 getSqlUtilityFunc('/todo/device_history/queryall', get_history_sql);
 
@@ -404,11 +409,11 @@ var insert_device_history_data=
     '  replaced_device_sn , note) values ( ${history_date}, ${device_sn} ,  ${device_action} ,  ${by_whom}, ${status} ,  ${device_owner}, ' +
     ' ${replace_device}, ${replaced_device_sn }, ${note});';
 pgPostSqlUtilityFunc('/todo/device_history/insert', insert_device_history_data);
-//////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-////////////dashboard///////
+////////////dashboard////////////////////////////////////////////////
 //device analysis
 var analysis = 'select sum(order_quantity) as total_ordered_device, sum(received_quantity) as total_received_device,' +
     ' sum(deficiency_quantity) as total_deficiency_qty from device_inventory_test';
@@ -436,25 +441,25 @@ getSqlUtilityFunc('/todo/dashboard/customers', customerCounts);
 var HISCounts="select sub_clinic, count(device_sn) from device_management_test where " +
     " parent_clinic ='Heart Smart, Inc' and billable='Y'  group by sub_clinic order by sub_clinic";
 getSqlUtilityFunc('/todo/dashboard/customers/HIS', HISCounts);
-////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-////user table///////////////////////////////////////////////////////////
+////user table////////////////////////////////////////////////////////////////////////////////////////////////////
 var insert_users = 'INSERT INTO public.users( first_name, last_name, email, password) VALUES ($1, $2, $3, $4);';
 hashSqlUtilityFunc( '/todo/users', insert_users);
 
 //get users
 var users = 'select email, password from public.users ;';
 getSqlUtilityFunc('/todo/email', users);
-/////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-////register page
+////register page//////////////////////////////////////
 app.get('/', function (req, res) {
     res.sendfile('views/index.html');
 
 });
-
+//////////////////////////////////////////////////////////////////
 
 module.exports = app;

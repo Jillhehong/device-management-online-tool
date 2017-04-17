@@ -6,25 +6,22 @@
 
     angular.module('device')
         .controller('showDeviceDataController', showDeviceDataController)
-        .controller('deviceUpdateModalInstanceCtrl', deviceUpdateModalInstanceCtrl)
-        .controller('deviceDeleteModalInstanceCtrl', deviceDeleteModalInstanceCtrl)
-        .controller('deviceAddModalInstanceCtrl', deviceAddModalInstanceCtrl);
+        .controller('deviceUpdateModalInstanceCtrl', deviceUpdateModalInstanceCtrl) //model for updating
+        .controller('deviceDeleteModalInstanceCtrl', deviceDeleteModalInstanceCtrl) //model for deleting
+        .controller('deviceAddModalInstanceCtrl', deviceAddModalInstanceCtrl);  //model for inserting
 
     deviceUpdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data', '$filter', 'deviceService'];
     function deviceUpdateModalInstanceCtrl($scope, $uibModalInstance, device_data, $filter, deviceService) {
         $scope.ngModalInputs = angular.copy(device_data);
 
-        //format date
-        $scope.ngModalInputs.registration_date = $filter('date')($scope.ngModalInputs.registration_date, 'yyyy-MM-dd');
-        $scope.ngModalInputs.wyless_provision_date = $filter('date')($scope.ngModalInputs.wyless_provision_date, 'yyyy-MM-dd');
-        $scope.ngModalInputs.device_test_date = $filter('date')($scope.ngModalInputs.device_test_date, 'yyyy-MM-dd');
-        $scope.ngModalInputs.device_suspension_date = $filter('date')($scope.ngModalInputs.device_suspension_date, 'yyyy-MM-dd');
-        $scope.ngModalInputs.checked_out_date = $filter('date')($scope.ngModalInputs.checked_out_date, 'yyyy-MM-dd');
-        $scope.ngModalInputs.checked_in_date = $filter('date')($scope.ngModalInputs.checked_in_date, 'yyyy-MM-dd');
-        $scope.ngModalInputs.lease_start_date = $filter('date')($scope.ngModalInputs.lease_start_date, 'yyyy-MM-dd');
-        $scope.ngModalInputs.lease_end_date = $filter('date')($scope.ngModalInputs.lease_end_date, 'yyyy-MM-dd');
+        //format date in ng-model
+        Object.keys($scope.ngModalInputs).map(function (key) {
+            if(key.indexOf('date') >-1){
+                $scope.ngModalInputs[key] = $filter('date')($scope.ngModalInputs[key], 'yyyy-MM-dd');
+            }
+        });
 
-       deviceService.getDeviceManagementData('todo/deviceList/query/clinics')
+       deviceService.getDeviceManagementData('/todo/device_management/query/clinics')
            .then(function (response) {
                $scope.parent_clinics = [];
                $scope.sub_clinics = [];
@@ -41,18 +38,98 @@
                console.log('error ',err);
            });
 
+        //for ng-options in <select>
+        $scope.model_description = [
+            'Aera CT 2G',
+            'Aera CT 3G'
+        ];
+        $scope.firmware_version = [
+            'V2.8',
+            'V2.7',
+            'V2.6',
+            'V2.5'
+        ];
+        $scope.manufacturer = [
+            'TZ Medical'
+        ];
+        $scope.points_to = [
+            'AWS-Prod',
+            'AWS-Dev'
+        ];
+        $scope.YesOrNo = [
+            'Y',
+            'N'
+        ];
+        $scope.sim_provider = [
+            'AT&T',
+            'Wyless AT&T',
+            'Wyless T-Mobile'
+        ];
+        $scope.status=[
+            "Beta Site",
+            "Clinical Trials",
+            "Customer",
+            "Decommissioned",
+            "Defective",
+            "Inventory-Active",
+            "Inventory-Inactive",
+            "Inventory-Suspended",
+            "Refurbished",
+            "RMA",
+            "Sales - Out",
+            "Development",
+            "Sales Demo",
+            "Troubleshooting",
+            "SIM Switch",
+            "Lost"
+        ];
+        $scope.location=[
+            'Drawer1-Active',
+            'Drawer2-Accessory',
+            'Drawer3-Suspended',
+            'Drawer4-Inactive(Misc)',
+            'Device-Out-RMA',
+            'Device-Out-Others',
+            'Development',
+            'Shelf-A-pre-order',
+            'Shelf-B-pre-order',
+            'Shelf-C-pre-order',
+            'Shelf-D-pre-order'
+        ];
+        $scope.checked_out_by=[
+            'Alex Armstrong',
+            'Emir Muhovic',
+            'Latha Ganeshan',
+            'Sameer Adumala',
+            'Steve Rode'
+        ];
+        
+        //confirm model
         $scope.ok = function () {
             $uibModalInstance.close($scope.ngModalInputs);
         };
+        //dismiss model
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
     }
-    deviceDeleteModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'items'];
-    function deviceDeleteModalInstanceCtrl($scope, $uibModalInstance, items) {
-        $scope.items = items;
+    deviceDeleteModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'items','$filter'];
+    function deviceDeleteModalInstanceCtrl($scope, $uibModalInstance, items, $filter) {
+        //manipulate key in obj(key, value)
+        var newItems={};
+        Object.keys(items).map(function (key) {
+            var data = key.replace(/_/g, ' ');
+            newItems[data] = items[key];
+
+            //format date
+            if(data.indexOf('date') >-1){
+                newItems[data] = $filter('date')(newItems[data], 'yyyy-MM-dd');
+            }
+        });
+        $scope.items = newItems;
+
         $scope.ok = function () {
-            $uibModalInstance.close($scope.items);
+            $uibModalInstance.close(items);
         };
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
@@ -61,15 +138,15 @@
 
     deviceAddModalInstanceCtrl.$inject = ['$scope','$uibModalInstance','deviceService'];
     function deviceAddModalInstanceCtrl($scope, $uibModalInstance, deviceService) {
-        //initialize ngMOdalInputs with empty values
+        //initialize ng-model inputs
         $scope.ngModalInputs = {};
         var names = deviceService.getDeviceManagementColumns();
         for(var i=0; i<names.length; i++){
             $scope.ngModalInputs[names[i]] = null;
         }
 
-        //angular typeahead
-        deviceService.getDeviceManagementData('todo/deviceList/query/clinics')
+        //for angular typeahead
+        deviceService.getDeviceManagementData('/todo/device_management/query/clinics')
             .then(function (response) {
                 $scope.parent_clinics = [];
                 $scope.sub_clinics = [];
@@ -103,9 +180,9 @@
             var modalInstance = $uibModal.open({
                 ariaLabelledBy: 'modal-title',
                 ariaDescribedBy: 'modal-body',
-                backdrop: 'static',
+                backdrop: 'static',  // do not turn off model when click outside of model
                 keyboard: false,
-                size: size,
+                size: size,  //model size
                 templateUrl: 'src/public/device-management/device-update-modal.html',
                 controller: 'deviceUpdateModalInstanceCtrl',
                 resolve: {
@@ -115,9 +192,9 @@
                 }
             });
             modalInstance.result.then(function (inputs) {
-                deviceService.postDeviceManagementData('todo/device_management/update', inputs)
+                deviceService.postDeviceManagementData('/todo/device_management/update', inputs)
                     .then(function (response) {
-                        console.log('test success');
+                        //show alert msg
                         deviceList.show = true;
                         deviceList.type = 'alert-success';
                         deviceList.msg = 'update success';
@@ -125,7 +202,7 @@
                         console.log('failed to update');
                         deviceList.show = true;
                         deviceList.type = 'alert-danger';
-                        deviceList.msg = 'update failed!!!';
+                        deviceList.msg = error.data.message;
                     });
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
@@ -146,11 +223,11 @@
                 }
             });
             modalInstance.result.then(function (input) {
-                deviceService.postDeviceManagementData('todo/device_management/delete', input)
+                deviceService.postDeviceManagementData('/todo/device_management/delete', input)
                     .then(function (response) {
                         deviceList.show = true;
                         deviceList.type = 'alert-success';
-                        deviceList.msg = 'delete success';
+                        deviceList.msg = 'The new data has been deleted successfully';
                     }, function (error) {
                         deviceList.show = true;
                         deviceList.type = 'alert-danger';
@@ -163,7 +240,7 @@
 
         };
         // post inserted data into server
-        deviceService.getDeviceManagementData('todo/queryall')
+        deviceService.getDeviceManagementData('/todo/device_management/queryall')
             .then(function (response) {
                 deviceList.tableParams = new NgTableParams({
                     page: 1
@@ -186,17 +263,16 @@
             });
             modalInstance.result.then(function (input) {
                 console.log('input ', input);
-                deviceService.postDeviceManagementData('todo/device_management/insert', input)
+                deviceService.postDeviceManagementData('/todo/device_management/insert', input)
                     .then(function (response) {
                         deviceList.show = true;
                         deviceList.type = 'alert-success';
-                        deviceList.msg = 'add success';
+                        deviceList.msg = 'The new data has been added successfully';
                         console.log('response',response);
                     }, function (error) {
-                        deviceList.error = error.data.message;
                         deviceList.show = true;
                         deviceList.type = 'alert-danger';
-                        deviceList.msg = 'add failed!!!';
+                        deviceList.msg = error;
                         console.log('error',error);
                     });
 
@@ -208,14 +284,14 @@
     }
 
 })();
-(function() {
-    "use strict";
-
-    angular.module("device").run(configureDefaults);
-    configureDefaults.$inject = ["ngTableDefaults"];
-
-    function configureDefaults(ngTableDefaults) {
-        // ngTableDefaults.params.count = 50;
-        // ngTableDefaults.settings.counts = [];
-    }
-})();
+// (function() {
+//     "use strict";
+//
+//     angular.module("device").run(configureDefaults);
+//     configureDefaults.$inject = ["ngTableDefaults"];
+//
+//     function configureDefaults(ngTableDefaults) {
+//         // ngTableDefaults.params.count = 50;
+//         // ngTableDefaults.settings.counts = [];
+//     }
+// })();

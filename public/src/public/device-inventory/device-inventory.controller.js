@@ -11,7 +11,7 @@
         var inventoryCtrl = this;
 
 ///////////////get data from http request from device_management table///////////
-        deviceService.getDeviceManagementData('todo/device_inventory/queryall').then(function (response) {
+        deviceService.getDeviceManagementData('/todo/device_inventory/queryall').then(function (response) {
             //add $index for tracking rows\
             var results = response.data;
             for(var i=0;i<results.length;i++){

@@ -1,16 +1,15 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">Update device history data</h3>
-    <p>date in format 'yyyy-mm-dd' or 'mm/dd/yyyy'</p>
+    <h3 class="modal-title" id="modal-title">Update device history</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <form name='modalForm' novalidate>
+    <form name='modalForm' novalidate class="modal_form">
         <!--show data-->
-        <div class="form-group row">
-            <label for="row" class="col-sm-3 col-form-label text-right">Row</label>
-            <div class="col-sm-6">
-                <input class="form-control" type="text" name="row" ng-model="ngModalInputs.row" ng-disabled="true">
-            </div>
-        </div>
+        <!--<div class="form-group row">-->
+            <!--<label for="row" class="col-sm-3 col-form-label text-right">Row</label>-->
+            <!--<div class="col-sm-6">-->
+                <!--<input class="form-control" type="text" name="row" ng-model="ngModalInputs.row" ng-disabled="true">-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="form-group row">
             <label for="history_date" class="col-sm-3 col-form-label text-right">History Date</label>
             <div class="col-sm-6">
@@ -27,15 +26,8 @@
         <div class="form-group row">
             <label for="device_action" class="col-sm-3 col-form-label text-right">Device Action</label>
             <div class="col-sm-6">
-                <select class="form-control" name="device_action" ng-model="ngModalInputs.device_action">
-                    <option value="" disabled>{{ngModalInputs.device_action}}</option>
-                    <option value="Inventory-Inactive">Inventory-Inactive</option>
-                    <option value="Checked In">Checked In</option>
-                    <option value="Checked Out">Checked Out</option>
-                    <option value="Decommissioned">Decommissioned</option>
-                    <option value="Defective">Defective</option>
-                    <option value="Return-RMA">Return-RMA</option>
-                    <option value="Sales Demo">Sales Demo</option>
+                <select ng-model="ngModalInputs.device_action" class="form-control"
+                        ng-options="action for action in device_action">
                 </select>
             </div>
         </div>
@@ -48,24 +40,8 @@
         <div class="form-group row">
             <label for="status" class="col-sm-3 col-form-label text-right">Device Status</label>
             <div class="col-sm-6">
-                <select class="form-control" name="status" ng-model="ngModalInputs.status">
-                    <option value="" disabled>{{ngModalInputs.status}}</option>
-                    <option value="beta site">beta site</option>
-                    <option value="clinical trials">clinical trials</option>
-                    <option value="customer">customer</option>
-                    <option value="decommissioned">decommissioned</option>
-                    <option value="defective">defective</option>
-                    <option value="inventory active">inventory active</option>
-                    <option value="inventory inactive">inventory inactive</option>
-                    <option value="inventory suspended">inventory suspended</option>
-                    <option value="refurbished">refurbished</option>
-                    <option value="RMA">RMA</option>
-                    <option value="sales_out">sales_out</option>
-                    <option value="development">development</option>
-                    <option value="sales demo">sales demo</option>
-                    <option value="troubleshooting">troubleshooting</option>
-                    <option value="sim switch">sim switch</option>
-                    <option value="lost">lost</option>
+                <select ng-model="ngModalInputs.status" class="form-control"
+                        ng-options="status for status in device_status">
                 </select>
             </div>
         </div>
@@ -78,10 +54,8 @@
         <div class="form-group row">
             <label for="replace_device" class="col-sm-3 col-form-label text-right">Replace Device</label>
             <div class="col-sm-6">
-                <select ng-model="ngModalInputs.replace_device" name="replace_device" class="form-control">
-                    <option value="" disabled>{{ngModalInputs.replace_device}}</option>
-                    <option value="Y">Y</option>
-                    <option value="N">N</option>
+                <select ng-model="ngModalInputs.replace_device" class="form-control"
+                        ng-options="replaced for replaced in replace_device">
                 </select>
             </div>
         </div>

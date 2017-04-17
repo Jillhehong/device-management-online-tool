@@ -1,7 +1,6 @@
 
 <!-- Fixed position loading indicator -->
-<!--<loading class="loading-indicator"></loading>-->
-<!--<i class="fa fa-spinner fa-spin" style="font-size:54px" ng-show="dataLoading"></i>-->
+<loading></loading>
 
 <div class="container-fluid" ng-controller="publicController">
     <header>
@@ -11,6 +10,7 @@
                     <div class="navbar-brand">
                         <p>
                             <a ui-sref="public.home">
+                                <!--<h1>Zywie<sub>TM</sub></h1>-->
                                 <img id="zywielogo" src="images/Zywie%20logo.png" alt="device management">
                             </a>
                         </p>
@@ -51,8 +51,8 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <span class="fa fa-user-o fa-2x"></span><br class="hidden-xs"> {{publicCtrl.username}} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a ui-sref="public.notbuildyet">user info</a></li>
-                                <li><a ng-click="publicCtrl.logout()">log out</a></li>
+                                <!--<li><a ui-sref="public.notbuildyet">user info</a></li>-->
+                                <li class="text-center"><a ng-click="publicCtrl.logout()">log out</a></li>
                             </ul>
                         </li>
                     </ul><!-- #nav-list -->

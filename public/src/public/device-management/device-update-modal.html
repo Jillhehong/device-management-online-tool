@@ -46,79 +46,56 @@
         <div class="form-group row">
             <label for=" model_description" class="col-sm-3 col-form-label text-right">Model Description</label>
             <div class="col-sm-6">
-                <select class="form-control" name="model_description" ng-model="ngModalInputs.model_description">
-                    <option value="{{ngModalInputs.model_description}}" disabled>{{ngModalInputs.model_description}}</option>
-                    <option disabled>----------</option>
-                    <option value="Aera CT 3G">Aera CT 3G</option>
-                    <option value="Aera CT 2G">Aera CT 2G</option>
+                <select ng-model="ngModalInputs.model_description" class="form-control"
+                        ng-options="model for model in model_description">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" firmware_version" class="col-sm-3 col-form-label text-right">Firmware Version</label>
             <div class="col-sm-6">
-                <select class="form-control" name="firmware_version" ng-model="ngModalInputs.firmware_version">
-                    <option value="{{ngModalInputs.firmware_version}}" disabled>{{ngModalInputs.firmware_version}}</option>
-                    <option disabled>----------</option>
-                    <option value="V2.8">V2.8</option>
-                    <option value="V2.7">V2.7</option>
-                    <option value="V2.6">V2.6</option>
-                    <option value="V2.5">V2.5</option>
+                <select ng-model="ngModalInputs.firmware_version" class="form-control"
+                        ng-options="firmware for firmware in firmware_version">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" manufacturer" class="col-sm-3 col-form-label text-right">Manufacturer</label>
             <div class="col-sm-6">
-                <select class="form-control" name="manufacturer" ng-model="ngModalInputs.manufacturer">
-                    <option value="{{ngModalInputs.manufacturer}}" disabled>{{ngModalInputs.manufacturer}}</option>
-                    <option disabled>----------</option>
-                    <option value="TZ Medical">TZ Medical</option>
+                <select ng-model="ngModalInputs.manufacturer" class="form-control"
+                        ng-options="m for m in manufacturer">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" points_to" class="col-sm-3 col-form-label text-right">Points to</label>
             <div class="col-sm-6">
-                <select class="form-control" name="points_to" ng-model="ngModalInputs.points_to">
-                    <option value="{{ngModalInputs.points_to}}" disabled>{{ngModalInputs.points_to}}</option>
-                    <option disabled>----------</option>
-                    <option value="AWS-Prod">AWS-Prod</option>
-                    <option value="AWS-Dev">AWS-Dev</option>
+                <select ng-model="ngModalInputs.points_to" class="form-control"
+                        ng-options="p for p in points_to">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" use_zywie_sim" class="col-sm-3 col-form-label text-right">Use Zywie SIM</label>
             <div class="col-sm-6">
-                <select class="form-control" name="use_zywie_sim" ng-model="ngModalInputs.use_zywie_sim">
-                    <option value="{{ngModalInputs.use_zywie_sim}}" disabled>{{ngModalInputs.use_zywie_sim}}</option>
-                    <option disabled>----------</option>
-                    <option value="Y">Y</option>
-                    <option value="N">N</option>
+                <select ng-model="ngModalInputs.use_zywie_sim" class="form-control"
+                        ng-options="y for y in YesOrNo">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" sim_provider" class="col-sm-3 col-form-label text-right">SIM Provider</label>
             <div class="col-sm-6">
-                <select class="form-control" name="sim_provider" ng-model="ngModalInputs.sim_provider">
-                    <option value="{{ngModalInputs.sim_provider}}" disabled>{{ngModalInputs.sim_provider}}</option>
-                    <option disabled>--------------</option>
-                    <option value="AT&T">AT&T</option>
-                    <option value="Wyless AT&T">Wyless AT&T</option>
-                    <option value="Wyless T-Mobile">Wyless T-Mobile</option>
+                <select ng-model="ngModalInputs.sim_provider" class="form-control"
+                        ng-options="sim for sim in sim_provider">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" zywie_logo" class="col-sm-3 col-form-label text-right">Zywie Logo</label>
             <div class="col-sm-6">
-                <select class="form-control" name="zywie_logo" ng-model="ngModalInputs.zywie_logo">
-                    <option value="{{ngModalInputs.zywie_logo}}" disabled>{{ngModalInputs.zywie_logo}}</option>
-                    <option disabled>----------</option>
-                    <option value="Y">Y</option>
-                    <option value="N">N</option>
+                <select ng-model="ngModalInputs.zywie_logo" class="form-control"
+                        ng-options="y for y in YesOrNo">
                 </select>
             </div>
         </div>
@@ -146,60 +123,24 @@
         <div class="form-group row">
             <label for=" status" class="col-sm-3 col-form-label text-right">Device Status</label>
             <div class="col-sm-6">
-                <select class="form-control" name="status" ng-model="ngModalInputs.status">
-                    <option value="{{ngModalInputs.status}}" disabled>{{ngModalInputs.status}}</option>
-                    <option disabled>----------</option>
-                    <option value="Beta Site">Beta Site</option>
-                    <option value="Clinical Trials ">Clinical Trials</option>
-                    <option value="Customer">Customer</option>
-                    <option value="Decommissioned">Decommissioned</option>
-                    <option value="Defective">Defective</option>
-                    <option value="Inventory-Active">Inventory-Active</option>
-                    <option value="Inventory-Inactive">Inventory-Inactive</option>
-                    <option value="Inventory-Suspended">Inventory-Suspended</option>
-                    <option value="Refurbished">Refurbished</option>
-                    <option value="RMA">RMA</option>
-                    <option value="Sales - Out">Sales - Out</option>
-                    <option value="Development">Development</option>
-                    <option value="Sales Demo">Sales Demo</option>
-                    <option value="Troubleshooting">Troubleshooting</option>
-                    <option value="SIM Switch">SIM Switch</option>
-                    <option value="Lost">Lost</option>
+                <select ng-model="ngModalInputs.status" class="form-control" name="status"
+                        ng-options="s for s in status">
                 </select>
-                <span class='form_msg' ng-if="modalForm.status.$invalid"></span>
             </div>
         </div>
         <div class="form-group row">
             <label for=" location" class="col-sm-3 col-form-label text-right">Device Location</label>
             <div class="col-sm-6">
-                <select class="form-control" name="location" ng-model="ngModalInputs.location">
-                    <option value="{{ngModalInputs.location}}" disabled>{{ngModalInputs.location}}</option>
-                    <option disabled>----------</option>
-                    <option value="Drawer1-Active">Drawer1-Active</option>
-                    <option value="Drawer2-Accessory">Drawer2-Accessory</option>
-                    <option value="Drawer3-Suspended">Drawer3-Suspended</option>
-                    <option value="Drawer4-Inactive(Misc)">Drawer4-Inactive(Misc)</option>
-                    <option value="Device-Out-RMA">Device-Out-RMA</option>
-                    <option value="Device-Out-Others">Device-Out-Others</option>
-                    <option value="Development">Development</option>
-                    <option value="Shelf-A-pre-order">Shelf-A-pre-order</option>
-                    <option value="Shelf-B-pre-order">Shelf-B-pre-order</option>
-                    <option value="Shelf-C-pre-order">Shelf-C-pre-order</option>
-                    <option value="Shelf-D-pre-order">Shelf-D-pre-order</option>
+                <select ng-model="ngModalInputs.location" class="form-control"
+                        ng-options="l for l in location">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" checked_out_by" class="col-sm-3 col-form-label text-right">Checked Out By</label>
             <div class="col-sm-6">
-                <select class="form-control" name="checked_out_by" ng-model="ngModalInputs.checked_out_by">
-                    <option value="{{ngModalInputs.checked_out_by}}" disabled>{{ngModalInputs.checked_out_by}}</option>
-                    <option disabled>----------</option>
-                    <option value="Alex Armstrong">Alex Armstrong</option>
-                    <option value="Emir Muhovic">Emir Muhovic</option>
-                    <option value="Latha Ganeshan">Latha Ganeshan</option>
-                    <option value="Sameer Adumala">Sameer Adumala</option>
-                    <option value="Steve Rode">Steve Rode</option>
+                <select ng-model="ngModalInputs.checked_out_by" class="form-control"
+                        ng-options="c for c in checked_out_by">
                 </select>
             </div>
         </div>
@@ -213,14 +154,8 @@
         <div class="form-group row">
             <label for=" checked_in_by" class="col-sm-3 col-form-label text-right">Checked In By</label>
             <div class="col-sm-6">
-                <select class="form-control" name="checked_in_by" ng-model="ngModalInputs.checked_in_by">
-                    <option value="{{ngModalInputs.checked_in_by}}" disabled>{{ngModalInputs.checked_in_by}}</option>
-                    <option disabled>----------</option>
-                    <option value="Alex Armstrong">Alex Armstrong</option>
-                    <option value="Emir Muhovic">Emir Muhovic</option>
-                    <option value="Latha Ganeshan">Latha Ganeshan</option>
-                    <option value="Sameer Adumala">Sameer Adumala</option>
-                    <option value="Steve Rode">Steve Rode</option>
+                <select ng-model="ngModalInputs.checked_in_by" class="form-control"
+                        ng-options="c for c in checked_out_by">
                 </select>
             </div>
         </div>
@@ -272,22 +207,16 @@
         <div class="form-group row">
             <label for=" billable" class="col-sm-3 col-form-label text-right">Billable</label>
             <div class="col-sm-6">
-                <select class="form-control" name="billable" ng-model="ngModalInputs.billable">
-                    <option value="{{ngModalInputs.billable}}" disabled>{{ngModalInputs.billable}}</option>
-                    <option disabled>----------</option>
-                    <option value="Y">Y</option>
-                    <option value="N">N</option>
+                <select ng-model="ngModalInputs.billable" class="form-control"
+                        ng-options="y for y in YesOrNo">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" lease" class="col-sm-3 col-form-label text-right">Lease</label>
             <div class="col-sm-6">
-                <select class="form-control" name="lease" ng-model="ngModalInputs.lease">
-                    <option value="{{ngModalInputs.lease}}" disabled>{{ngModalInputs.lease}}</option>
-                    <option disabled>----------</option>
-                    <option value="Y">Y</option>
-                    <option value="N">N</option>
+                <select ng-model="ngModalInputs.lease" class="form-control"
+                        ng-options="l for l in YesOrNo">
                 </select>
             </div>
         </div>

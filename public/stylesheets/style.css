@@ -8,6 +8,17 @@ body {
 .navbar-default .navbar-nav>li>a {
   color:white;
 }
+.header h1 {
+  position: absolute;
+  margin: 0;
+  top: 0;
+  left: 0;
+  text-indent: -4000px;
+  width: 128px;
+  height: 61px;
+  background: url(https://content.zywie.net/assets/src/img/Zywie_logo_white.svg) top left no-repeat;
+  background-size: 100% auto;
+}
 
 #footer {
   background-color: #dedede;;
@@ -101,22 +112,18 @@ textarea.form-control {
   background-color: green;
   color: white;
 }
-/*.fa-spin {*/
-  /*position: fixed;*/
-  /*top:45%;*/
-  /*left:45%;*/
-/*}*/
 #login {
   position: fixed;
-  width:300px;
-  height:300px;
+  width:400px;
+  height:350px;
   top:25%;
   left:30%;
+  padding:40px;
   border: 1px solid lightgray;
   border-radius: 2px;
 }
 #login input, #login button {
-  width:270px;
+  width:100%;
 }
 #register {
   width:600px;
@@ -124,4 +131,28 @@ textarea.form-control {
 }
 #register button {
   width:100px;
+}
+
+/*loading{*/
+  /*width:1000px;*/
+  /*height:1000px;*/
+  /*background-color:red;*/
+/*}*/
+
+loading .fa-spinner{
+  position:fixed;
+  top:40%;
+  left:40%;
+  font-size:100px;
+}
+
+.customerTable{
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.customerTable td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
 }

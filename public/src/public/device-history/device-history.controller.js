@@ -8,12 +8,48 @@
         .controller('historyAddModalInstanceCtrl', historyAddModalInstanceCtrl);
 
 
-    historyupdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data', 'deviceService'];
-    function historyupdateModalInstanceCtrl($scope, $uibModalInstance, device_data, deviceService) {
+    historyupdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data', 'deviceService', '$filter'];
+    function historyupdateModalInstanceCtrl($scope, $uibModalInstance, device_data, deviceService, $filter) {
         $scope.ngModalInputs = angular.copy(device_data);
+        //format date
+        $scope.ngModalInputs.history_date = $filter('date')($scope.ngModalInputs.history_date, 'yyyy-MM-dd');
+
+
+        //select options
+        $scope.device_action = [
+            'Inventory-Inactive',
+            'Checked In',
+            'Checked Out',
+            'Decommissioned',
+            'Defective',
+            'Return-RMA',
+            'Sales Demo'
+       ];
+        $scope.device_status = [
+            'Beta Site',
+            'Clinical Trials',
+            'Customer',
+            'Decommissioned',
+            'Defective',
+            'Inventory-Active',
+            'Inventory-Inactive',
+            'Inventory-Suspended',
+            'Refurbished',
+            'RMA',
+            'Sales - Out',
+            'Development',
+            'Sales Demo',
+            'Troubleshooting',
+            'SIM Switch',
+            'Lost'
+        ];
+        $scope.replace_device = [
+            'Y',
+            'N'
+        ];
 
         //angular typeahead
-        deviceService.getDeviceManagementData('todo/deviceHistory/query/deviceowner')
+        deviceService.getDeviceManagementData('/todo/deviceHistory/query/deviceowner')
             .then(function (response) {
                 $scope.device_owner = [];
 
@@ -24,7 +60,7 @@
             }, function (err) {
                 console.log('error ',err);
             });
-        deviceService.getDeviceManagementData('todo/deviceHistory/query/bywhom')
+        deviceService.getDeviceManagementData('/todo/deviceHistory/query/bywhom')
             .then(function (response) {
                 $scope.by_whom = [];
 
@@ -127,7 +163,7 @@
         };
 
 ///////////////get data from http request from device_management table///////////
-        deviceService.getDeviceManagementData('todo/device_history/queryall').then(function (response) {
+        deviceService.getDeviceManagementData('/todo/device_history/queryall').then(function (response) {
             historyCtrl.tableParams = new NgTableParams({
                 page: 1      // show first page
 
@@ -156,7 +192,7 @@
                 }
             });
             modalInstance.result.then(function (inputs) {
-                deviceService.postDeviceManagementData('todo/device_history/update', inputs)
+                deviceService.postDeviceManagementData('/todo/device_history/update', inputs)
                     .then(function (response) {
                         historyCtrl.show = true;
                         historyCtrl.type = 'alert-success';
@@ -188,7 +224,7 @@
                 }
             });
             modalInstance.result.then(function (input) {
-                deviceService.postDeviceManagementData('todo/device_history/delete/:_id', input)
+                deviceService.postDeviceManagementData('/todo/device_history/delete/:_id', input)
                     .then(function (response) {
                         historyCtrl.show = true;
                         historyCtrl.type = 'alert-success';
@@ -217,7 +253,7 @@
             });
             modalInstance.result.then(function (input) {
                 console.log('input ', input);
-                deviceService.postDeviceManagementData('todo/device_history/insert', input)
+                deviceService.postDeviceManagementData('/todo/device_history/insert', input)
                     .then(function (response) {
                         console.log('test');
                         historyCtrl.show = true;

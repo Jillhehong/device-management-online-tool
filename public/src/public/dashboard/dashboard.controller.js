@@ -8,7 +8,7 @@
         var dashboardCtrl = this;
 
         //get data from device_inventory_test table
-        deviceService.getDeviceManagementData('todo/dashboard/totalDevices')
+        deviceService.getDeviceManagementData('/todo/dashboard/totalDevices')
             .then(function (response) {
                 dashboardCtrl.results = response.data[0];
             }, function (error) {
@@ -16,7 +16,7 @@
             });
 
         //get available devices from device_management_test
-        deviceService.getDeviceManagementData('todo/dashboard/availableDevices')
+        deviceService.getDeviceManagementData('/todo/dashboard/availableDevices')
             .then(function (response) {
                 //count billable devices
                 dashboardCtrl.deviceCounts = 0;
@@ -61,7 +61,7 @@
             });
         
         //get device status
-        deviceService.getDeviceManagementData('todo/dashboard/device_status')
+        deviceService.getDeviceManagementData('/todo/dashboard/device_status')
             .then(function(response){
                 dashboardCtrl.bar_status = {
                     labels:[],
@@ -98,7 +98,7 @@
             });
         
         //get device location
-        deviceService.getDeviceManagementData('todo/dashboard/device_location')
+        deviceService.getDeviceManagementData('/todo/dashboard/device_location')
             .then(function(response){
                 dashboardCtrl.bar_location = {
                     labels:[],
@@ -156,7 +156,7 @@
                 console.log('error ', error);
             });
         //get purchase orders
-        deviceService.getDeviceManagementData('todo/dashboard/device_purchase_order')
+        deviceService.getDeviceManagementData('/todo/dashboard/device_purchase_order')
             .then(function(response){
                 dashboardCtrl.bar = {
                     labels:[],
@@ -211,7 +211,7 @@
             });
 
         //get customer names
-        deviceService.getDeviceManagementData('todo/dashboard/customers')
+        deviceService.getDeviceManagementData('/todo/dashboard/customers')
             .then(function (response) {
                 dashboardCtrl.customersData = response.data;
 
@@ -224,7 +224,7 @@
                 console.log('error ', err);
             });
         //get sub clinics under Heart Smart, Inc
-        deviceService.getDeviceManagementData('todo/dashboard/customers/HIS')
+        deviceService.getDeviceManagementData('/todo/dashboard/customers/HIS')
             .then(function (response) {
                 dashboardCtrl.heartSmartData = response.data;
 

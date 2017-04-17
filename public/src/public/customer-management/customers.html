@@ -1,29 +1,38 @@
 <div class="container" ng-controller="customersController" >
+    <br>
     <div class="row">
-        <form>
-            <div class="form-group">
+        <form class="form-inline">
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <label for="parent_clinic" >Parent Clinic:</label>
                 <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().parent_clinic" name="parent_clinic" placeholder="Parent Clinic">
             </div>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <label for="sub_clinic" >Sub Clinic:</label>
+                <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().sub_clinic" name="sub_clinic" placeholder="Sub Clinic">
+            </div>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <label for="device_sn" >Device SN:</label>
+                <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().device_sn" name="device_sn" placeholder="device_sn Clinic">
+            </div>
         </form>
-        <!--table one-->
-        <div class="col-sm-5">
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
             <div>
-                <h3 class="text-center">Customers with Billable Devices</h3>
+                <h4 class="text-center">A list of devices for customers</h4>
                 <br>
-                <table  class="table table-condensed"   ng-table="customerCtrl.tableParams" >
+                <table class="customerTable"   ng-table="customerCtrl.tableParams" >
                     <tr class="ng-table-group" ng-repeat-start="group in $groups">
-                        <td class="text-left">
+                        <td >
                             <a href="" ng-click="group.$hideRows = !group.$hideRows">
                                 <span class="glyphicon" ng-class="{ 'fa fa-plus-square': group.$hideRows, 'fa fa-minus-square': !group.$hideRows }"></span>
-                                <strong>{{ group.value }}</strong>
+                                <strong >{{ group.value }}</strong>
                             </a>
                         </td>
+                        <!--the purpose of td tag is formatting the row with the same color as {{group.value}}-->
+                        <td></td>
                     </tr>
-                    <tr ng-hide="group.$hideRows"  ng-repeat="row in group.data" >
-                        <td sortable="'parent_clinic'" data-title="'Parent Clinic'" groupable="'parent_clinic'">
-                            {{row.parent_clinic}}
-                        </td>
+                    <tr ng-hide="group.$hideRows"  ng-repeat="row in group.data">
                         <td sortable="'sub_clinic'" data-title="'Clinic Name'" groupable="'sub_clinic'">
                             {{row.sub_clinic}}
                         </td>
@@ -32,53 +41,18 @@
                         </td>
                     </tr>
                     <tr ng-repeat-end>
-                        <td class="text-right"><strong><i>Total</i></strong></td>
+                        <td><strong><i>Sub Total</i></strong></td>
                         <td><strong>{{group.data.length}}</strong></td>
                     </tr>
                     <tfoot ng-if="customerCtrl.isLastPage()">
                     <tr>
-                        <td class="text-right"><strong>Grant Total</strong></td>
+                        <td><strong>Grant Total</strong></td>
                         <td><strong>{{customerCtrl.totalDevices}}</strong></td>
                     </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
-        <!--table two-->
-        <!--<div class="col-sm-offset-1 col-sm-5 ">-->
-            <!--<div>-->
-                <!--<h4 class="text-center">Clinics under Heart Smart, Inc</h4>-->
-                <!--<br>-->
-                <!--<table  class="table table-condensed"   ng-table="customerCtrl.tableParams2" >-->
-                    <!--<tr class="ng-table-group" ng-repeat-start="group in $groups">-->
-                        <!--<td class="text-left">-->
-                            <!--<a href="" ng-click="group.$hideRows = !group.$hideRows">-->
-                                <!--<span class="glyphicon" ng-class="{ 'fa fa-plus-square': group.$hideRows, 'fa fa-minus-square': !group.$hideRows }"></span>-->
-                                <!--<strong>{{ group.value }}</strong>-->
-                            <!--</a>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr ng-hide="group.$hideRows"  ng-repeat="row in group.data" >-->
-                        <!--<td></td>-->
-                        <!--<td sortable="'sub_clinic'" data-title="'Clinic Name'" groupable="'sub_clinic'">-->
-                            <!--{{row.sub_clinic}}-->
-                        <!--</td>-->
-                        <!--<td sortable="'device_sn'" data-title="'Device SN'">-->
-                            <!--{{row.device_sn}}-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr ng-repeat-end>-->
-                        <!--<td class="text-right"><strong><i>Total</i></strong></td>-->
-                        <!--&lt;!&ndash;<td><strong>{{group.data.length}}</strong></td>&ndash;&gt;-->
-                    <!--</tr>-->
-                    <!--<tfoot ng-if="customerCtrl.isLastPage()">-->
-                    <!--<tr>-->
-                        <!--&lt;!&ndash;<td class="text-right"><strong>Grant Total</strong></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<td><strong>{{customerCtrl.totalDevices}}</strong></td>&ndash;&gt;-->
-                    <!--</tr>-->
-                    <!--</tfoot>-->
-                <!--</table>-->
-            <!--</div>-->
-        <!--</div>-->
+    </div>
     </div>
 </div>

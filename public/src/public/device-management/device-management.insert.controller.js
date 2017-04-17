@@ -58,7 +58,7 @@
                 }
             });
             modalInstance.result.then(function (inputs) {
-                deviceService.postDeviceManagementData('todo/insert', {data: inputs})
+                deviceService.postDeviceManagementData('/todo/insert', {data: inputs})
                     .then(function (response) {
                         insertCtrl.show = true;
                         insertCtrl.type = 'alert-success';

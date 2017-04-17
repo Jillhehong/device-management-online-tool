@@ -7,7 +7,7 @@
     function customersController(deviceService, NgTableParams) {
         var customerCtrl = this;
 
-        deviceService.getDeviceManagementData('todo/customer')
+        deviceService.getDeviceManagementData('/todo/customer')
             .then(function(response){
                 customerCtrl.tableParams = new NgTableParams({
                     page:1,

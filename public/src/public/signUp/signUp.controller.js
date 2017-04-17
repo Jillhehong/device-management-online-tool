@@ -43,7 +43,7 @@
 
         reg.submit = function () {
             /// post users data into server
-             deviceService.setUsers('todo/users',{data: [reg.user.firstName, reg.user.lastName, reg.user.email, reg.user.password1]} )
+             deviceService.setUsers('/todo/users',{data: [reg.user.firstName, reg.user.lastName, reg.user.email, reg.user.password1]} )
             .then(function (response) {
                 console.log('test');
                     reg.saved = true;
@@ -91,7 +91,7 @@
                 }, function (error) {
                     ///failed log in, display alert msg
                     login.showAlert = true;
-                    login.error = 'incorrect username or password';
+                    login.error = 'Incorrect username or password';
                 });
         }
 
