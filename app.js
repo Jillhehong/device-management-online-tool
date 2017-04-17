@@ -265,36 +265,17 @@ var getSqlUtilityFunc = function (url, sql) {
 ////////encrypt password
 var hashSqlUtilityFunc = function (url, sql) {
     app.post(url, function(req, res, next){
-            var results = [];
+        //hash password
+        var hash = bcrypt.hashSync(req.body.password, 9);
+        req.body.password = hash;
 
-        //password stored in array[3]
-        var hash = bcrypt.hashSync(req.body.data[3], 9);
-        req.body.data[3] = hash;
-
-        // Get a Postgres client from the connection pool
-        pg.connect(config, function(err, client, done){
-            // Handle connection errors
-            if(err) {
-                done();
-                console.log(err);
-                return res.status(500).json({success: false, data: err});
-            }
-
-            // SQL Query > Select Data
-            var query = client.query(sql, req.body.data);
-
-            // Stream results back one row at a time
-            query.on('row', function(row){
-                results.push(row);
-            });
-            query.on('end', function(){
-                done();
-                return res.json(results);
-            });
-
-        });
-        pg.end();
-
+             db.query(sql, req.body)
+                 .then(function (response) {
+                     return res.json(response);
+                 }, function (err) {
+                     return res.status(500).json(err);
+                 });
+             pgp.end();
     });
 };
 
@@ -445,7 +426,7 @@ getSqlUtilityFunc('/todo/dashboard/customers/HIS', HISCounts);
 
 
 ////user table////////////////////////////////////////////////////////////////////////////////////////////////////
-var insert_users = 'INSERT INTO public.users( first_name, last_name, email, password) VALUES ($1, $2, $3, $4);';
+var insert_users = 'INSERT INTO public.users( first_name, last_name, email, password) VALUES (${first_name}, ${last_name}, ${email}, ${password})';
 hashSqlUtilityFunc( '/todo/users', insert_users);
 
 //get users

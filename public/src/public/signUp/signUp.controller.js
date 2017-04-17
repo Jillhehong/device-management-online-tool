@@ -32,29 +32,26 @@
     registerController.$inject = ['deviceService'];
     function registerController(deviceService) {
         var reg = this;
-        
-        reg.saved = false;
         reg.user = {
-            firstName: '', 
-            lastName: '',
+            first_name: '',
+            last_name: '',
             email: '',
-            password1: ''
+            password: ''
         };
 
         reg.submit = function () {
             /// post users data into server
-             deviceService.setUsers('/todo/users',{data: [reg.user.firstName, reg.user.lastName, reg.user.email, reg.user.password1]} )
+             deviceService.setUsers('/todo/users', reg.user )
             .then(function (response) {
-                console.log('test');
-                    reg.saved = true;
+                    reg.msg = 'Thank you, your information has been saved!';
                 },
                 function (error) {
-                    console.log(error);
+                    reg.msg = error.data.detail;
                 });
         };
             //keyup
         reg.keyup = function(){
-            if(reg.user.password1 == reg.user.password2) {
+            if(reg.user.password == reg.user.password2) {
                 reg.showMsg = false;
             }
             else {

@@ -30,10 +30,10 @@
                   </span>
             </div>
             <div class="form-group">
-                <label for="passport1">Password:</label>
-                <input type="password" class="form-control" name="password1" placeholder="password"
-                       ng-model="reg.user.password1"  required>
-                  <span class="form_msg" ng-if="regForm.password1.$invalid && regForm.password1.$touched">
+                <label for="passport">Password:</label>
+                <input type="password" class="form-control" name="password" placeholder="password"
+                       ng-model="reg.user.password"  required>
+                  <span class="form_msg" ng-if="regForm.password.$invalid && regForm.password.$touched">
                     Please enter password
                   </span>
             </div>
@@ -50,7 +50,7 @@
                 <button class="btn btn-primary" ng-disabled="regForm.$invalid || reg.showMsg" ng-click="reg.submit()">sign up</button>
             </div>
         </form>
-    <span ng-if="reg.saved" class="form_msg">Thank you, your information has been saved!</span>
+    <span class="form_msg">{{reg.msg}}</span>
     <br><br>
     <a ui-sref="login">Already have an account, sign in here!</a>
     <br><br><br>
