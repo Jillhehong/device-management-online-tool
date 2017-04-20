@@ -7,6 +7,11 @@
     function customersController(deviceService, NgTableParams) {
         var customerCtrl = this;
 
+        //select text on click
+        customerCtrl.onTextClick = function ($event) {
+            $event.target.select();
+        };
+
         deviceService.getDeviceManagementData('/todo/customer')
             .then(function(response){
                 customerCtrl.tableParams = new NgTableParams({

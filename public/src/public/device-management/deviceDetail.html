@@ -1,0 +1,105 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Device {{item.device_sn}} Detail Page</h3>
+</div>
+<div class="modal-body" id="modal-body">
+        <table class="table">
+            <tr>
+                <td class="text-capitalize text-right">Purchase Order</td>
+                <td class="text-left"><strong>{{item.purchase_order}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">Registration Date</td>
+                <td class="text-left"><strong>{{item.registration_date | date: 'yyyy-MM-dd'}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">ICCID</td>
+                <td class="text-left"><strong>{{item.iccid}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">IMEI</td>
+                <td class="text-left"><strong>{{item.imei}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">Model Number</td>
+                <td class="text-left"><strong>{{item.model_number}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">Model Description</td>
+                <td class="text-left"><strong>{{item.model_description}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">Firmware Version</td>
+                <td class="text-left"><strong>{{item.firmware_version}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">Manufacturer</td>
+                <td class="text-left"><strong>{{item.manufacturer}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">Points To</td>
+                <td class="text-left"><strong>{{item.points_to}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">Use Zywie SIM</td>
+                <td class="text-left"><strong>{{item.use_zywie_sim}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">SIM Prodiver</td>
+                <td class="text-left"><strong>{{item.sim_provider}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">zywie_logo</td>
+                <td class="text-left"><strong>{{item.zywie_logo}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">wyless_provision_date</td>
+                <td class="text-left"><strong>{{item.wyless_provision_date | date: 'yyyy-MM-dd'}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">device_test_date</td>
+                <td class="text-left"><strong>{{item.device_test_date | date: 'yyyy-MM-dd'}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">device_suspension_date</td>
+                <td class="text-left"><strong>{{item.device_suspension_date | date: 'yyyy-MM-dd'}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">checked_out_by</td>
+                <td class="text-left"><strong>{{item.checked_out_by}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">checked_out_date</td>
+                <td class="text-left"><strong>{{item.checked_out_date | date: 'yyyy-MM-dd'}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">checked_in_by</td>
+                <td class="text-left"><strong>{{item.checked_in_by}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">checked_in_date</td>
+                <td class="text-left"><strong>{{item.checked_in_date | date: 'yyyy-MM-dd'}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">enterprise_id</td>
+                <td class="text-left"><strong>{{item.enterprise_id}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">lease</td>
+                <td class="text-left"><strong>{{item.lease}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">lease_price_per_month</td>
+                <td class="text-left"><strong>{{item.lease_price_per_month}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">lease_start_date</td>
+                <td class="text-left"><strong>{{item.lease_start_date | date: 'yyyy-MM-dd'}}</strong></td>
+            </tr>
+            <tr>
+                <td class="text-capitalize text-right">lease_end_date</td>
+                <td class="text-left"><strong>{{item.lease_end_date | date: 'yyyy-MM-dd'}}</strong></td>
+            </tr>
+        </table>
+    <button class="btn btn-default col-sm-offset-3 col-sm-2 pull-right" type="button" ng-click="ok()">Ok</button>
+<br><br>
+</div>

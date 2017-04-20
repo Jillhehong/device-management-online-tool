@@ -47,7 +47,7 @@
             <label for=" model_description" class="col-sm-3 col-form-label text-right">Model Description</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.model_description" class="form-control"
-                        ng-options="model for model in model_description">
+                        ng-options="model for model in options.model_description">
                 </select>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <label for=" firmware_version" class="col-sm-3 col-form-label text-right">Firmware Version</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.firmware_version" class="form-control"
-                        ng-options="firmware for firmware in firmware_version">
+                        ng-options="firmware for firmware in options.firmware_version">
                 </select>
             </div>
         </div>
@@ -63,7 +63,7 @@
             <label for=" manufacturer" class="col-sm-3 col-form-label text-right">Manufacturer</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.manufacturer" class="form-control"
-                        ng-options="m for m in manufacturer">
+                        ng-options="m for m in options.manufacturer">
                 </select>
             </div>
         </div>
@@ -71,7 +71,7 @@
             <label for=" points_to" class="col-sm-3 col-form-label text-right">Points to</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.points_to" class="form-control"
-                        ng-options="p for p in points_to">
+                        ng-options="p for p in options.points_to">
                 </select>
             </div>
         </div>
@@ -79,7 +79,7 @@
             <label for=" use_zywie_sim" class="col-sm-3 col-form-label text-right">Use Zywie SIM</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.use_zywie_sim" class="form-control"
-                        ng-options="y for y in YesOrNo">
+                        ng-options="y for y in options.YesOrNo">
                 </select>
             </div>
         </div>
@@ -87,7 +87,7 @@
             <label for=" sim_provider" class="col-sm-3 col-form-label text-right">SIM Provider</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.sim_provider" class="form-control"
-                        ng-options="sim for sim in sim_provider">
+                        ng-options="sim for sim in options.sim_provider">
                 </select>
             </div>
         </div>
@@ -95,7 +95,7 @@
             <label for=" zywie_logo" class="col-sm-3 col-form-label text-right">Zywie Logo</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.zywie_logo" class="form-control"
-                        ng-options="y for y in YesOrNo">
+                        ng-options="y for y in options.YesOrNo">
                 </select>
             </div>
         </div>
@@ -124,7 +124,7 @@
             <label for=" status" class="col-sm-3 col-form-label text-right">Device Status</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.status" class="form-control" name="status"
-                        ng-options="s for s in status">
+                        ng-options="s for s in options.status">
                 </select>
             </div>
         </div>
@@ -132,7 +132,7 @@
             <label for=" location" class="col-sm-3 col-form-label text-right">Device Location</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.location" class="form-control"
-                        ng-options="l for l in location">
+                        ng-options="l for l in options.location">
                 </select>
             </div>
         </div>
@@ -140,7 +140,7 @@
             <label for=" checked_out_by" class="col-sm-3 col-form-label text-right">Checked Out By</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.checked_out_by" class="form-control"
-                        ng-options="c for c in checked_out_by">
+                        ng-options="c for c in options.checked_by">
                 </select>
             </div>
         </div>
@@ -155,7 +155,7 @@
             <label for=" checked_in_by" class="col-sm-3 col-form-label text-right">Checked In By</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.checked_in_by" class="form-control"
-                        ng-options="c for c in checked_out_by">
+                        ng-options="c for c in options.checked_out_by">
                 </select>
             </div>
         </div>
@@ -169,13 +169,14 @@
         <div class="form-group row">
             <label for=" salesteam" class="col-sm-3 col-form-label text-right">Salesteam</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="salesteam" ng-model="ngModalInputs.salesteam">
+            <select class="form-control" ng-model="ngModalInputs.salesteam" ng-options="s for s in options.salesteam"></select>
             </div>
         </div>
         <div class="form-group row">
             <label for=" salesperson_name" class="col-sm-3 col-form-label text-right">Salesperson Name</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="salesperson_name" ng-model="ngModalInputs.salesperson_name">
+                <input class="form-control" type="text" name="salesperson_name" ng-model="ngModalInputs.salesperson_name"
+                uib-typeahead="s for s in salesperson_name | filter: $viewValue | limitTo:8">
             </div>
         </div>
         <div class="form-group row">
@@ -208,7 +209,7 @@
             <label for=" billable" class="col-sm-3 col-form-label text-right">Billable</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.billable" class="form-control"
-                        ng-options="y for y in YesOrNo">
+                        ng-options="y for y in options.YesOrNo">
                 </select>
             </div>
         </div>
@@ -216,7 +217,7 @@
             <label for=" lease" class="col-sm-3 col-form-label text-right">Lease</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.lease" class="form-control"
-                        ng-options="l for l in YesOrNo">
+                        ng-options="l for l in options.YesOrNo">
                 </select>
             </div>
         </div>

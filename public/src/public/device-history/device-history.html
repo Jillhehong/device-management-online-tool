@@ -1,6 +1,7 @@
 
 
-<div class="container" ng-controller="deviceHistoryController" >
+<div class="container-fluid" ng-controller="deviceHistoryController" >
+    <div class="container-fluid">
         <br>
         <div ng-if="historyCtrl.show" dismiss-on-timeout="10000" uib-alert class=" alert {{historyCtrl.type}}" close="historyCtrl.closeAlert()">{{historyCtrl.msg}}</div>
         <uib-accordion class="col-sm-10">
@@ -42,31 +43,52 @@
             </div>
         </uib-accordion>
         <button class=" col-sm-2 btn btn-default add_new_row"  ng-click="historyCtrl.create_history_data('lg')">Add new</button>
+    </div>
+
 
     <!--show device history table    -->
-    <div class="container table-responsive">
-        <table ng-table="historyCtrl.tableParams"  class="table table-condensed table-hover" >
+    <div class="container-fluid">
+        <table ng-table="historyCtrl.tableParams"  class="table table-condensed table-hover table-responsive" >
             <tr ng-repeat="row in $data ">
                 <!--btns for edit and delete-->
-                <td title="'Action'">
-                    <button  class=" btn btn-default btn-sm" ng-click="historyCtrl.showModal(row, 'lg')">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                    <button class="btn btn-danger btn-sm" ng-click="historyCtrl.deleteModal(row)">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
+                    <td title="'Action'">
+                        <div style="width:80px">
+                            <button  class=" btn btn-default btn-sm" ng-click="historyCtrl.showModal(row, 'lg')">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>
+                            <button class="btn btn-danger btn-sm" ng-click="historyCtrl.deleteModal(row)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                    </td>
+                <!--<td title="'Row'"  sortable="'row'">{{row.row}}</td>-->
+                <td title="'History Date'"  sortable="'history_date'">
+                    <div style="width:100px">{{row.history_date | date: 'yyyy-MM-dd'}}</div>
                 </td>
-
-                <td title="'Row'"  sortable="'row'">{{row.row}}</td>
-                <td title="'History Date'"  sortable="'history_date'">{{row.history_date | date: 'yyyy-MM-dd'}}</td>
-                <td title="'Device SN'"  sortable="'device_sn'">{{row.device_sn}}</td>
-                <td title="'Device Action'"  sortable="'device_action'">{{row.device_action}}
-                <td title="'By Whom'"  sortable="'by_whom'">{{row.by_whom}}</td>
-                <td title="'Status'"  sortable="'status'">{{row.status}}</td>
-                <td title="'Device Owner'"  sortable="'device_owner'">{{row.device_owner}}</td>
-                <td title="'Replace Device'"  sortable="'replace_device'">{{row.replace_device}}</td>
-                <td title="'Replaced Device SN'"  sortable="'replaced_device_sn'">{{row.replaced_devie_sn}}</td>
-                <td title="'Note'"  sortable="note">{{row.note}}</td>
+                <td title="'Device SN'"  sortable="'device_sn'">
+                    <div style="width:100px">{{row.device_sn}}</div>
+                </td>
+                <td title="'Action'"  sortable="'device_action'">
+                    <div style="width:100px">{{row.device_action}}</div>
+                </td>
+                <td title="'By Whom'"  sortable="'by_whom'">
+                    <div style="width:100px">{{row.by_whom}}</div>
+                </td>
+                <td title="'Status'"  sortable="'status'">
+                    <div ng-style="historyCtrl.set_color(row.status)" style="width:150px">{{row.status}}</div>
+                </td>
+                <td title="'Device Owner'"  sortable="'device_owner'">
+                    <div style="width:150px">{{row.device_owner}}</div>
+                </td>
+                <td title="'Replace Device'"  sortable="'replace_device'">
+                    <div style="width:130px">{{row.replace_device}}</div>
+                </td>
+                <td title="'Replaced Device SN'"  sortable="'replaced_device_sn'">
+                    <div style="width:100px">{{row.replaced_device_sn}}</div>
+                </td>
+                <td title="'Note'"  sortable="note">
+                    <div style="width:150px">{{row.note}}</div>
+                </td>
 
 
             </tr>

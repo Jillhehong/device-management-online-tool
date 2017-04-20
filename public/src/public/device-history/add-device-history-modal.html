@@ -20,58 +20,30 @@
         <div class="form-group row">
             <label for="device_action" class="col-sm-3 col-form-label text-right">Device Action</label>
             <div class="col-sm-6">
-                <select class="form-control" name="device_action" ng-model="ngModalInputs.device_action">
-                    <option value="">---Select Action---</option> <!-- not selected / blank option -->
-                    <option value="Inventory-Inactive">Inventory-Inactive</option>
-                    <option value="Checked In">Checked In</option>
-                    <option value="Checked Out">Checked Out</option>
-                    <option value="Decommissioned">Decommissioned</option>
-                    <option value="Defective">Defective</option>
-                    <option value="Return-RMA">Return-RMA</option>
-                    <option value="Sales Demo">Sales Demo</option>
-                </select>
+                <select class="form-control" name="device_action" ng-model="ngModalInputs.device_action"
+                ng-options="d for d in options.device_action"></select>
             </div>
         </div>
         <div class="form-group row">
             <label for="by_whom" class="col-sm-3 col-form-label text-right">By Whom</label>
             <div class="col-sm-6">
-                <select class="form-control" name="by_whom" ng-model="ngModalInputs.by_whom" >
-                    <option value="">---Please select---</option> <!-- not selected / blank option -->
-                    <option value="Alex Armstrong">Alex Armstrong</option>
-                    <option value="Emir Muhovic">Emir Muhovic</option>
-                    <option value="Latha Ganeshan">Latha Ganeshan</option>
-                    <option value="Sameer Adumala">Sameer AdumalaV</option>
+                <select class="form-control" name="by_whom" ng-model="ngModalInputs.by_whom"
+                        ng-options="d for d in options.by_whom">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for="status" class="col-sm-3 col-form-label text-right">Status</label>
             <div class="col-sm-6">
-                <select class="form-control" name="status" ng-model="ngModalInputs.status">
-                    <option value="">---Select Status---</option> <!-- not selected / blank option -->
-                    <option value="beta site">beta site</option>
-                    <option value="clinical trials">clinical trials</option>
-                    <option value="customer">customer</option>
-                    <option value="decommissioned">decommissioned</option>
-                    <option value="defective">defective</option>
-                    <option value="inventory active">inventory active</option>
-                    <option value="inventory inactive">inventory inactive</option>
-                    <option value="inventory suspended">inventory suspended</option>
-                    <option value="refurbished">refurbished</option>
-                    <option value="RMA">RMA</option>
-                    <option value="sales_out">sales_out</option>
-                    <option value="development">development</option>
-                    <option value="sales demo">sales demo</option>
-                    <option value="troubleshooting">troubleshooting</option>
-                    <option value="sim switch">sim switch</option>
-                    <option value="lost">lost</option>
-                </select>
+                <select class="form-control" name="status" ng-model="ngModalInputs.status"
+                        ng-options="d for d in options.status"></select>
             </div>
         </div>
         <div class="form-group row">
             <label for="device_owner" class="col-sm-3 col-form-label text-right">Device Owner</label>
             <div class="col-sm-6">
-                <input placeholder="Device Owner" class="form-control" type="text" name="device_owner" ng-model="ngModalInputs.device_owner">
+                <input placeholder="Device Owner" class="form-control" type="text" name="device_owner"
+                       ng-model="ngModalInputs.device_owner" uib-typeahead="d for d in device_owner |filter: $viewValue | limitTo:8">
             </div>
         </div>
         <div class="form-group row">

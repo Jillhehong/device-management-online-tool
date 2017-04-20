@@ -45,46 +45,69 @@
             <tr ng-repeat="row in $data">
                 <!--btns for edit and delete-->
                 <td title="'Actions'">
-                    <button  class=" btn btn-default btn-sm" ng-click="deviceList.showModal(row, 'lg')">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                    <button class="btn btn-danger btn-sm" ng-click="deviceList.deleteModal(row)">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
+                    <div style="width:80px">
+                        <button  class=" btn btn-default btn-sm" ng-click="deviceList.showModal(row, 'lg')">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger btn-sm" ng-click="deviceList.deleteModal(row)">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
                 </td>
-                <td title="'Purchase Order'" sortable="'purchase_order'">{{row.purchase_order}}</td>
-                <td title="'Registration Date'" sortable="'registration_date'">{{row.registration_date | date: 'yyyy-MM-dd' }}</td>
-                <td title="'Device SN'" sortable="'device_sn'">{{row.device_sn }}</td>
-                <td title="'ICCID'" sortable="'iccid'">{{row.iccid}}</td>
-                <td title="'IMEI'" sortable="'imei'">{{row.imei}}</td>
-                <td title="'Model Number'" sortable="'model_number'">{{row.model_number}}</td>
-                <td title="'Model Description'" sortable="'model_description'">{{row.model_description}}</td>
-                <td title="'Firmware Version'" sortable="'firmware_version'">{{row.firmware_version}}</td>
-                <td title="'Manufacturer'" sortable="'manufacturer'">{{row.manufacturer}}</td>
-                <td title="'Points_to'" sortable="'points_to'">{{row.points_to}}</td>
-                <td title="'Use Zywie SIM'" sortable="'use_zywie_sim'">{{row.use_zywie_sim}}</td>
-                <td title="'SIM Provider'" sortable="'sim_provider'">{{row.sim_provider}}</td>
-                <td title="'Zywie Logo'" sortable="'zywie_logo'">{{row.zywie_logo}}</td>
-                <td title="'Wyless Provision Date'" sortable="'wyless_provision_date'">{{row.wyless_provision_date | date: 'yyyy-MM-dd' }}</td>
-                <td title="'Device Test Date'" sortable="'device_test_date'">{{row.device_test_date | date: 'yyyy-MM-dd' }}</td>
-                <td title="'Device Suspension Date'" sortable="'device_suspension_date'">{{row.device_suspension_date | date: 'yyyy-MM-dd' }}</td>
-                <td title="'Status'" sortable="'status'">{{row.status}}</td>
-                <td title="'Location'" sortable="'location'">{{row.location}}</td>
-                <td title="'Checked Out By'" sortable="'checked_out_by'">{{row.checked_out_by}}</td>
-                <td title="'Checked Out Date'" sortable="'checked_out_date'">{{row.checked_out_date | date: 'yyyy-MM-dd' }}</td>
-                <td title="'Checked In By'" sortable="'checked_in_by'">{{row.checked_in_by}}</td>
-                <td title="'Checked In Date'" sortable="'checked_in_date'">{{row.checked_in_date | date: 'yyyy-MM-dd' }}</td>
-                <td title="'Salesteam'" sortable="'salesteam'">{{row.salesteam}}</td>
-                <td title="'Salesperson'" sortable="'salesperson_name'">{{row.salesperson_name}}</td>
-                <td title="'Enterprise ID'" sortable="'enterprise_id'">{{row.enterprise_id}}</td>
-                <td title="'Parent Clinic'" sortable="'parent_clinic'">{{row.parent_clinic}}</td>
-                <td title="'Sub Clinic'" sortable="'sub_clinic'">{{row.sub_clinic}}</td>
-                <td title="'Physician'" sortable="'physician'">{{row.physician}}</td>
-                <td title="'Billable'" sortable="'billable'">{{row.billable}}</td>
-                <td title="'Lease'" sortable="'lease'">{{row.lease}}</td>
-                <td title="'Lease Price(month)'" sortable="'lease_price_per_month'">{{row.lease_price_per_month}}</td>
-                <td title="'Lease Start Date'" sortable="'lease_start_date'">{{row.lease_start_date | date: 'yyyy-MM-dd' }}</td>
-                <td title="'Lease End Date'" sortable="'lease_end_date'">{{row.lease_end_date | date: 'yyyy-MM-dd' }}</td>
+                <!--<td title="'Purchase Order'" sortable="'purchase_order'">{{row.purchase_order}}</td>-->
+                <!--<td title="'Registration Date'" sortable="'registration_date'">{{row.registration_date | date: 'yyyy-MM-dd' }}</td>-->
+                <td title="'Device SN'" sortable="'device_sn'">
+                    <div style="width:100px" ng-click="deviceList.showDeviceDetail(row)">
+                        <a>{{row.device_sn}}</a>
+                    </div>
+                </td>
+                <!--<td title="'ICCID'" sortable="'iccid'">{{row.iccid}}</td>-->
+                <!--<td title="'IMEI'" sortable="'imei'">{{row.imei}}</td>-->
+                <!--<td title="'Model Number'" sortable="'model_number'">{{row.model_number}}</td>-->
+                <!--<td title="'Model Description'" sortable="'model_description'">{{row.model_description}}</td>-->
+                <!--<td title="'Firmware Version'" sortable="'firmware_version'">{{row.firmware_version}}</td>-->
+                <!--<td title="'Manufacturer'" sortable="'manufacturer'">{{row.manufacturer}}</td>-->
+                <!--<td title="'Points_to'" sortable="'points_to'">{{row.points_to}}</td>-->
+                <!--<td title="'Use Zywie SIM'" sortable="'use_zywie_sim'">{{row.use_zywie_sim}}</td>-->
+                <!--<td title="'SIM Provider'" sortable="'sim_provider'">{{row.sim_provider}}</td>-->
+                <!--<td title="'Zywie Logo'" sortable="'zywie_logo'">{{row.zywie_logo}}</td>-->
+                <!--<td title="'Wyless Provision Date'" sortable="'wyless_provision_date'">{{row.wyless_provision_date | date: 'yyyy-MM-dd' }}</td>-->
+                <!--<td title="'Device Test Date'" sortable="'device_test_date'">{{row.device_test_date | date: 'yyyy-MM-dd' }}</td>-->
+                <!--<td title="'Device Suspension Date'" sortable="'device_suspension_date'">{{row.device_suspension_date | date: 'yyyy-MM-dd' }}</td>-->
+                <td title="'Status'" sortable="'status'">
+                    <div style="width:100px" ng-style="deviceList.set_color(row.status)">{{row.status}}</div>
+                </td>
+                <td title="'Location'" sortable="'location'">
+                    <div style="width:150px">{{row.location}}</div>
+                </td>
+                <!--<td title="'Checked Out By'" sortable="'checked_out_by'">{{row.checked_out_by}}</td>-->
+                <!--<td title="'Checked Out Date'" sortable="'checked_out_date'">{{row.checked_out_date | date: 'yyyy-MM-dd' }}</td>-->
+                <!--<td title="'Checked In By'" sortable="'checked_in_by'">{{row.checked_in_by}}</td>-->
+                <!--<td title="'Checked In Date'" sortable="'checked_in_date'">{{row.checked_in_date | date: 'yyyy-MM-dd' }}</td>-->
+                <td title="'Salesteam'" sortable="'salesteam'">
+                    <div style="width:100px">{{row.salesteam}}</div>
+                </td>
+                <td title="'Salesperson'" sortable="'salesperson_name'">
+                    <div style="width:100px">{{row.salesperson_name}}</div>
+                </td>
+                <!--<td title="'Enterprise ID'" sortable="'enterprise_id'">-->
+                    <!--<div style="width:100px">{{row.enterprise_id}}</div>-->
+                <!--</td>-->
+                <td title="'Parent Clinic'" sortable="'parent_clinic'">
+                    <div style="width:200px">{{row.parent_clinic}}</div>
+                </td>
+                <td title="'Sub Clinic'" sortable="'sub_clinic'">
+                    <div style="width:200px">{{row.sub_clinic}}</div>
+                </td>
+                <td title="'Physician'" sortable="'physician'">
+                    <div style="width:150px">{{row.physician}}</div>
+                </td>
+                <td title="'Billable'" sortable="'billable'">
+                    <div style="width:100px">{{row.billable}}</div>
+                </td>
+                <!--<td title="'Lease'" sortable="'lease'">{{row.lease}}</td>-->
+                <!--<td title="'Lease Price(month)'" sortable="'lease_price_per_month'">{{row.lease_price_per_month}}</td>-->
+                <!--<td title="'Lease Start Date'" sortable="'lease_start_date'">{{row.lease_start_date | date: 'yyyy-MM-dd' }}</td>-->
             </tr>
         </table>
     </div>

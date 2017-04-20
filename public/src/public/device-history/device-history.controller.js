@@ -8,51 +8,19 @@
         .controller('historyAddModalInstanceCtrl', historyAddModalInstanceCtrl);
 
 
-    historyupdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data', 'deviceService', '$filter'];
-    function historyupdateModalInstanceCtrl($scope, $uibModalInstance, device_data, deviceService, $filter) {
+    historyupdateModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'device_data','options', 'deviceService', '$filter'];
+    function historyupdateModalInstanceCtrl($scope, $uibModalInstance, device_data, options, deviceService, $filter) {
         $scope.ngModalInputs = angular.copy(device_data);
         //format date
         $scope.ngModalInputs.history_date = $filter('date')($scope.ngModalInputs.history_date, 'yyyy-MM-dd');
-
-
-        //select options
-        $scope.device_action = [
-            'Inventory-Inactive',
-            'Checked In',
-            'Checked Out',
-            'Decommissioned',
-            'Defective',
-            'Return-RMA',
-            'Sales Demo'
-       ];
-        $scope.device_status = [
-            'Beta Site',
-            'Clinical Trials',
-            'Customer',
-            'Decommissioned',
-            'Defective',
-            'Inventory-Active',
-            'Inventory-Inactive',
-            'Inventory-Suspended',
-            'Refurbished',
-            'RMA',
-            'Sales - Out',
-            'Development',
-            'Sales Demo',
-            'Troubleshooting',
-            'SIM Switch',
-            'Lost'
-        ];
-        $scope.replace_device = [
-            'Y',
-            'N'
-        ];
-
+        
+        //angular selection
+        $scope.options = options;
+        
         //angular typeahead
         deviceService.getDeviceManagementData('/todo/deviceHistory/query/deviceowner')
             .then(function (response) {
                 $scope.device_owner = [];
-
                 response.data.map(function (item) {
                     $scope.device_owner.push(item.device_owner);
                 });
@@ -90,8 +58,8 @@
             $uibModalInstance.dismiss('cancel');
         };
     }
-    historyAddModalInstanceCtrl.$inject = ['$scope','$uibModalInstance'];
-    function historyAddModalInstanceCtrl($scope, $uibModalInstance) {
+    historyAddModalInstanceCtrl.$inject = ['$scope','$uibModalInstance', 'options','deviceService'];
+    function historyAddModalInstanceCtrl($scope, $uibModalInstance, options, deviceService) {
         //initialize ngMOdalInputs with empty values
         $scope.ngModalInputs = {
             history_date: null,
@@ -105,6 +73,22 @@
             note: null
         };
 
+        //
+        //angular typeahead
+        deviceService.getDeviceManagementData('/todo/deviceHistory/query/deviceowner')
+            .then(function (response) {
+                $scope.device_owner = [];
+                response.data.map(function (item) {
+                    $scope.device_owner.push(item.device_owner);
+                });
+
+            }, function (err) {
+                console.log('error ',err);
+            });
+
+        //selection
+        $scope.options = options;
+        
         $scope.ok = function () {
             //validation on front-end//////////////
             var error = [];
@@ -152,14 +136,78 @@
     }
 
 
-    deviceHistoryController.$inject = ['deviceService', '$filter', 'NgTableParams', '$uibModal', '$log'];
-    function deviceHistoryController(deviceService, $filter, NgTableParams, $uibModal, $log) {
+    deviceHistoryController.$inject = ['deviceService', '$filter', 'NgTableParams', '$uibModal'];
+    function deviceHistoryController(deviceService, $filter, NgTableParams, $uibModal) {
         var historyCtrl = this;
+        
+        //select options
+        historyCtrl.options = {
+        device_action : [
+            'Inventory-Inactive',
+            'Checked In',
+            'Checked Out',
+            'Decommissioned',
+            'Defective',
+            'Return-RMA',
+            'Sales Demo'
+            ],
+         by_whom: [
+            'Alex Armstrong',
+            'Emir Muhovic',
+            'Latha Ganeshan',
+            'Sameer Adumala'
+            ],
+        status : [
+            'Beta Site',
+            'Clinical Trials',
+            'Customer',
+            'Decommissioned',
+            'Defective',
+            'Inventory-Active',
+            'Inventory-Inactive',
+            'Inventory-Suspended',
+            'Refurbished',
+            'RMA',
+            'Sales - Out',
+            'Development',
+            'Sales Demo',
+            'Troubleshooting',
+            'SIM Switch',
+            'Lost'
+        ],
+            YesOrNo : [
+            'Y',
+            'N'
+        ]
+        };
 
         //set alert//
         historyCtrl.show = false;
         historyCtrl.closeAlert = function () {
             historyCtrl.show = false;
+        };
+
+        //set color based on device status
+        historyCtrl.set_color = function (item) {
+            if(item == 'Inventory-Active')  {
+                return {"background-color": "#2ECC71", color:'white'}
+            }
+            else if(item == 'Inventory-Suspended')  {
+                return {"background-color": "gray", color:'white'}
+            }
+            else if(item == 'Inventory-Inactive')  {
+                return {"background-color": "#7AA5BF", color:'white'}
+            }
+            else if(item == 'Customer')  {
+                return {"background-color": "#F1C40F", color:'white'}
+            }
+            else if(item == 'Sales - Out')  {
+                return {"background-color": "#BDC3C7", color:'white'}
+            }
+            else if(item == 'RMA')  {
+                return {"background-color": "#E20934",color:'white'}
+            }
+
         };
 
 ///////////////get data from http request from device_management table///////////
@@ -172,7 +220,6 @@
             });
 
         }, function (error) {
-            console.log('query failed');
         });
 
         //edit selected table data
@@ -188,6 +235,9 @@
                 resolve: {
                     device_data: function () {
                         return row;
+                    },
+                    options: function () {
+                        return historyCtrl.options;
                     }
                 }
             });
@@ -198,14 +248,12 @@
                         historyCtrl.type = 'alert-success';
                         historyCtrl.msg = 'update success';
                     }, function (error) {
-                        console.log('failed to update');
                         historyCtrl.show = true;
                         historyCtrl.type = 'alert-danger';
-                        historyCtrl.msg = 'update failed!!!';
+                        historyCtrl.msg ='failed update. Error: '+error.data;
                     });
 
             }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
             });
 
         };
@@ -232,11 +280,10 @@
                     }, function (error) {
                         historyCtrl.show = true;
                         historyCtrl.type = 'alert-danger';
-                        historyCtrl.msg = 'delete failed!!!';
+                        historyCtrl.msg = 'failed error: '+ error.data;
                     });
 
             }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
             });
 
         };
@@ -249,27 +296,26 @@
                 size: size,
                 backdrop: 'static',
                 templateUrl: 'src/public/device-history/add-device-history-modal.html',
-                controller: 'historyAddModalInstanceCtrl'
+                controller: 'historyAddModalInstanceCtrl',
+                resolve: {
+                    options: function () {
+                        return historyCtrl.options;
+                    }
+                }
             });
             modalInstance.result.then(function (input) {
-                console.log('input ', input);
                 deviceService.postDeviceManagementData('/todo/device_history/insert', input)
                     .then(function (response) {
-                        console.log('test');
                         historyCtrl.show = true;
                         historyCtrl.type = 'alert-success';
                         historyCtrl.msg = 'add success';
-                        console.log('response',response);
                     }, function (error) {
-                        historyCtrl.error = error.data.message;
                         historyCtrl.show = true;
                         historyCtrl.type = 'alert-danger';
-                        historyCtrl.msg = 'add failed!!!';
-                        console.log('error',error);
+                        historyCtrl.msg = 'failed error: ' + error.data;
                     });
 
             }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
             });
 
         }

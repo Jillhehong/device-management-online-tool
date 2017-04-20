@@ -3,13 +3,6 @@
 </div>
 <div class="modal-body" id="modal-body">
     <form name='modalForm' novalidate class="modal_form">
-        <!--show data-->
-        <!--<div class="form-group row">-->
-            <!--<label for="row" class="col-sm-3 col-form-label text-right">Row</label>-->
-            <!--<div class="col-sm-6">-->
-                <!--<input class="form-control" type="text" name="row" ng-model="ngModalInputs.row" ng-disabled="true">-->
-            <!--</div>-->
-        <!--</div>-->
         <div class="form-group row">
             <label for="history_date" class="col-sm-3 col-form-label text-right">History Date</label>
             <div class="col-sm-6">
@@ -19,15 +12,16 @@
         <div class="form-group row">
             <label for="device_sn" class="col-sm-3 col-form-label text-right">Device SN *</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="device_sn" ng-model="ngModalInputs.device_sn" required>
-                <span class='form_msg' ng-if="modalForm.device_sn.$error.required && modalForm.device_sn.$touched"> Device SN required</span>
+                <input class="form-control" type="text" name="device_sn" ng-model="ngModalInputs.device_sn" ng-pattern="/^\d{7}$/" required>
+                <span class='form_msg' ng-if="modalForm.device_sn.$error.required&& modalForm.device_sn.$touched"> Device SN required</span>
+                <span class='form_msg' ng-if="modalForm.device_sn.$error.pattern && modalForm.device_sn.$touched"> Contain 7 digits</span>
             </div>
         </div>
         <div class="form-group row">
             <label for="device_action" class="col-sm-3 col-form-label text-right">Device Action</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.device_action" class="form-control"
-                        ng-options="action for action in device_action">
+                        ng-options="action for action in options.device_action">
                 </select>
             </div>
         </div>
@@ -41,7 +35,7 @@
             <label for="status" class="col-sm-3 col-form-label text-right">Device Status</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.status" class="form-control"
-                        ng-options="status for status in device_status">
+                        ng-options="status for status in options.status">
                 </select>
             </div>
         </div>
@@ -55,14 +49,16 @@
             <label for="replace_device" class="col-sm-3 col-form-label text-right">Replace Device</label>
             <div class="col-sm-6">
                 <select ng-model="ngModalInputs.replace_device" class="form-control"
-                        ng-options="replaced for replaced in replace_device">
+                        ng-options="replaced for replaced in options.YesOrNo">
                 </select>
             </div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row" ng-show="ngModalInputs.replace_device == 'Y'">
             <label for="replaced_device_sn" class="col-sm-3 col-form-label text-right">Replaced Device SN</label>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="replaced_device_sn" ng-model="ngModalInputs.replaced_device_sn">
+                <input class="form-control" type="text" name="replaced_device_sn" ng-model="ngModalInputs.replaced_device_sn" ng-pattern="/^\d{7}$/" required>
+                <span class='form_msg' ng-if="modalForm.replaced_device_sn.$error.required&& modalForm.replaced_device_sn.$touched"> Replaced Device SN required</span>
+                <span class='form_msg' ng-if="modalForm.replaced_device_sn.$error.pattern&& modalForm.replaced_device_sn.$touched"> Replaced Device SN contains 7 digits</span>
             </div>
         </div>
         <div class="form-group row">
@@ -72,8 +68,6 @@
             </div>
         </div>
         <button class="btn btn-default col-sm-3" type="button" ng-click="cancel()">Cancel</button>
-        <button class="btn btn-danger col-sm-3 pull-right" type="button" ng-click="ok()">Update</button>
+        <button class="btn btn-danger col-sm-3 pull-right" type="button" ng-click="ok()" ng-disabled="modalForm.$invalid">Update</button>
     </form>
-</div>
-<div class="modal-footer">
 </div>

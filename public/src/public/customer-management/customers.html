@@ -4,15 +4,18 @@
         <form class="form-inline">
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <label for="parent_clinic" >Parent Clinic:</label>
-                <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().parent_clinic" name="parent_clinic" placeholder="Parent Clinic">
+                <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().parent_clinic"
+                       name="parent_clinic" placeholder="Parent Clinic" ng-click="customerCtrl.onTextClick($event)">
             </div>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <label for="sub_clinic" >Sub Clinic:</label>
-                <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().sub_clinic" name="sub_clinic" placeholder="Sub Clinic">
+                <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().sub_clinic" name="sub_clinic"
+                       placeholder="Sub Clinic" ng-click="customerCtrl.onTextClick($event)">
             </div>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <label for="device_sn" >Device SN:</label>
-                <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().device_sn" name="device_sn" placeholder="device_sn Clinic">
+                <input class="form-control" type="text" ng-model="customerCtrl.tableParams.filter().device_sn" name="device_sn"
+                       placeholder="Device SN" ng-click="customerCtrl.onTextClick($event)">
             </div>
         </form>
     </div>
@@ -36,7 +39,7 @@
                         <td sortable="'sub_clinic'" data-title="'Clinic Name'" groupable="'sub_clinic'">
                             {{row.sub_clinic}}
                         </td>
-                        <td sortable="'device_sn'" data-title="'Device SN'">
+                        <td sortable="'device_sn'" data-title="'Billable Device SN'">
                             {{row.device_sn}}
                         </td>
                     </tr>

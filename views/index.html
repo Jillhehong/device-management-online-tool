@@ -8,10 +8,10 @@
     <link href='https://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheets/restaurant.css">
     <link rel="stylesheet" href="/stylesheets/common.css">
-    <link rel="stylesheet" href="/stylesheets/public.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0/ng-table.min.css">
+
 
     <!-- Libs -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
@@ -25,17 +25,16 @@
     <script src="/lib/angular-ui-router.min.js"></script>
     <script src="lib/ui-bootstrap-2.4.0.min.js"></script>
     <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
+    <!--ng cookies-->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.js"></script>
     <!-- Main Device Module -->
     <script src="src/device.module.js"></script>
-    <!--javascript file-->
-    <script src="javascripts/app.js"></script>
     <!-- Common Module -->
     <script src="src/common/common.module.js"></script>
     <script src="src/common/loading/loading.component.js"></script>
     <script src="src/common/loading/loading.interceptor.js"></script>
     <script src="src/common/device.service.js"></script>
-    <!-- Public device management Module -->
+    <!-- device management Module -->
     <script src="src/public/public.module.js"></script>
     <script src="src/public/public.routes.js"></script>
     <script src="src/public/home/home.controller.js"></script>
@@ -48,11 +47,9 @@
     <script src="src/public/accessory-inventory/accessory.controller.js"></script>
     <script src="src/public/device-history/device-history.controller.js"></script>
     <script src="src/public/signup/signup.controller.js"></script>
-    <!--customers-->
+    <!--customers module-->
     <script src="src/public/customer-management/customers.controller.js"></script>
     <script src="src/public/dashboard/dashboard.controller.js"></script>
-    <!--ng cookies-->
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-cookies.js"></script>
   </head>
 
   <body ng-app="device">

@@ -175,7 +175,7 @@ var pgPostSqlUtilityFunc = function (url, sql) {
                 .then(function (response) {
                     return res.json(response);
                 }, function (err) {
-                    return res.status(500).json({success: false, data: err});
+                    return res.status(500).json(err);
                 });
             pgp.end();
         }
@@ -239,7 +239,7 @@ var getSqlUtilityFunc = function (url, sql) {
                 if(err) {
                     done();
                     console.log(err);
-                    return res.status(500).json({success: false, data: err});
+                    return res.status(500).json(err);
                 }
                 else {
                     // SQL Query > Select Data
@@ -285,6 +285,8 @@ var hashSqlUtilityFunc = function (url, sql) {
 //device list page
 var clinics = 'select parent_clinic, sub_clinic, physician from device_management_test group by parent_clinic, sub_clinic, physician';
 getSqlUtilityFunc('/todo/device_management/query/clinics', clinics);
+var sales = 'select salesperson_name from device_management_test group by salesperson_name';
+getSqlUtilityFunc('/todo/device_management/query/sales', sales);
 
 // var query_device_management =
 //     'select * from public.device_management_test where device_sn = $1 or clinic = $2 or status=$3 or location=$4';
